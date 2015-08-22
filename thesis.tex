@@ -1,0 +1,35 @@
+\documentclass[a4paper, twoside, openright]{report}
+\input{prelude/style}
+\input{prelude/hyphenation}
+\input{prelude/commands}
+\input{prelude/titlepage}
+
+\author{R.R.L.J. van Asseldonk}
+\title{The Hopf Map in Magnetohydrodynamics}
+\date{30 July 2015}
+\supervisors{prof. dr. S.J. Edixhoven and dr. J.W. Dalhuisen}
+\institute{Mathematical Institute \\ Leiden Institute of Physics}
+\makepdfmetadata
+
+\begin{document}
+\pagestyle{empty}
+\pagenumbering{alph}
+\maketitle
+\cleardoublepage
+\pagestyle{plain}
+\pagenumbering{roman}
+\include{chapters/abstract}
+\tableofcontents
+\cleardoublepage
+\pagenumbering{arabic}
+\include{chapters/introduction}
+\include{chapters/preliminaries}
+\include{chapters/the-hopf-map}
+\include{chapters/differential-forms}
+\include{chapters/magnetohydrodynamics}
+\include{chapters/conclusion}
+% Line breaking in the bibliography is difficult, give the algorithm some headroom.
+\emergencystretch = 1em
+\printbibliography[heading = bibintoc]
+\closewithleafornament
+\end{document}

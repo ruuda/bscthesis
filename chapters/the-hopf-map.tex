@@ -1,0 +1,945 @@
+% !TEX root = ../thesis.tex
+
+\chapter{The Hopf map}
+\label{chap:the-hopf-map}
+\newcommand*{\hquat}{h_\textup{quat}}
+\newcommand*{\hproj}{h_\textup{proj}}
+The different definitions of $S^3$ and $S^2$ that were explored in the previous chapter
+go along with different definitions of the Hopf map.
+In this chapter we will give those definitions,
+and show that they are equivalent in the following sense:
+if $\hproj$ and $\hquat$ represent the projective and quaternionic definition of the Hopf map respectively,
+then the following diagram commutes:
+
+\vspace{-\parskip}
+\begin{center}
+\begin{tikzcd}
+\SC \ar[r, two heads, "\hproj"]
+    \ar[d, leftrightarrow] &
+\PC \ar[d, leftrightarrow] \\
+S^3 \ar[r, two heads, "\hquat"] &
+S^2
+\end{tikzcd}
+\end{center}
+
+$S^3$ and $S^3_\C$ were shown to be homeomorphic in proposition~\ref{prop:s3-equivalence}.
+In theorem~\ref{thm:s2-homeom-p1c} it was stated that $\PC$ and $S^2$ are homeomorphic,
+which we will be able to prove at last.
+Finally, the group actions explored in the previous chapter will be used to examine the fibres of the Hopf map.
+
+\section{The projective Hopf map}
+\label{sec:hopf-projective}
+As we saw in section \ref{sec:projective-space},
+$\PC$ can be defined as a quotient of $\CZ$ with respect to the action of $\C^*\!$.
+Because $\C^* \cong \Rpos \times S^1\!$,
+the quotient map factors over $\SC$ by theorem~\ref{thm:quotient-map-factors},
+where $\SC = \CZ \, / \, \Rpos$ as in definition \ref{def:s3-complex}.
+This allows us to define the Hopf map:
+
+\definition[def:hopf-projective]
+The \emph{Hopf map} is the unique continuous map $h : \SC \surj \PC$
+that makes the following diagram commute:
+\begin{center}
+\begin{tikzcd}[column sep = small] &
+\CZ \ar[dl, "r", two heads, swap]
+    \ar[dr, "q", two heads] & \\
+\SC \ar[rr, "h", two heads] & &
+\PC
+\end{tikzcd}
+\end{center}
+By theorem~\ref{thm:quotient-map-factors},
+the Hopf map is the quotient map of the $S^1$-action on $\SC$.
+
+This definition tells a lot about the Hopf map already.
+It shows that its \emph{fibres} — the inverse images of points in $\PC$ —
+are orbits of the $S^1$-action;
+the fibres can be parametrised by $S^1\!$.
+In section~\ref{sec:fibres} we will explore the geometry of the fibres,
+which will turn out to be great circles on $S^3\!$.
+Furthermore,
+because $h$ is the quotient map of a group action,
+it is surjective, continuous, and open by proposition~\ref{prop:open-quotient-map}.
+
+\section{The quaternionic Hopf map}
+\label{sec:hopf-quaternionic}
+In section \ref{sec:quaternions} we defined $S^3$ and $S^2$ as subsets of $\H$,
+with $S^3$ acting on $S^2\!$.
+With this action,
+we can define the Hopf map as follows:
+
+\definition[def:hopf-quaternionic]
+The \emph{Hopf map} is the map
+\[ h : S^3 \longto S^2,
+   \quad q \longmapsto q^{-1} \cdot i \]
+Recall that ‘${}\cdot{}$’ denotes the action,
+$q^{-1} \cdot i = q^{-1} i q$.
+For quaternion multiplication we will simply use juxtaposition.
+The reason that we choose $q^{-1} \cdot i$ here instead of $q \cdot i$,
+will become clear in theorem \ref{thm:hopf-map-equivalence}.
+An other way to think of this,
+is that $h$ is the map $q \mapsto i \cdot q = q^{-1} i q$,
+where $\H^*$ acts \emph{from the right} on $\H$.
+The quaternionic definition is more suitable for doing computations
+than the projective definition,
+because it allows us to work with Cartesian coordinates on $S^2\!$.
+The image of the quaternion $q = a + bi + cj + dk \in S^3$
+under the Hopf map is given by
+\begin{equationref}
+\label{eqn:hopf-coordinates}
+\begin{aligned}
+h(q) &= q^{-1} \cdot i = q^{-1} \, i \, q = \overline{q} \, i \, q
+  \\ &= (a - bi - cj - dk) \, i \, (a + bi + cj + dk)
+% \\ &= (a - bi - cj - dk) (ai - b + ck - dj)
+% \\ &= a^2 i - ab + ack - adj + (- bi - cj - dk) (ai - b + ck - dj)
+% \\ &= a^2 i - ab + ack - adj + ab + b^2i + bcj + bdk + (- cj - dk) (ai - b + ck - dj)
+% \\ &= a^2 i - ab + ack - adj + ab + b^2i + bcj + bdk + ack + bcj - c^2i - cd + (- dk) (ai - b + ck - dj)
+% \\ &= a^2 i - ab + ack - adj + ab + b^2i + bcj + bdk + ack + bcj - c^2i - cd - adj + bdk + cd - d^2i
+% \\ &= (a^2 + b^2 - c^2 - d^2) i - ab + ack - adj + ab + bcj + bdk + ack + bcj - cd - adj + bdk + cd
+% \\ &= (a^2 + b^2 - c^2 - d^2) i + (ab - ab) + ack - adj + bcj + bdk + ack + bcj - cd - adj + bdk + cd
+% \\ &= (a^2 + b^2 - c^2 - d^2) i + (ab - ab) + (cd - cd) + ack - adj + bcj + bdk + ack + bcj - adj + bdk
+% \\ &= (a^2 + b^2 - c^2 - d^2) i + (ab - ab) + (cd - cd) + (ack + ack) - adj + bcj + bdk + bcj - adj + bdk
+% \\ &= (a^2 + b^2 - c^2 - d^2) i + (ab - ab) + (cd - cd) + (ack + ack) + (bcj + bcj) - adj + bdk - adj + bdk
+% \\ &= (a^2 + b^2 - c^2 - d^2) i + (ab - ab) + (cd - cd) + (ack + ack) + (bcj + bcj) + (bdk + bdk) - (adj + adj)
+% \\ &= (a^2 + b^2 - c^2 - d^2) i + (ack + ack) + (bcj + bcj) + (bdk + bdk) - (adj + adj)
+% \\ &= (a^2 + b^2 - c^2 - d^2) i + 2ack + 2bdk + (bcj + bcj) - (adj + adj)
+% \\ &= (a^2 + b^2 - c^2 - d^2) i + 2ack + 2bdk + 2bcj - 2adj
+  \\ &= (a^2 + b^2 - c^2 - d^2) i + 2 (bc - ad) j + 2 (ac + bd) k
+\end{aligned}
+\end{equationref}
+Because $h$ is given by polynomial equations on every coordinate,
+it is continuous.
+Because $S^3$ acts transitively on $S^2$ by corollary~\ref{cor:transitive-s3-action},
+$h$ is surjective.
+
+The projective definition of the Hopf map in section \ref{sec:hopf-projective}
+emphasises that the fibres of the Hopf map are orbits of a group action.
+The quaternionic definition given here,
+instead emphasises \emph{stabilisers} of a group action.
+The fibre above $i$ consists of all $q \in S^3$ with $q^{-1} \cdot i = i$,
+the stabiliser $S^3_i$ of $i$.
+The fibre above $p \in S^2$ is a right coset of the stabiliser.
+Because $S^3$ acts transitively on $S^2$ by corollary~\ref{cor:transitive-s3-action},
+there exists an $x \in S^3$ such that $p = x \cdot i$.
+The fibre above $p$ consists of all $q \in S^3$ such that $q^{-1} \cdot i = p$.
+It follows that $q \cdot x \cdot i = q \cdot p = i$,
+thus $qx$ stabilises $i$ and $h^{-1}(p) = S^3_i x^{-1}$.
+
+At present, it is not at all obvious that the Hopf map as defined in
+definition~\ref{def:hopf-projective} is related to the Hopf map as defined in definition~\ref{def:hopf-quaternionic}.
+On the contrary: we have not even proven that the codomains $\PC$ and $S^2$ are homeomorphic.
+Fortunately, we can prove both statements at once.
+
+\theorem[thm:hopf-map-equivalence]
+Denote by $\SC$ and $S^3$ the three-sphere as defined by
+definition~\ref{def:s3-complex} and \ref{def:s3-real} respectively.
+Let $\Psi : \CZ \to \H^*$ be the restriction
+of the $\R$-linear isomorphism $(z_1, z_2) \mapsto z_1 + z_2 j$.
+From proposition~\ref{prop:s3-equivalence} it follows that
+$\Psi$ descends to $\psi : \SC \to S^3\!$.
+Denote by $r$ the quotient map,
+by $s$ projection onto $S^3\!$,
+and by $\hproj$ and $\hquat$ the Hopf map as defined in
+definition~\ref{def:hopf-projective} and \ref{def:hopf-quaternionic} respectively.
+Then there exists a unique homeomorphism $\phi : \PC \to S^2$
+that makes the following diagram commute:
+
+\begin{center}
+\begin{tikzcd}
+\CZ  \ar[r, two heads, "r"]
+     \ar[d, "\Psi"] &
+\SC  \ar[r, two heads, "\hproj"]
+     \ar[d, "\psi"] &
+\PC  \ar[d, dashed, "\exists_! \phi"] \\
+\H^* \ar[r, two heads, "s"] &
+S^3  \ar[r, two heads, "\hquat"] &
+S^2
+\end{tikzcd}
+\end{center}
+
+\proof
+We will show that $\Phi = \hquat \circ s \circ \Psi$ is compatible
+with the quotient map $\CZ \surj \PC$.
+Let $(z_1, z_2) \in \CZ$ and $z \in \C^*\!$,
+such that $(z_1 : z_2) = (zz_1 : zz_2)$.
+Because $\C^*$ stabilises $i \in S^2\!$,
+we have
+\begin{align*}
+\Phi(z z_1, z z_2)
+\, = \, (z z_1 + z z_2 j)^{-1} \cdot i
+\, = \, (z_1 + z_2 j)^{-1} \cdot (z^{-1} \cdot i)
+\, = \, (z_1 + z_2 j)^{-1} \cdot i
+\, = \, \Phi(z_1, z_2)
+\end{align*}
+By the universal property of the quotient topology (theorem \ref{thm:universal-property-quotient-topology}),
+there exists a unique continuous map $\phi$ that makes the diagram commute.
+
+To give the inverse of $\phi$,
+let a point $p \in S^2$ be given.
+We saw before that there exists an $x \in S^3$ with $p = x \cdot i$,
+such that $\hquat^{-1}(p) = S^3_i x^{-1}$.
+Because $S^3_i = S^1 \subseteq \C^*\!$,
+we can write every point in $S^3$ that maps to $p$ as $zx^{-1}$ for some $z \in S^1$,
+and we can write $x^{-1}$ as $z_1 + z_2 j$ for some $z_1, z_2 \in \C$.
+Therefore, all points in the fibre above $p$ map to $(z_1 : z_2)$
+under $\hproj \circ \psi^{-1}$.
+To show that this does not depend on the choice of $x$,
+note that if we had $y \in S^3$ with $p = y \cdot i$,
+then $x = yz^{-1}$ for some $z \in S^1\!$,
+so $x^{-1} = z y^{-1}$.
+
+Recall that $S^3_\C$ is compact by proposition \ref{prop:s3-equivalence},
+so $\PC$ is compact,
+for it is the continuous image of a compact space.
+$S^2$ is Hausdorff because it is a subspace of $\H$,
+which is Hausdorff.
+Therefore, $\phi$ is a continuous bijection from a compact space to a Hausdorff space.
+It follows that $\phi$ is a homeomorphism.
+(See for instance theorem 3.3.11 of \parencite[p.~81]{runde2005}.)
+\qed
+
+Using equation~\ref{eqn:hopf-coordinates},
+we can give an explicit expression for $\phi$.
+Using equation~\ref{eqn:transitive-s3-action},
+we can give an explicit expression for $\phi^{-1}$:
+\begin{equationref}
+\begin{aligned}
+(a + bi : c + di) &\longmapsto (a^2 + b^2 - c^2 - d^2) i + 2 (bc - ad) j + 2 (ac + bd) k \\
+(i + \alpha i : \beta + \gamma i) &\longmapsfrom \alpha i + \beta j + \gamma k
+\end{aligned}
+\end{equationref}
+It is assumed here that $a^2 + b^2 + c^2 + d^2 = 1$
+and $\alpha^2 + \beta^2 + \gamma^2 = 1$,
+with $\alpha \neq -1$.
+For $\alpha = -1$, we have $\phi^{-1}(-i) = (0 : 1)$.
+Note that it is impossible to give a globally valid expression for $\phi^{-1}$:
+the map $\phi \circ h : S^3_\C \surj S^2$ does not admit a global continuous section.
+If it did, this would imply that $S^3 = S^2 \times S^1\!$,
+which is not the case.
+
+\subsection*{Informal summary}
+In this section and in the previous section,
+we have given two definitions of the Hopf map.
+The projective definition as given in definition~\ref{def:hopf-projective}
+can be written as $h : \SC \surj \PC$, $(z_1, z_2) \mapsto (z_1 : z_2)$.
+Recall that if $z_2$ is nonzero, $(z_1 : z_2)$ may be thought of as $z_1 / z_2$.
+This shows that multiplying $z_1$ and $z_2$ by $e^{it}$ for any $t \in \R$
+does not change the image under the Hopf map.
+It follows that the fibres of the Hopf map are circular,
+a feature that will be explored further in the next section.
+Definition~\ref{def:hopf-quaternionic} gives an alternative
+definition of the Hopf map based on quaternions.
+This definition is useful for doing computations,
+because it allows us to work with Cartesian coordinates on $S^2\!$.
+Theorem~\ref{thm:hopf-map-equivalence} shows that both definitions are equivalent.
+This theorem also shows that $\PC$ and $S^2$
+are \emph{homeomorphic},
+meaning that for topological purposes
+they are indistinguishable.
+
+\section{Fibres}
+\label{sec:fibres}
+The Hopf map,
+a surjective, continuous map from $S^3$ to $S^2\!$,
+is interesting for many reasons.
+The primary reason that we are interested in it here,
+are its fibres.
+Those are circles in $S^3$ that — as we will see in section~\ref{sec:linking} —
+are linked, like keyrings can be linked.
+Moreover, \emph{all} fibres are linked with \emph{every} other fibre.
+Before we can study linking however,
+we will first introduce the tools for studying the fibres.
+
+In section~\ref{sec:hopf-quaternionic},
+we saw already that the fibre above $p \in S^2$
+is given by $S^1 x^{-1}$,
+where $x \in S^3$ is such that $x \cdot i = p$.
+In combination with equation~\ref{eqn:transitive-s3-action}
+(an expression for $x$),
+this allows us to explicitly parametrise the fibres of the Hopf map.
+While such an expression is useful for computations,
+it does not give us any geometrical insight.
+Therefore, we will study the fibes of the Hopf map in a different way.
+For this,
+we will first revisit the $\GLC$ action on $\CZ$.
+
+In section~\ref{sec:projective-space} we saw how $\GLC$ acts on $\CZ$.
+Every element of $\GLC$ induces a homeomorphism $\CZ \to \CZ$.
+These homeomorphisms are restrictions
+of $\C$-linear (and thereby also $\R$-linear) automorphisms $\C^2 \to \C^2\!$,
+which means the action descends to $S^3_\C$ and $\PC$.
+
+\proposition[prop:gl2c-induces-actions]
+Let $\alpha : \C^2 \to \C^2$ be a $\C$-linear automorphism.
+Then there exist unique homeomorphisms $\beta, \gamma, \delta$
+that make the following diagram commute:
+\begin{center}
+\begin{tikzcd}
+\C^2   \ar[d, "\alpha"] &
+\CZ    \ar[d, dashed, "\exists_! \, \beta"]
+       \ar[l, hook, swap, "i"]
+       \ar[r, two heads, "r"]
+       \ar[rr, two heads, bend left, "q"{pos = 0.525}] &
+S^3_\C \ar[d, dashed, "\exists_! \, \gamma"]
+       \ar[r, two heads, "h"] &
+\PC    \ar[d, dashed, "\exists_! \, \delta"] \\
+\C^2   &
+\CZ    \ar[l, hook, swap, "i"]
+       \ar[r, two heads, "r"]
+       \ar[rr, two heads, bend right, swap, "q"{pos = 0.525}] &
+S^3_\C \ar[r, two heads, "h"] &
+\PC
+\end{tikzcd}
+\end{center}
+Here $q$ and $r$ denote the quotient maps,
+$i$ denotes the inclusion,
+and $h$ denotes the Hopf map.
+
+\proof
+The map $\beta$ is the restriction of $\alpha$ to $\CZ$.
+The map $r \circ \beta$ is compatible with $r$
+because $\beta$ is $\R$-linear;
+if two elements are equivalent in $\CZ$,
+then their images under $\beta$ are also equivalent.
+By the universal property of the quotient topology
+(theorem~\ref{thm:universal-property-quotient-topology}),
+we get a unique continuous map $\gamma$.
+By applying this argument to $\beta^{-1}$,
+we find a unique continuous map $\gamma^{-1}$ which is the inverse of $\gamma$,
+so $\gamma$ is a homeomorphism.
+Similarly,
+the map $q \circ \beta$ is compatible with $q$,
+because if two elements in $\CZ$ differ by a factor $\lambda \in \C^*\!$,
+then their images under $\beta$ differ by a factor $\lambda$,
+as $\beta$ is $\C$-linear.
+By the universal property of the quotient topology
+we get a unique homeomorphism $\delta$ that makes the diagram commute.
+\qed
+
+This proposition tells us that the action of $\GLC$
+descends naturally to $S^3_\C$ and $\PC$
+by letting $g \in \GLC$ act on a representative.
+Beware that although $\GLC$ acts on $\CZ$ by linear automorphisms,
+the induced automorphisms are \emph{not} linear;
+in general they are not linear automorphisms of $\R^4$ and $\R^3$
+restricted to $S^3$ and $S^2\!$.
+
+The general linear group $\GLR$ also acts on $\C^2\!$,
+and by restriction on $\CZ$
+when $\C^2$ is considered a four-dimensional real vector space.
+This action induces an action of $\GLR$ on $S^3_\C$;
+the same argument as before holds.
+However, this action does \emph{not} induce an action on $\PC$,
+because elements of $\GLR$ are not $\C$-linear automorphisms in general.
+
+We saw already that the fibres of the projective hopf map are the
+orbits of the $S^1$-action on $\CZ$.
+This allows us to parametrise fibres easily.
+For $(z_1 : z_2) \in \PC$,
+if we assume that $|z_1|^2 + |z_2|^2 = 1$,
+and if we work with $S^3$ instead of $S^3_\C$ by taking representatives of unit length,
+we have:
+\[ h^{-1}(z_1 : z_2) = \set{ (e^{it} z_1, e^{it} z_2) \in S^3 \mid t \in \R } \]
+For the fibres above $(1 : 0)$ and $(0 : 1)$,
+the geometrical picture is clear:
+the fibres are unit circles in the planes spanned by $(1, 0)$ and $(i, 0)$,
+and $(0, 1)$ and $(0, i)$ respectively.
+Because the circles have unit radius,
+they are great circles on $S^3\!$.
+An other way to state this,
+is that the fibres are precisely the intersections of $S^3$ with complex linear subspaces of dimension one
+(in particular those are intersections of $S^3$ with real linear subspaces of dimension two).
+For other points on $\PC$ however,
+it is not immediately clear what the fibres look like.
+This is where the $\GLC$-action is useful.
+Via the homeomorphism $S^3_\C \to S^3$ from proposition~\ref{prop:s3-equivalence},
+$\GLC$ acts on $S^3\!$.
+If $g \in \GLC$ maps $(0 : 1)$ to $(z_1 : z_2)$,
+then commutativity of the diagram in proposition~\ref{prop:gl2c-induces-actions}
+means that $g$ maps the fibre above $(0 : 1)$ into the fibre above $(z_1 : z_2)$.
+The fibre above $(0 : 1)$ is the intersection of a linear subspace
+with $S^3\!$,
+and because $g$ is linear,
+the fibre above $(z_1 : z_2)$ is also the intersection of a linear subspace
+with $S^3\!$.
+Therefore it is a great circle as well.
+
+\proposition[prop:glc-acts-transitively]
+$\GLC$ acts transitively on $\PC$.
+
+\proof
+$\GLC$ acts transitively on $\CZ$.
+Because $\PC$ is a quotient space of $\CZ$,
+every element can be represented by an element of $\CZ$,
+and because $\GLC$ acts transitively,
+every representative can be reached from e.g. $(0, 1)$.
+\qed
+
+\corollary
+All fibres of the Hopf map are great circles on $S^3\!$.
+We saw already that for all $g \in \GLC$,
+the fibre above $g \cdot (0 : 1)$ is a great circle,
+and because $\GLC$ acts transitively,
+every point in $\PC$ is of this form.
+
+\section{Stereographic projection}
+The fibres of the Hopf map that we investigated in the previous section
+are subsets of $S^3\!$.
+But $S^3$ can be hard to visualise;
+it is a subset of a four-dimensional space.
+Furthermore, with the goal of constructing a vector field on $\R^3$ in mind,
+we somehow have to get to $\R^3\!$.
+The way we can move between $\R^3$ and $S^3$ is by stereographic projection.
+Given that $S^3$ and $\R^3$ are not homeomorphic,
+we will have to make some concessions.
+Fortunately $S^3$ is the one-point compactification of $\R^3\!$,
+so if we want to go from $S^3$ to $\R^3$
+we only loose a single point.
+Nevertheless, this discrepancy will turn out to introduce some artefacts,
+but these will in turn help to understand the geometry of $S^3\!$.
+
+\definition
+The \emph{stereographic projection} from $S^n$ onto $\R^n\!$,
+with projection point $p \in S^n$ is given by
+\[ \pi : S^n \setminus \set{p} \longto \R^n,
+   \quad x \longmapsto \overline{px} \cap \R^n \]
+Here we embed $\R^n$ in $\R^{n + 1}$ as $p^\perp\!$,
+and $\overline{px}$ denotes the line connecting $p$ and $x$.
+
+We will use coordinates $x_0, \ldots, x_n$ on $\R^{n + 1}$
+and coordinates $x_1, \ldots, x_n$ on $\R^n\!$.
+Setting $p = (1, 0, \ldots, 0)$
+fixes the embedding of $\R^n$ in $\R^{n + 1}$ via $(x_1, \ldots, x_n) \mapsto (0, x_1, \ldots, x_n)$.
+The connection line $\overline{px}$ can then be parametrised as $p + \lambda(x - p)$ for $\lambda \in \R$.
+Intersecting this line with the hyperplane $x_0 = 0$ by setting
+$p_0 + \lambda(x_0 - p_0) = 0$ yields $\lambda = - \frac{1}{x_0 - 1}$,
+where the subscript zero denotes the first coordinate.
+Substituting $\lambda$, we find the projection of $x$:
+\begin{equationref}
+\label{eqn:stereographic-projection}
+   \pi(x_0, \ldots, x_n)
+ = \left(-\frac{x_1}{x_0 - 1}, \ldots, -\frac{x_n}{x_0 - 1} \right)
+ = \left(\frac{x_1}{1 - x_0}, \ldots, \frac{x_n}{1 - x_0} \right)
+\end{equationref}
+Conversely, if we have a point $x \in \R^n\!$,
+then we can embed it in $\R^{n + 1}$ and parametrise the line through $x$ and $p$
+as $p + \lambda(x - p)$ for $\lambda \in \R$.
+This time we want to find the intersection with $S^n\!$,
+so we must solve $\nsq{p + \lambda(x - p)} = 1$.
+This yields $\lambda = \frac{2}{\nsq{x} + 1}$.
+Substituting $\lambda$, we find the inverse image of $x$:
+\begin{equationref}
+\label{eqn:inverse-stereographic-projection}
+    \pi^{-1}(x_1, \ldots, x_n)
+% = \left(1 - \frac{2}{\nsq{x} + 1}, \frac{2x_1}{\nsq{x} + 1}, \ldots, \frac{2x_n}{\nsq{x} + 1} \right)
+  = \frac{1}{\nsq{x} + 1} \left(\nsq{x} - 1, \, 2x_1, \, \ldots, \, 2x_n \right)
+\end{equationref}
+From equation~\ref{eqn:stereographic-projection} and \ref{eqn:inverse-stereographic-projection}
+it is clear that $\pi$ and $\pi^{-1}$ are continuous.
+It follows that $\pi$ is a homeomorphism between $S^n \setminus \set{p}$ and $\R^n\!$.
+
+It turns out that the stereographic projection of a circle on $S^n$
+is a circle in $\R^n\!$,
+a property that will be useful when studying the fibres of $h \circ \pi^{-1}$.
+To see why this is the case,
+we will first study the more general mapping of spheres.
+
+\definition
+A \emph{sphere} in $S^n$ is the intersection of $S^n$
+with a hyperplane given by $\inp{x}{\hat{n}} = t$,
+where $\hat{n} \in S^n$ is a normal vector of the hyperplane,
+and $t \in (-1, 1)$ is its offset to the origin.
+We choose $|\,t\,| < 1$ such that the intersection is not empty or finite.
+
+\example
+A sphere in $S^2$ is simply a circle.
+If $t = 0$, it is a great circle.
+
+\definition
+A \emph{sphere} in $\R^n$ with centre $x_c \in \R^n$ and radius $r \in \Rpos$
+is the set
+\[ \set{ x \in \R^n \mid r^{\,2} = \nsq{x - x_c} } \]
+Note that a sphere in $S^n$ is the intersection of a sphere in $\R^{n + 1}\!$ with $S^n\!$.
+By expanding the square,
+we may alternatively write a sphere in $\R^n$
+with centre $x_c$ and radius $r$ as
+\begin{equationref}
+\label{eqn:hypersphere}
+\set{ x \in \R^n \mid r^{\,2} - \nsq{x_c} = \nsq{x} - 2 \inp{x}{x_c} }
+\end{equationref}
+Now we can turn to the relation between spheres in $S^n$ and in $\R^n\!$.
+
+\proposition
+Let $B \subseteq S^n$ be a sphere defined by the normal vector $\hat{n} \in S^n$
+and offset $t \in (-1, 1)$.
+Then for its image under the stereographic projection $\pi : S^n \setminus \set{p} \to \R^n\!$,
+the following holds:
+\begin{enumerate}
+\item If $p \notin B$, $\pi(B)$ is a sphere in $\R^n\!$.
+\item If $p \in B$, $\pi(B \setminus \set{p})$ is a hyperplane in $\R^n\!$.
+\end{enumerate}
+
+\proof
+The image of $B$ or $B \setminus \set{p}$ when $p \in B$,
+is given by the set of $x \in \R^n$ such that $\pi^{-1}(x) \in B$.
+Embed $\R^n$ in $\R^{n + 1}$ as the hyperplane $x_0 = 0$.
+Then we can write
+\[ \pi(B)
+\ = \ \set{x \in \R^n \mid \inp{\pi^{-1}(x)}{\hat{n}} = t }
+\ = \ \set{x \in \R^n \mid n_0(\nsq{x} - 1) + \inp{x}{\hat{n}} = t } \]
+Here $n_0$ denotes the first coordinate of $\hat{n}$.
+If $n_0 \neq 0$,
+we recognise equation~\ref{eqn:hypersphere},
+so $\pi(B)$ is a sphere in $\R^n\!$.
+If $n_0 = 0$,
+then the predicate reduces to $\inp{x}{\hat{n}} = t$,
+which is the equation for a hyperplane in $\R^n$ with normal $\hat{n}$
+and offset $t$ to the origin.
+Furthermore, $n_0 = 0$ if and only if $p \in B$.
+\qed
+
+\proposition
+Let $n \geq 2$ and let $C \subseteq S^n$ be a circle,
+the nonempty intersection of $n - 1$ spheres
+defined by hyperplanes with linearly independent normal vectors.
+Then for its image under the stereographic projection $\pi : S^n \setminus \set{p} \to \R^n\!$,
+the following holds:
+\begin{enumerate}
+\item If $p \notin C$, $\pi(C)$ is a circle in $\R^n\!$.
+\item If $p \in C$, $\pi(C \setminus \set{p})$ is a line in $\R^n\!$.
+\end{enumerate}
+
+\proof
+We use the fact that for $U, V \subseteq S^n\!$,
+we have $\pi(U \cap V) = \pi(U) \cap \pi(V)$.
+As $C$ is the intersection of $n - 1$ spheres,
+its image is the intersection of $n - 1$ spheres or hyperplanes.
+These all lie in distinct hyperplanes with linearly independent normal vectors,
+so the image is a subset of a two-dimensional plane in $\R^n\!$.
+If $p \notin C$ then at least one of the images will be a sphere,
+so $\pi(C)$ is a circle.
+If $p \in C$ then all of the images will be distinct hyperplanes,
+the intersection of which is a line.
+\qed
+
+\corollary[cor:circles-and-axis]
+The fibres of $h \circ \pi^{-1}$ are all circles in $\R^3\!$,
+except for the fibre above $(1 : 0)$ which is the $x_1$-axis.
+Furthermore, from equation~\ref{eqn:stereographic-projection} it is clear
+that the fibre above $(0 : 1)$ is the unit circle in the $x_2 x_3$-plane.
+This has been visualised in figure~\ref{fig:two-fibres}.
+
+\begin{figure}
+\definecolor{f1c}{hsb}{0.6, 0.6, 0.5}
+\definecolor{f2c}{hsb}{0.0, 0.8, 0.6}
+\margincaption[3em]{\label{fig:two-fibres}
+Fibres of the Hopf map visualised through stereographic projection;
+the fibre above $ i \in S^2$ is the $x_1$-axis (coloured {\color{f2c}•}),
+the fibre above $-i \in S^2$ is the unit circle in the plane $x_1 = 0$
+(coloured {\color{f1c}•}).
+See also figure~\ref{fig:more-fibres}.}
+\begin{python}
+from hopf import *
+from math import pi
+pr         = orthographic_projection(pi * 0.42, pi * -0.1)
+fibre_x2x3 = [compose(pr, projected_fibre_from_spherical([-pi * 0.5, 0.0])), 'f1f', 'back']
+fibre_x1_b = [compose(pr, projected_fibre_from_degenerate(-1.6, -1.4)), 'f2f-dot', 'back']
+fibre_x1   = [compose(pr, projected_fibre_from_degenerate(-1.4,  1.4)), 'f2f', 'back']
+fibre_x1_e = [compose(pr, projected_fibre_from_degenerate( 1.4,  1.6)), 'f2f-dot', 'back']
+cmds = generate_raw_draw_2d(0.5, [fibre_x2x3, fibre_x1, fibre_x1_b, fibre_x1_e])
+box  = generate_raw_box_2d([1.5, 1.5, 1.5], pr, 'box')
+write_items('generated/two-fibres-box.tikz', cons(box, cmds))
+
+latm   = generate_raw_latitude_2d(0.0, pr, 'dashed')
+points = [[[-pi * 0.5, 0.0], 'f1c'], [[pi * 0.5, 0.0], 'f2c']]
+cmds   = generate_raw_points_2d(pr, points, '1.3pt')
+write_items('generated/two-fibres-sphere.tikz', cons(latm, cmds))
+\end{python}
+\begin{center}
+\tikzexternalenable
+\tikzsetnextfilename{two-fibres}
+\begin{tikzpicture}
+\tikzstyle{back} = [white, line width = 3pt];
+\tikzstyle{f1f} = [f1c, line width = 1pt];
+\tikzstyle{f2f} = [f2c, line width = 1pt];
+\tikzstyle{f2f-dot} = [f2f, dotted, line cap = round];
+\tikzstyle{box} = [line width = 0.47pt];
+\coordinate (D) at (-3, 0);
+\coordinate (C) at ( 3, 0);
+
+\begin{scope}[shift = {(D)}, scale = 1.2, local bounding box = {domain}]
+\input{generated/two-fibres-box.tikz}
+\end{scope}
+
+% Draw S^2.
+\begin{scope}[shift = {(C)}, scale = 1.5, local bounding box = {codomain}]
+\draw[line width = 0.47pt] (0, 0) circle (1);
+\input{generated/two-fibres-sphere.tikz}
+\end{scope}
+
+% Draw an arrow from the plot to S^2 with tikzcd arrow style.
+\begin{scope}[commutative diagrams/every diagram]
+\path let \p1 = (domain.east) in node (from) at (\x1 + 1em, 0) {};
+\path let \p1 = (codomain.west) in node (to) at (\x1 - 1em, 0) {};
+\path[commutative diagrams/.cd, every arrow, every label]
+  (from) edge [commutative diagrams/maps to] node {$h \circ \pi^{-1}$} (to);
+\end{scope}
+\end{tikzpicture}
+\end{center}
+\end{figure}
+
+\section{Linking}
+\label{sec:linking}
+The fibres of the Hopf map — circles, as shown in the previous section — possess an interesting property:
+they are all linked with every other fibre.
+In this section we will give a formal definition of linking,
+and prove linkedness of the fibres.
+In section~\ref{sec:linked-and-knotted-fields} we will explore a physical application of linking.
+
+Linking is a property of a pair of closed curves
+that is not intrinsic to the curves as topological spaces themselves,
+but rather to their embedding in a surrounding space.
+Considering this, it makes sense to look at the complement of the curves.
+By studying the fundamental group of the complement,
+we can tell different situations apart.
+For instance,
+the fundamental group of the complement of two linked circles in $\R^3$
+is the free abelian group on two generators,
+whereas the fundamental group of the complement of two unlinked circles
+is the free \emph{nonabelian} group on two generators.
+(See \parencite[p.~46]{hatcher2002}.
+Incidentally, Hatcher introduces linking
+as one of the main motivations for studying the fundamental group.)
+
+\definition
+Let $X$ be a topological space.
+An \emph{$n$-link} in $X$ is an ordered collection of $n$ continuous maps $\sigma_i : S^1 \to X$,
+such that the images of $\sigma_1, \ldots, \sigma_n$ are disjoint.
+The link is called \emph{proper} if every $\sigma_i$ is a homeomorphism onto its image.
+
+This definition is based on \parencite{milnor1954}.
+Because in a proper link every $\sigma_i$ is a homeomorphism onto its image,
+the components of the link do not self-intersect.
+Because the images are disjoint,
+they do not intersect eachother.
+
+\definition
+Two $n$-links $(\sigma_1, \ldots, \sigma_n)$ and $(\tau_1, \ldots, \tau_n)$
+are said to be \emph{homotopic}
+if there exist homotopies $H_i : [0, 1] \times S^1 \to X$ from $\sigma_i$ to $\tau_i$,
+such that for all $t \in [0, 1]$,
+the images of $H_i(t, {}\cdot{})$ are disjoint.
+The links are said to be \emph{properly homotopic} if
+for all $t \in (0, 1)$ the maps $H_i(t, {}\cdot{})$ are homeomorphisms onto their images.
+Homotopy and proper homotopy define two equivalence relations on the set of $n$-links.
+We call a proper $n$-link \emph{trivial}
+if it is properly homotopic to an $n$-link of $n$ distinct constant functions.
+
+A homotopy between links captures the idea of links being “the same”.
+Homotopy enables us to tell apart many different types of links,
+but there is one caveat:
+a homotopy from one link into another might have self-intersecting components
+at some point in time.
+For instance, the Whitehead link is homotopic to two unlinked circles,
+but it can only be unlinked if the components are allowed to self-intersect.
+\marginfigure{
+\tikzexternalenable
+\tikzsetnextfilename{whitehead-link}
+\begin{center}
+\hspace{-1em}
+\begin{tikzpicture}[baseline={(C.base)}]
+\tikzstyle{back} = [line width = 4.94pt, black]
+\tikzstyle{knot} = [line width = 4.0pt, white]
+\setlength{\kr}{2em}
+\coordinate (A) at ( 45 : 2\kr);
+\coordinate (B) at (-45 : 2\kr);
+\coordinate (C) at ($ (A) !.5! (B) $); % Half-way between (A) and (B).
+
+\useasboundingbox let \p1 = (A), \p2 = (B) in
+            (\x1 - \kr - 2.5pt, \y1 + \kr + 2.5pt) rectangle
+            (\x2 + \kr + 2.5pt, \y2 - \kr - 2.5pt);
+
+\draw[back] (C) circle (\kr);
+\draw[knot] (C) circle (\kr);
+
+\draw[back] ($(B) + (270 : \kr)$) arc (270 : 135 : \kr) -- (C) --
+            ($(A) + (-45 : \kr)$) arc (-45 :  90 : \kr);
+\draw[knot] ($(B) + (270 : \kr)$) arc (270 : 135 : \kr) -- (C) --
+            ($(A) + (-45 : \kr)$) arc (-45 :  90 : \kr);
+
+\draw[back] ($(A) + (89 : \kr)$) arc (89 : 225 : \kr) -- (C) --
+            ($(B) + (45 : \kr)$) arc (45 : -91 : \kr);
+\draw[knot] ($(A) + (88 : \kr)$) arc (88 : 225 : \kr) -- (C) --
+            ($(B) + (45 : \kr)$) arc (45 : -92 : \kr);
+
+\draw[back] ($(C) + (120 : \kr)$) arc (120 : 150 : \kr);
+\draw[knot] ($(C) + (119 : \kr)$) arc (119 : 151 : \kr);
+
+\draw[back] ($(C) + (-30 : \kr)$) arc (-30 : -60 : \kr);
+\draw[knot] ($(C) + (-29 : \kr)$) arc (-29 : -61 : \kr);
+\end{tikzpicture}
+\end{center}
+\vspace{1em}
+\caption{The Whitehead link.}}
+With the notion of proper homotopy we can also differentiate between
+the Whitehead link and and unlinked circles:
+the unlinked circles are trivial,
+but the Whitehead link is not.
+These types of links are beyond the scope of this thesis though;
+for the fibres of the Hopf map
+the notion of homotopy will be sufficient.
+To determine whether two closed curves are linked,
+we will examine the fundamental group of the complement of \emph{one} curve.
+The other curve then determines an element of the fundamental group.
+If the fundamental group happens to be $\Z$,
+we can quantify linking with an integer.
+
+\definition
+Let $(\sigma_1, \sigma_2)$ be a proper two-link in a topological space $X$.
+Suppose that $G_1 = \pi_1(X \setminus \im \sigma_1,\, \sigma_2(0)) \cong \Z$.
+Then $[\sigma_2]$ is an element of $G_1$,
+so under an isomorphism $G_1 \to \Z$ it maps to an integer $n$.
+Its absolute value $|n|$ is independent of the choice of isomorphism.
+This $|n|$ is the \emph{linking number} of $\sigma_2$ with $\sigma_1$.
+
+This definition of linking number is not symmetric with regard to $\sigma_1$ and $\sigma_2$:
+we require only the complement of $\sigma_1$ to have a fundamental group isomorphic to $\Z$.
+Even in $\R^3\!$, the fundamental group of such a complement can be quite surprising.
+For example, the fundamental group of the complement of an $(m, n)$ torus knot
+is shown in \parencite[p.~47]{hatcher2002} to be the quotient group
+of the free group with generators $a$ and $b$,
+where $a^m$ and $b^n$ are identified.
+\marginfigure{
+\tikzexternalenable
+\tikzsetnextfilename{trefoil-knot}
+\begin{center}
+\hspace{0.5em}
+\begin{tikzpicture}[baseline={(C.base)}]
+\tikzstyle{back} = [line width = 4.94pt, black]
+\tikzstyle{knot} = [line width = 4.0pt, white]
+\setlength{\kr}{2em}
+\coordinate (A) at ( 90 : 0.7\kr);
+\coordinate (B) at (210 : 0.7\kr);
+\coordinate (C) at (330 : 0.7\kr);
+\coordinate (Z) at ($(B) !.5! (C) + (90 : \kr)$);
+
+\useasboundingbox let \p1 = (A), \p2 = (B), \p3 = (C) in
+            (\x2 - \kr - 2.5pt, \y1 + \kr + 2.5pt) rectangle
+            (\x3 + \kr + 2.5pt, \y3 - \kr - 2.5pt);
+
+\draw[back] ($(C) + (330 : \kr)$) arc (-30 :  90 : \kr) -- (Z);
+\draw[knot] ($(C) + (330 : \kr)$) arc (-30 :  90 : \kr) -- (Z);
+\draw[back] ($(B) + (210 : \kr)$) arc (210 : 330 : \kr) --
+            ($(A) + (330 : \kr)$) arc (-30 :  90 : \kr);
+\draw[knot] ($(B) + (210 : \kr)$) arc (210 : 330 : \kr) --
+            ($(A) + (330 : \kr)$) arc (-30 :  90 : \kr);
+\draw[back] ($(A) + ( 89 : \kr)$) arc ( 89 : 210 : \kr) --
+            ($(C) + (210 : \kr)$) arc (210 : 331 : \kr);
+\draw[knot] ($(A) + ( 88 : \kr)$) arc ( 88 : 210 : \kr) --
+            ($(C) + (210 : \kr)$) arc (210 : 332 : \kr);
+\draw[back] (Z) + (0.1pt, 0) -- ($(B) + ( 90 : \kr)$) arc ( 90 : 211 : \kr);
+\draw[knot] (Z) + (0.5pt, 0) -- ($(B) + ( 90 : \kr)$) arc ( 90 : 212 : \kr);
+\end{tikzpicture}
+\end{center}
+\vspace{1em}
+\caption{A 2,3 torus knot, also called a \emph{trefoil knot}.}}
+This means that the linking number of a nontrivial torus knot with a circle
+is well-defined,
+but the linking number of the circle with the knot is not.
+This problem can be alleviated by considering the first homology group
+instead of the fundamental group,
+an approach that is taken in \parencite[p.~132]{rolfsen2003}.
+Rolfsen also relates the linking number as defined here to other definitions,
+such as the \emph{Gauss linking integral}.
+In the remainder of this section,
+we will only consider curves of which the fundamental group of the complement is isomorphic to $\Z$.
+For curves in $\R^3$ or $S^3\!$,
+it is shown in theorem~6 of \parencite[p.~135]{rolfsen2003}
+that the linking number
+does not depend on the order of $\sigma_1$ and $\sigma_2$,
+nor on their orientation.
+This means that the we can quantify the linking of $\set{\im \sigma_1, \im \sigma_2}$
+with a unique nonnegative integer.
+A nonzero linking number implies that two curves are linked,
+but the converse does not hold:
+the Whitehead link has linking number zero,
+but it is not trivial.
+In any case,
+the linking number suffices to show that the fibres of the Hopf map are linked.
+Before we prove the general case
+we will demonstrate linkedness of two particular fibres.
+By using the action of $\GLC$
+this proof can be extended to the general case.
+
+As shown in section~\ref{sec:fibres},
+the fibres of the Hopf map above $(1 : 0)$ and $(0 : 1)$ may be parametrised as
+\[ \sigma_1: [0, 1] \longto S^3, \quad t \longmapsto (e^{2\pi i t}, 0)
+   \quad \textup{and} \quad
+   \sigma_2: [0, 1] \longto S^3, \quad t \longmapsto (0, e^{2\pi i t}) \]
+In corollary~\ref{cor:circles-and-axis} we saw that under stereographic projection,
+$\sigma_1$ maps to the $x_1$ axis
+and $\sigma_2$ maps to the unit circle in the $x_2 x_3$-plane.
+
+\proposition
+Let $\sigma_1$ and $\sigma_2$ be as introduced above.
+Then $\sigma_2$ is linked once with $\sigma_1$ in $S^3\!$.
+
+\proof
+Restricted to $S^3 \setminus \im \sigma_1$,
+the stereographic projection $\pi : S^3 \setminus\set{p} \to \R^3$
+is a homeomorphism onto $\R^3 \setminus \pi(\im \sigma_1)$,
+because the projection point $p = (1, 0)$ lies on the image of $\sigma_1$.
+Therefore, it induces an isomorphism
+$\pi_1(S^3 \setminus \im \sigma_1, \, \sigma_2(0)) \to \pi_1(\R^3 \setminus \pi(\im \sigma_1), \, \pi(\sigma_2(0)))$
+on fundamental groups.
+As we saw before, $\pi(\im \sigma_1)$ is the $x_1$-axis in $\R^3\!$,
+so the space $\R^3 \setminus \pi(\im \sigma_1)$ deformation retracts onto $\R^2$ minus the origin
+by projecting on the $x_2 x_3$-plane.
+This induces an isomorphism
+$\pi_1(S^3 \setminus \im \sigma_1, \, \sigma_2(0)) \to \pi_1(\R^2 \setminus \set{0},\, (1, 0))$.
+(See for example proposition~1.17 of \parencite[p.~31]{hatcher2002}.)
+Because the image of $\pi \circ \sigma_2$ lies in the $x_2x_3$ plane,
+$[\pi \circ \sigma_2]$ is an element of $\pi_1(\R^2 \setminus \set{0},\, (1, 0))$.
+This fundamental group is of course isomorphic to $\Z$,
+and $\pi \circ \sigma_2$ is a curve that goes around the origin once,
+so it is a generator of the fundamental group.
+It follows that $\sigma_2$ is linked once with $\sigma_1$.
+\qed
+
+To demonstrate that any two fibres are linked,
+we will improve upon the result of proposition~\ref{prop:glc-acts-transitively},
+which stated that $\GLC$ acts transitively on $\PC$.
+In fact, the stabiliser $\GLC_p$ of a point $p \in \PC$
+still acts transitively on $\PC \setminus \set{p}$.
+
+\proposition[prop:glc-acts-doubly-transitive]
+Let $(z_1 : z_2)$ and $(\nu_1 : \nu_2) \in \PC$ be distinct points.
+Then there exists a $g \in \GLC$,
+such that $g \cdot (1 : 0) = (z_1 : z_2)$ and $g \cdot (0 : 1) = (\nu_1 : \nu_2)$.
+
+\proof
+Consider the matrix
+\[ g = \begin{pmatrix}z_1 & \nu_1 \\ z_2 & \nu_2 \end{pmatrix} \]
+The columns of this matrix are linearly independent by assumption,
+so its determinant is nonzero.
+It follows that $g \in \GLC$,
+and clearly $g \cdot (1 : 0) = (z_1 : z_2)$
+and $g \cdot (0 : 1) = (\nu_1 : \nu_2)$.
+\qed
+
+\corollary
+Any two fibres of the Hopf map are linked in $S^3$:
+proposition~\ref{prop:glc-acts-doubly-transitive} tells us that the situation
+of any two fibres can be transformed into the situation of $(1 : 0)$ and $(0 : 1)$
+by a homeomorphism,
+and the linking number is invariant under such a homeomorphism.
+
+\begin{figure}
+\margincaption[0.5em]{\label{fig:more-fibres}
+Linked fibres of the Hopf map visualised through stereographic projection.
+Fibres above points near $ i \in S^2$ (the north pole) are circles with a large radius in $\R^3\!$,
+close to the $x_1$-axis (truncated here).
+Fibres above points near $-i \in S^2$ (the south pole) are circles close to the unit circle in the $x_2 x_3$-plane.}
+\begin{python}
+from hopf import *
+from math import pi
+interval5 = interval_open(5)
+interval3 = interval_open(3)
+points_a  = [[[-pi * 0.3, (t * 0.7 + 0.30) * pi], 'a{0}'.format(i)] for (i, t) in enumerate(interval5)]
+points_b  = [[[-pi * 0.1, (t * 0.4 + 0.50) * pi], 'b{0}'.format(i)] for (i, t) in enumerate(interval5)]
+points_c  = [[[ pi * 0.3, (t * 0.5 + 1.50) * pi], 'c{0}'.format(i)] for (i, t) in enumerate(interval3)]
+points_ab = points_a + points_b
+points    = points_ab + points_c
+pr        = orthographic_projection(pi * 0.42, pi * -0.1)
+def limited(x):
+    f = compose(pr, projected_fibre_from_spherical(x))
+    return lambda t: f((0.910 + t * (1.590 - 0.921)) % 1) # Tweaked to the box boundaries.
+fibres_ab = [[compose(pr, projected_fibre_from_spherical(x)), 'front, ' + st, 'back'] for [x, st] in points_ab]
+fibres_c  = [[limited(x), 'front, ' + st, 'back'] for [x, st] in points_c]
+fibres    = fibres_ab + fibres_c
+cmds      = generate_raw_draw_2d(0.1, fibres)
+box       = generate_raw_box_2d([1.636, 1.636, 1.636], pr, 'box')
+write_items('generated/more-fibres-box.tikz', cons(box, cmds))
+
+lat_a   = generate_raw_latitude_2d(-pi * 0.3, pr, 'dashed')
+lat_b   = generate_raw_latitude_2d(-pi * 0.1, pr, 'dashed')
+lat_c   = generate_raw_latitude_2d( pi * 0.3, pr, 'dashed')
+cmds    = generate_raw_points_2d(pr, points, '1.3pt')
+write_items('generated/more-fibres-sphere.tikz', cat([lat_a, lat_b, lat_c], cmds))
+
+colours_a = generate_colours('a', [[  0.0 + h * 0.4,  0.6, 0.6] for h in interval5])
+colours_b = generate_colours('b', [[  0.5 + h * 0.4,  0.6, 0.6] for h in interval5])
+colours_c = generate_colours('c', [[-0.05 + h * 0.27, 0.9, 0.9] for h in interval3])
+colours   = cat(cat(colours_a, colours_b), colours_c)
+write_items('generated/more-fibres-colours.tikz', colours)
+\end{python}
+\begin{center}
+\tikzexternalenable
+\tikzsetnextfilename{more-fibres}
+\begin{tikzpicture}
+\input{generated/more-fibres-colours.tikz}
+\tikzstyle{back}  = [line width = 3pt, white];
+\tikzstyle{front} = [line width = 1pt];
+\tikzstyle{box} = [line width = 0.47pt];
+\coordinate (D) at (-3, 0);
+\coordinate (C) at ( 3, 0);
+
+\begin{scope}[shift = {(D)}, scale = 1.1, local bounding box = {domain}]
+\input{generated/more-fibres-box.tikz}
+\end{scope}
+
+% Draw S^2.
+\begin{scope}[shift = {(C)}, scale = 1.5, local bounding box = {codomain}]
+\draw[line width = 0.47pt] (0, 0) circle (1);
+\input{generated/more-fibres-sphere.tikz}
+\end{scope}
+
+% Draw an arrow from the plot to S^2 with tikzcd arrow style.
+\begin{scope}[commutative diagrams/every diagram]
+\path let \p1 = (domain.east) in node (from) at (\x1 + 1em, 0) {};
+\path let \p1 = (codomain.west) in node (to) at (\x1 - 1em, 0) {};
+\path[commutative diagrams/.cd, every arrow, every label]
+  (from) edge [commutative diagrams/maps to] node {$h \circ \pi^{-1}$} (to);
+\end{scope}
+\end{tikzpicture}
+\end{center}
+\end{figure}
+
+Because the stereographic projection is a homeomorphism,
+the projection of any two fibres in $S^3$ that do not pass through the projection point
+will be a set of two linked circles in $\R^3\!$.
+Even if one of the fibres passes through the projection point
+(and thus projects to the $x_1$-axis),
+there is a sense of linkedness in $\R^3$:
+the fibre that does not pass through the projection point
+will project to a circle around the $x_1$-axis.
+A few of the fibres have been visualised in figure~\ref{fig:more-fibres}.
+
+% TODO
+% \theorem
+% Let $(\sigma_1, \sigma_2)$ and $(\tau_1, \tau_2)$ be homotopic proper two-links in $\R^3\!$,
+% where $\sigma_1$ is linked $n$ times with $\sigma_2$
+% and $\tau_1$ is linked $m$ times with $\tau_2$,
+% where $m, n$ are nonnegative integers.
+% Then $m = n$.
+%
+% \proof
+
+\subsection*{Informal summary}
+In this section we used topology to quantify linkedness.
+An \emph{$n$-link} is a collection of non-intersecting closed curves,
+and for a \emph{proper $n$-link} the curves cannot be self-intersecting either.
+If two links can be defomed into one another by bending and twisting but not intersecting,
+the links are called \emph{homotopic}.
+With homotopy we allow the curves to self-intersect in the process,
+but for a \emph{proper homotopy} even this is disallowed.
+If we want to know whether e.g. a collection of rubber bands can be unlinked,
+we must ask whether the corresponding link is \emph{trivial}.
+If it is, it is possible to separate all of the bands.
+Because homotopy does not allow us to quantify linkedness,
+we turn to another quantity: the \emph{linking number}.
+The linking number of two closed curves $\sigma_1$ and $\sigma_2$
+counts how many times $\sigma_2$ winds around $\sigma_1$,
+a concept that can be made precise by using the fundamental group.
+Finally, we showed that any two fibres of the Hopf map have linking number one in $S^3\!$.
+Using stereographic projection,
+we can see that the fibres are linked in $\R^3$ as well.

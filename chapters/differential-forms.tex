@@ -1,0 +1,1080 @@
+% !TEX root = ../thesis.tex
+
+% Poincaré’s with better spacing, because the é clashes with the apostrophe.
+\newcommand*{\poincares}{Poincaré\kern0.4pt ’\kern 0.1pt s\xspace}
+
+\chapter{Differential forms}
+\label{chap:differential-forms}
+Up to now, we have investigated the Hopf map and its fibres.
+Though interesting in its own right,
+we eventually want to use this map to construct a magnetic field,
+a vector field on $\R^3\!$.
+Differential geometry gives us the tools to do so.
+First, we will recall some of the terms involved.
+Next, we will outline under which conditions several important vector spaces are isomorphic.
+These isomorphisms will allow us to identify vector fields with differential forms.
+Furthermore, we will apply this theory to the Hopf map,
+and derive a vector field on $\R^3$ with various desirable properties.
+Finally, we will define the \emph{Hopf invariant} of a differential form,
+a quantity that will turn out to have an important physical interpretation.
+
+\section{Manifolds and the exterior algebra}
+For this chapter,
+a little background in differential geometry is assumed.
+Many concepts in differential geometry can be defined in various different
+— but equivalent — ways.
+Most applications in this chapter do not depend
+on technical details of one particular definition.
+Therefore we will mostly introduce notation here,
+and we will restate a few definitions for convenience.
+The definitions can all be found in chapter 1, 2 and 4 of \parencite{warner1971}.
+Alternatively,
+one may refer to section 6.4 and chapter 15 and 16 of \parencite{szekeres2004}.
+In the following sections of this thesis,
+we will assume \emph{differentiable} to mean $\Cinf\!$, i.e. infinitely differentiable.
+
+\definition
+A \emph{differentiable manifold of dimension $n$} is
+a nonempty second countable Hausdorff space $M$
+for which each point has a neighbourhood homeomorphic to an open subset of $\R^n\!$,
+together with a \emph{differentiable structure} $\mathcal{A}$ of class $\Cinf\!$.
+(Beware that \parencite{szekeres2004} does not require a manifold to be second countable.)
+A pair $(U, \phi) \in \mathcal{A}$ of an open subset $U \subseteq M$,
+and a continuous map $\phi : U \to \R^n$ that is a homeomorphism onto its image,
+is called a \emph{coordinate chart}.
+When there is no ambiguity,
+we will refer to $M$ simply as a manifold.
+
+\notation
+Let $M$ be a manifold of dimension $n$, let $p \in M$.
+The \emph{tangent space to $M$ at $p$} is written $\Tp M$.
+It is a real vector space of dimension $n$.
+The \emph{cotangent space to $M$ at $p$},
+the dual space of $\Tp M$,
+is written $\Tps M$.
+A coordinate chart $(U, \phi)$ around $p_0 \in M$
+induces a basis $(\ppart x_1, \ldots, \ppart x_n)$ on $\Tp M$ for all $p \in U$,
+and thereby a dual basis $(dx_1, \ldots, dx_n)$ on $\Tps M$.
+
+\definition
+Let $M$ be a manifold.
+Its \emph{tangent bundle} is defined as
+\[ TM = \coprod_{p \in M} \Tp M \]
+The tangent bundle comes with a natural projection map $\pi : TM \to M$
+that sends a tangent vector $v \in \Tp M$ to $p$.
+
+\definition
+Let $V$ be an $n$-dimensional vector space over a field $F$ and $k \geq 0$ an integer.
+The \emph{$k$-th exterior power of $V$}
+is the unique (up to isomorphism)
+vector space $\Lk V$ with a linear map $\wedge : V^k \to \Lk V$
+such that,
+for every alternating $k$-linear map
+$f : V^k \to W$ to an $F$-vector space $W\!$,
+there exists a unique $g : \Lk V \to W$ that makes the following diagram commute:
+\vspace{-\parskip}
+\begin{center}
+\begin{tikzcd}[column sep = small] &
+V^k   \ar[dl, swap, "\wedge"]
+      \ar[dr, "f"] & \\
+\Lk V \ar[rr, dashed, swap, "\exists_! g"] & & W
+\end{tikzcd}
+\end{center}
+Elements of $\Lk V$ can be written as sums of
+wedge products $v_1 \wedge \cdots \wedge v_k$
+of $k$ elements of $V\!$,
+and the map $\wedge$ is then given by $(v_1, \ldots, v_k) \mapsto v_1 \wedge \cdots \wedge v_k$.
+It follows that $\L{1} V = V$.
+By convention, $\L{0} V = F$.
+One can show that $\dim(\Ln V) = 1$ and $\dim(\Lk V) = 0$ for all $k > n$.
+$\Lk V$ is a subspace of \,$\bigwedge\!V\!$,
+the \emph{exterior algebra} or \emph{Grassmann algebra} of $V\!$,
+a graded-commutative $F$-algebra.
+
+\notation
+Let $M$ be a manifold and $k \geq 0$ an integer.
+The \emph{space of differentiable $k$-forms}, written $\Omega^k M$,
+is a subspace of the real vector space
+\[ \prod_{p \in M} \Lk(\Tps M) \]
+An element $\omega \in \Omega^k M$ is called a \emph{differentiable differential $k$-form}.
+When there is no ambiguity,
+we will refer to $\omega$ simply as a $k$-form.
+$\Omega^k M$ is a subspace of $\Omega M$,
+the \emph{exterior algebra} of $M$.
+Elements of $\Omega^0 M$ may be identified with \emph{differentiable functions} $M \to \R$.
+
+\definition
+Let $M$ be a manifold of dimension $n$.
+A \emph{vector field} on $M$ is a function $X : M \to TM$
+that satisfies $\pi \circ X = \id_M$.
+The vector field is called \emph{differentiable} if, \pagebreak
+locally in a coordinate chart $(U, \phi)$,
+it can be written as
+\[ \sum_{i = 1}^{n} f_i \cdot \frac{\partial}{\partial x_i} \]
+where the $f_i$ are differentiable functions $U \to \R$.
+The set of differentiable vector fields on $M$ is a vector space,
+denoted $\Upsilon M$.
+
+\definition
+Let $V$ be a real vector space of dimension $n$.
+An \emph{orientation} on $V$ is an element of
+\vspace{-0.5\parskip}
+\[ \set{ \omega \in \Ln V \mid \omega \neq 0 } \modsim \]
+where $\omega_1 \sim \omega_2$ if and only if $\omega_1 = \lambda \omega_2$
+for some $\lambda \in \Rpos$.
+Note that an ordered basis $(v_1, \ldots, v_n)$ for $V$ induces
+an orientation $[v_1 \wedge \cdots \wedge v_n]$ on $V$.
+
+\definition
+Let $M$ be a manifold of dimension $n$.
+An \emph{orientation} on $M$ is an element of
+\vspace{-0.5\parskip}
+\[ \set{ \omega \in \Omega^n M \mid \forall p \in M : \omega(p) \neq 0 } \modsim \]
+where $\omega_1 \sim \omega_2$ if and only if $\omega_1 = f \cdot \omega_2$
+for some differentiable function $f : M \to \R$.
+
+\theorem[thm:exterior-algebra-functor]
+Let $R$ be a commutative ring.
+Taking the exterior algebra is a functor
+from the category of $R$-modules
+to the category of graded $R$-algebras.
+
+\proof
+See proposition~2 of \parencite[ch.~\textsc{iii}, \S~7.2]{bourbaki1970}.
+
+\corollary[cor:exterior-power-functor]
+Let $k$ be a nonnegative integer.
+Then taking the $k$-th exterior power
+is an endofunctor of the category of finite dimensional vector spaces over a field $F$.
+If $V$ is a vector space over $F$ and $f : V \to V$ a linear endomorphism,
+then theorem~\ref{thm:exterior-algebra-functor} yields
+a unique $F$-algebra endomorphism of \,$\bigwedge\!V\!$,
+which restricts to a linear map $\Lk V \to \Lk V$.
+This map is given by the linear extension of
+\[ v_1 \wedge \cdots \wedge v_k \longmapsto f(v_1) \wedge \cdots \wedge f(v_k) \]
+See also equation~4 of \parencite[ch.~\textsc{iii}, \S~7.2]{bourbaki1970}.
+For $k = 0$ the induced map is the identity map.
+
+\section{Vector space isomorphisms}
+For a general vector space,
+there is little to say about its relation to other spaces.
+When the vector space has additional properties however,
+such as an inner product or an orientation,
+several canonical identifications can be made.
+These will play an important role in identifying
+differential forms with differentiable functions
+and vector fields,
+which we will do at the end of this section.
+
+\proposition[prop:isom-double-dual]
+Let $V$ be a finite dimensional vector space over a field $F$.
+Then $V$ is canonically isomorphic to its double-dual $V^{**}$ via the following linear isomorphism:
+\[ \alpha : V \longto V^{**},
+\quad v \longmapsto (u \mapsto u(v)) \]
+
+\proof
+It follows immediately that $u \mapsto u(v)$ is the zero function
+if and only if $v = 0$.
+Therefore, $\alpha$ is injective,
+for its kernel is trivial.
+Because $V$ is finite dimensional,
+its dual space has the same dimension.
+Consequently, $\alpha$ is surjective.
+\qed
+
+\definition[def:nondegenerate]
+Let $V$ be a finite dimensional real vector space.
+A bilinear form $B : V \times V \to \R$ is said to be \emph{nondegenerate}
+if the map
+\[ \chi : V \longto V^*, \quad v \longmapsto (u \mapsto B(v, u)) \]
+is an isomorphism.
+
+In general, a finite dimensional real vector space $V$
+will not be canonically isomorphic to its dual space $V^*\!$.
+A nondegenerate bilinear form (of which an inner product is an example)
+establishes a canonical isomorphism between $V$ and $V^*\!$.
+On a pseudo-Riemannian manifold,
+every tangent space is equipped with a nondegenerate bilinear form.
+
+\definition[def:pseudo-riemannian-manifold]
+A \emph{pseudo-Riemannian manifold} is a pair $(M, B)$ of a manifold $M$
+and a nondegenerate symmetric bilinear form $B_p : \Tp M \times \Tp M \to \R$
+on every tangent space $\Tp M$ that satifies the following condition:
+for all $X, Y$ differentiable vector fields on $M$,
+the map
+\vspace{-0.5\parskip}
+\[ B(X, Y): M \longto \R, \quad p \longmapsto B_p(X(p), Y(p)) \]
+is a differentiable function on $M$.
+
+\lemma[lem:wedge-product-exists-nonzero]
+Let $V$ be a real vector space of dimension $n$,
+and let $k, l$ be integers such that $k + l = n$.
+Then for all nonzero $\eta \in \Lk V$,
+there exists an $\omega \in \Ll V$
+such that $\eta \wedge \omega \neq 0$.
+
+\proof
+Let $v_1, \ldots, v_n$ be a basis for $V$
+and suppose that $\eta \in \Lk V$ is nonzero.
+It can be written as
+\[ \eta = \!\sum_{1 \leq i_1 \leq \cdots \leq i_k \leq n}
+            \lambda_{i_1 \cdots i_k} \, v_{i_1} \wedge \cdots \wedge v_{i_k}
+\vspace{0.5\parskip} \]
+with $\lambda_{i_1 \cdots i_k} \in \R$.
+Because $\eta \neq 0$,
+there exists a set of indices $i_1, \ldots, i_k$ such that $\lambda_{i_1 \cdots i_k} \neq 0$.
+Let $j_1, \ldots, j_l$ be the subsequence of $(1, 2, \ldots, n)$ with $i_1, \cdots, i_k$ removed.
+Define $\omega = v_{j_1} \wedge \cdots \wedge v_{j_l} \in \Ll V$.
+In all terms of $\eta \wedge \omega$ except the one with coefficient $\lambda_{i_1 \cdots i_k}$,
+at least one vector $v_i$ will occur twice in the wedge product
+so these terms vanish.
+Because $\lambda_{i_1 \cdots i_k} \neq 0$,
+it follows that $\eta \wedge \omega \neq 0$.
+\qed
+
+\proposition[prop:isom-ext-codim-dual]
+Let $V$ be a finite dimensional real vector space of dimension $n$,
+and suppose that $\omega_0 \in \Ln V$ is given,
+with $\omega_0 \neq 0$.
+Then $\omega_0$ induces a linear isomorphism
+$\L{n-1} V \to V^*\!$.
+
+\proof
+First, recall that $\Ln V$ has dimension $1$,
+so every $\omega \in \Ln V$ can be written uniquely as
+$\lambda \omega_0$ for some $\lambda \in \R$.
+Thus, we have a linear isomorphism
+\[ \rho : \Ln V \longto \R,
+   \quad \lambda \omega_0 \longmapsto \lambda \]
+This allows us to define the following linear map:
+\[ \psi : \L{n-1} V \longto V^*,
+\quad \omega \longmapsto (v \mapsto \rho(v \wedge \omega)) \]
+Here $v \in V\!$.
+Injectivity of $\psi$ follows from lemma~\ref{lem:wedge-product-exists-nonzero}.
+Because $\dim V^* = \dim \L{n-1} V$,
+$\psi$ is an isomorphism.
+\qed
+
+The form $\omega_0$ induces an orientation on $V\!$,
+and an orientation on $V$ determines $\omega_0$ modulo a positive real factor.
+When $V$ is equipped with a symmetric nondegenerate bilinear form $B$ as well,
+$\omega_0$ can be fixed by requiring that it is a wedge product of an orthonormal basis for $V\!$.
+An orientation on a manifold induces an orientation on its cotangent spaces.
+
+\proposition[prop:unique-volume-element]
+Let $V$ be a real oriented finite dimensional vector space
+equipped with a symmetric nondegenerate bilinear form $B : V \times V \to \R$.
+Then there exists a unique $\omega_0 = v_1 \wedge \cdots \wedge v_n \in \Ln V$
+such that $(v_1, \ldots, v_n)$ is a positively oriented orthonormal basis for $V\!$.
+
+\proof
+First of all,
+note that we can still talk about an orthonormal basis
+even when $B$ is not positive-definite:
+for a basis $(v_1, \ldots, v_n)$ for $V$ we require that
+$|B(v_i, v_j)| = \delta_{i\!j}$.
+With the Gram-Schmidt orthonormalisation process
+it is always possible to construct an orthonormal basis for $V$.
+See for instance theorem~5.2 of \parencite[p.~129]{szekeres2004}.
+(Note that Szekeres does not require an inner product to be positive definite,
+so his proof is applicable in our situation.)
+If required, we reorder this basis to obtain a positively oriented orthonormal basis
+$(v_1, \ldots, v_n)$ for $V\!$.
+Finally, define $\omega_0 = v_1 \wedge \cdots \wedge v_n$.
+
+Suppose that we have a different positively oriented orthonormal basis $(v_1', \ldots, v_n')$,
+and $\omega_0' = v_1' \wedge \cdots \wedge v_n'$.
+Then exists a linear isomorphism $f : V \to V$
+that maps $(v_1, \ldots, v_n)$ onto $(v_1', \ldots, v_n')$.
+Because both bases are positively oriented and orthonormal,
+$\det(f) = 1$.
+By corollary~\ref{cor:exterior-power-functor},
+$f$ induces a unique linear map $\Ln f : \Ln V \to \Ln V$ that maps $\omega_0$ to $\omega_0'$.
+Because $\Ln V$ has dimension $1$,
+$\Ln f$ is given by $\omega \mapsto \lambda \omega$,
+where $\lambda = \det(f)$.
+(See definition 1 of \parencite[ch.~\textsc{iii}, \S~8.1]{bourbaki1970}.)
+It follows that $f$ induces the identity on $\Ln V$,
+so $\omega_0 = \omega_0'$.
+\qed
+
+\parencite[p.~218]{szekeres2004} provides an alternative proof
+of proposition~\ref{prop:unique-volume-element} that uses Levi-Civita symbols
+instead of universal constructions.
+
+Putting together the isomorphisms earlier in this section
+for a real vector space $V$ of dimension $n$,
+we obtain the commutative diagram below.
+The dashed arrows are induced by a nondegenerate bilinear form on $V\!$,
+whereas the dotted arrows are induced by the choice of an element $\omega_0 \in \Ln(V^*)$.
+
+\begin{center}
+\begin{tikzcd}
+V            \ar[r, "\chi", dashed]
+             \ar[rr, "\alpha", bend left] &
+V^*          \ar[r, dashed] &
+V^{**}       \\
+&
+\L{n-1}(V^*) \ar[ul, dotted]
+             \ar[ur, "\psi", swap, dotted] &
+\end{tikzcd}
+\end{center}
+
+If $V$ is an oriented semi-inner product space
+(a vector space with a symmetric nondegenerate bilinear form),
+this establishes a canonical isomorphism between $\L{1}(V^*)$ and $\L{n-1}(V^*)$.
+
+The above isomorphisms
+can help to give an intuitive description of the various forms of the wedge product.
+For a real $n$-dimensional vector space $V\!$,\,
+we can make the following identifications:
+\begin{itemize}
+\item Taking the wedge product with $v \in \L{0} V$ is simply scalar multiplication.
+\item If $V$ is an oriented semi-inner product space with bilinear form $B$,
+      the wedge product corresponds to applying the bilinear form,
+      in the sense that the following diagram commutes:
+      \vspace{-\parskip}
+      \begin{center}
+      \begin{tikzcd}[row sep = large]
+      V \times V                       \ar[r, "B"]
+                                       \ar[d, "(\chi\textup{, } \psi^{-1} \circ \alpha)"] &
+      \R \\
+      \L{1} (V^*) \times \L{n-1} (V^*) \ar[r, "\wedge"] &
+      \L{n} (V^*)                      \ar[u, swap, "\rho \circ \L{n} \chi^{-1}"]
+      \end{tikzcd}
+      \end{center}
+\item If $V$ is an oriented semi-inner product space and $n = 3$,
+      we have the following commutative diagram:
+      \vspace{-\parskip}
+      \begin{center}
+      \begin{tikzcd}[row sep = large]
+      V \times V                       \ar[r]
+                                       \ar[d, "(\chi\textup{, } \chi)"] &
+      V \\
+      \L{1} (V^*) \times \L{1} (V^*) \ar[r, "\wedge"] &
+      \L{2} (V^*)                      \ar[u, swap, "\alpha^{-1} \circ \psi"]
+      \end{tikzcd}
+      \end{center}
+      For $V = \R^3$ with its standard orientation and inner product,
+      the map $V \times V \to V$ is the cross product.
+\end{itemize}
+
+With the isomorphisms of vector spaces in this section,
+we can identify spaces of differential forms
+with the spaces of differentiable functions and vector fields.
+For an $n$-dimensional manifold $M$,
+we will need a nowhere-vanishing $\omega_0 \in \Omega^n M$ to make these identifications.
+If $M$ is an oriented pseudo-Riemannian manifold,
+there is one natural choice for $\omega_0$:
+the \emph{volume form}.
+
+\theorem[thm:vector-field-isom-one-form]
+Let $(M, B)$ be a pseudo-Riemannian manifold of dimension $n$.
+Then
+\[ \phi : \Upsilon M \longto \Omega^1 M,
+   \quad X \longmapsto B(X, {}\cdot{}) \]
+is a linear isomorphism between the spaces of differentiable vector fields
+and differentiable $1$-forms on $M$.
+
+\proof
+A coordinate chart on an open neighbourhood $U$ of $p_0 \in M$
+induces a basis $(\partial / \partial x_1, \ldots, \partial / \partial x_n)$ on $\Tp M$
+and $(dx_1, \ldots, dx_n)$ on $\Tps M$ for every $p \in U$.
+We can express $B(X, {}\cdot{})$ locally as
+\[ \sum_{i = 1}^n B(X, \partial / \partial x_i) \, dx_i \]
+The vector field $p \mapsto \partial / \partial x_i$ defined on $U$ is differentiable for all $1 \leq i \leq n$,
+so by definition~\ref{def:pseudo-riemannian-manifold},
+$B(X, \partial / \partial x_i)$ is differentiable.
+Therefore, $B(X, {}\cdot{})$ is a differentiable $1$-form.
+Linearity of $\phi$ follows from bilinearity of $B_p$ for all $p \in M$.
+Since by definition~\ref{def:nondegenerate} the map
+$v \mapsto B_p(v, {}\cdot{})$ is a bijection from $\Tp M$ to $\Tps M$,
+and $\L{1}(\Tps M) = \Tps M$,
+we find that $\phi$ is an isomorphism.
+\qed
+
+\theorem[thm:unique-volume-form]
+Let $(M, B)$ be an $n$-dimensional oriented pseudo-Riemannian manifold.
+Then there exists a unique nowhere-vanishing $\omega_0 \in \Omega^n M$,
+such that for all $p \in M$,
+$\omega_0(p)$ is a wedge product of an orthonormal basis,
+and $[\omega_0]$ is the orientation on $M$.
+This $\omega_0$ is called the \emph{volume form}.
+
+\proof
+The pseudo-Riemannian structure of $M$
+induces a nondegenerate symmetric bilinear form on $\Tp M$
+for every $p \in M$.
+By definition~\ref{def:nondegenerate} $\Tp M$ is isomorphic to $\Tps M$,
+so we can transport the bilinear form to $\Tps M$.
+The orientation on $M$ induces an orientation on $\Tps M$,
+so proposition~\ref{prop:unique-volume-element} will give us
+a unique nonzero $\xi_p \in \Ln(\Tps M)$.
+This we can use to define
+\[ \omega_0 : M \longto \coprod_{p \in M} \Ln(\Tps M),
+   \quad p \longmapsto \xi_p \]
+By construction $\omega_0$ is unique and nowhere-vanishing.
+For every $p \in H$, $\omega_0(p)$ is a wedge product of an orthonormal basis for $\Tps M$,
+and $[\omega_0]$ is the orientation on $M$.
+The crux of this theorem however,
+is that $\omega_0$ is differentiable.
+This follows from the way in which an orthonormal basis for $\Tp M$ is constructed:
+a coordinate chart on an open neighbourhood $U$ around $p_0 \in M$
+induces a basis
+$(\ppart x_1, \ldots, \ppart x_n)$ on $\Tp M$ for all $p \in U$,
+so $p \mapsto \ppart x_1$ is a differentiable vector field on $U$.
+By definition~\ref{def:pseudo-riemannian-manifold},
+the function $\|\ppart x_1\| = |B(\ppart x_1, \ppart x_1)|$ is differentiable.
+Next we apply the Gram-Schmidt process,
+but with differentiable vector fields on $U$.
+This process involves taking sums of differentiable vector fields
+and dividing by their norm.
+If $B$ is not positive-definite,
+the norm could vanish even if the vector field does not,
+but by shrinking $U$ if necessary,
+we can ensure that the norm does not vanish on $U$,
+so the process results in differentiable vector fields.
+Theorem~\ref{thm:vector-field-isom-one-form} then yields
+a set of $n$ differentiable $1$-forms $\eta_i \in \Omega^1 M$,
+$1 \leq i \leq n$,
+such that $(\eta_1(p), \ldots, \eta_n(p))$ is an orthonormal basis for $\Tps M$ at every $p \in U$.
+We can write $\omega_0 = \eta_1 \wedge \cdots \wedge \eta_n$,
+so it follows that $\omega_0$ is a differentiable $n$-form.
+\qed
+% Note: see also page 149 of Warner.
+
+\theorem[thm:vector-field-isom-codim-form]
+Let $M$ be a manifold of dimension $n$,
+and let $\omega_0 \in \Omega^n M$ be a nowhere-vanishing $n$-form.
+(From theorem~\ref{thm:unique-volume-form},
+it follows that an oriented pseudo-Riemannian manifold
+is naturally equipped with such a form.)
+Then $\omega_0$ induces a natural linear isomorphism
+\vspace{-0.5\parskip}
+\[ \phi : \Omega^{n-1} M \longto \Upsilon M \vspace{0.5\parskip} \]
+
+\vspace{-\parskip}
+\proof
+Let $\eta \in \Omega^{n-1} M$ be given.
+By proposition~\ref{prop:isom-ext-codim-dual}
+and definition~\ref{def:nondegenerate}
+we have an isomorphism $\phi_p : \L{n-1}(\Tps M) \to \Tp M$ for every $p \in M$,
+so we can define $\phi(\eta) = p \mapsto \phi_p(\eta(p))$.
+Say $\phi(\eta) = X$, then we must show that $X$ is differentiable.
+It suffices to verify this locally in an open neighbourhood $U$ around $p_0 \in M$.
+A coordinate chart on $U$ induces a basis $(\ppart x_1, \ldots, \ppart x_n)$ on $\Tp M$
+and a basis $(dx_1, \ldots, dx_n)$ on $\Tps M$ for all $p \in U$,
+so $p \mapsto dx_i$ is a differentiable one-form on $U$ for all $1 \leq i \leq n$.
+We can then write $dx_i \wedge \eta$ as $f_i \cdot \omega_0$
+for differentiable functions $f_i : U \to \R$,
+because $\omega_0$ is nowhere-vanishing.
+The vector field $X : M \to TM$ is then locally given by
+\[ X = \sum_{i = 1}^n f_i \cdot \frac{\partial}{\partial x_i} \]
+It follows that $X$ is differentiable.
+Because every $\phi_p$ is a linear isomorphism,
+$\phi$ is itself a linear isomorphism.
+\qed
+
+\example[ex:r3-manifold]
+For all positive integers $n$,
+$\R^n$ is a differentiable manifold of dimension $n$.
+If we take the standard orientation and Euclidean inner product,
+then $\R^n$ is an oriented Riemannian manifold.
+Cartesian coordinates induce a basis
+$(\ppart x_1, \ldots, \ppart x_n)$ on every tangent space,
+which we can identify with the standard basis $(e_1, \ldots, e_n)$.
+The isomorphism from theorem~\ref{thm:vector-field-isom-one-form}
+maps $(\ppart x_1, \ldots, \ppart x_n)$ to a basis for the cotangent space,
+which for the standard inner product on $\R^n$
+coincides with the dual basis $(dx_1, \ldots, dx_n)$.
+Theorem~\ref{thm:vector-field-isom-codim-form} tells us that we can identify
+elements of $\Omega^{n-1} \R^n$ with vector fields via the identification
+\[ dx_1 \wedge \cdots \wedge dx_{i - 1} \wedge dx_{i + 1} \wedge \cdots \wedge dx_n
+\longmapsto (-1)^{i + 1} e_i \]
+The wedge product of all basis vectors except $dx_i$ corresponds to $e_i$.
+Furthermore, via the volume form $dx_1 \wedge \cdots \wedge dx_n$,
+we can identify an $n$-form $f \cdot dx_1 \wedge \cdots \wedge dx_n$
+with the differentiable function $f$ on $\R^n\!$.
+To summarise:
+in $\R^n\!$, we can identify one-forms and $(n-1)$-forms with differentiable vector fields,
+and we can identify zero-forms and $n$-forms with differentiable functions.
+
+\section{Constructing a vector field}
+\label{sec:constructing-a-vector-field}
+With the tools of the previous section
+we can identify vector fields and $k$-forms on manifolds.
+In particular,
+we are interested in a divergenceless vector field on $\R^3$
+that we will interpret as a magnetic field in section~\ref{sec:constructing-a-magnetic-field}.
+The operator that allows us to express divergence
+is the \emph{exterior derivative} that we will introduce in this section.
+Furthermore, we will recall how differentiable functions
+between manifolds introduce a \emph{pullback} on their exterior algebras.
+Finally, we will combine the two to construct a divergenceless vector field.
+
+\notation[not:differential]
+Let $M$ be a manifold and $f \in \Omega^0 M$ a differentiable function.
+Then its \emph{differential},
+written $\df$,
+is an element of $\Omega^1 M$.
+It is a differentiable function $TM \to \R$
+that is linear on every tangent space.
+For a definition one may refer to definition~1.22 of \parencite[p.~16]{warner1971}
+or \parencite[p.~423]{szekeres2004}.
+
+For a manifold $M$ of dimension $n$ and $f \in \Omega^0 M$,
+locally in a coordinate chart $(U, \phi)$
+the differential $\df$ can be expressed as
+\begin{equationref}
+\label{eqn:differential}
+\df = \sum_{i = 1}^n \frac{\partial (\phi^{-1} \circ f)}{\partial x_i} \, dx_i
+\end{equationref}
+
+Note that this notation is compatible with the usage of $dx_i$
+as a cotangent vector: in a coordinate chart $(U, \phi)$
+the function $x_i : U \to \R$ that sends a point $p$ to the
+$i$-th coordinate of $\phi(p)$ has differential $dx_i$.
+
+\theorem
+Let $M$ be a manifold.
+Then for each integer $k \geq 0$,
+there exists a unique linear operator
+$d : \Omega^k M \to \Omega^{k+1} M$,
+called the \emph{exterior derivative},
+that satisfies the following properties:
+\begin{itemize}
+\item For $f \in \Omega^0 M$, $\df$ is the differential of $f$.
+\item $d^2 = 0$.
+\item For $\omega \in \Omega^i M$ and $\eta \in \Omega^j M$
+      it holds that
+      $ d(\omega \wedge \eta) = d\omega \wedge \eta + (-1)^i \omega \wedge d\eta$.
+      An operator that satisfies this property is called an \emph{anti-derivation}.
+\end{itemize}
+
+\proof
+See theorem~2.20 of \parencite[p.~65]{warner1971} or section~16.1 of \parencite[p.~448]{szekeres2004}.
+
+The anti-derivation property of $d$ is the analogue of the product rule for differentiation.
+It allows us to reduce computations to the case of equation~\ref{eqn:differential}.
+A $k$-form $\omega \in \Omega^k M$ is said to be \emph{closed} if $d\omega = 0$.
+It is said to be \emph{exact} if there exists an $\alpha \in \Omega^{k - 1} M$ such that $d\alpha = \omega$.
+
+\theorem{\poincares lemma}[thm:poincare]
+Let $M$ be a contractible manifold, $k > 1$ an integer.
+Then every closed $k$-form on $M$ is exact.
+
+\proof
+See for instance corollary \textsc{a} of \parencite[p.~156]{warner1971}
+(although its preconditions are slightly different)
+or corollary~4.1.2.1 of \parencite[p.~36]{bott1982}.
+
+\poincares lemma is in fact a corollary of a more general result involving de Rham cohomology.
+We will not go in depth here,
+although there are some interesting consequences for $S^3\!$.
+We highlight one particular result:
+
+\proposition[prop:poincare-s3]
+Let $\omega \in \Omega^2 S^3$ be closed.
+Then $\omega$ is exact.
+
+\proof
+This follows from the fact that $H^2(S^3) = 0$,
+where $H^2(S^3)$ is the second de Rham cohomology group,
+defined as
+\[ H^2(S^3) = \frac{\ker(d: \Omega^2 S^3 \to \Omega^3 S^3)}{\im(d: \Omega^1 S^3 \to \Omega^2 S^3)} \]
+See also \parencite[p.~36]{bott1982}.
+\qed
+
+\example[ex:grad-curl-div]
+For $\R^3$ with standard orientation and inner product,
+the $d$ operator has well-known interpretations.
+By \poincares lemma the following sequence of vector spaces is exact:
+\begin{center}
+\begin{tikzcd}[column sep = 2em]
+0             \ar[r] &
+\R            \ar[r] &
+\Omega^0 \R^3 \ar[r, "d_0"] &
+\Omega^1 \R^3 \ar[r, "d_1"] &
+\Omega^2 \R^3 \ar[r, "d_2"] &
+\Omega^3 \R^3 \ar[r] &
+0
+\end{tikzcd}
+\end{center}
+As we saw in the previous section,
+we can identify vector fields with $1$-forms and $2$-forms
+and differentiable functions with $0$-forms and $3$-forms on $\R^3\!$.
+Under these identifications,
+we have the following correspondences:
+\begin{itemize}
+\item $d_0$ corresponds to taking the gradient of a function.
+\item $d_1$ corresponds to taking the curl of a vector field.
+\item $d_2$ corresponds to taking the divergence of a vector field.
+\end{itemize}
+Let $f : \R^3 \to \R$ be a differentiable function
+and $F : \R^3 \to \R^3$ a differentiable vector field.
+Because $d^2 = 0$,
+we get the following identities for free:
+\[ \nabla \times {(\nabla f)} = 0
+   \qquad\qquad
+   \nabla \cdot {(\nabla \times F)} = 0 \]
+More generally,
+in $\R^n$ with standard orientation and inner product,
+the operator $d_0$ corresponds to the gradient and $d_{n-1}$ corresponds to the divergence.
+
+Apart from the exterior derivative,
+we will need another concept for the construction of a divergenceless vector field:
+the pullback.
+Recall that an linear map $f : V \to W$ between vector spaces
+induces a dual map (sometimes called transpose map)
+$f^* : W^* \to V^*$ between the dual spaces.
+Similarly, a function between tangent bundles of manifolds induces a dual map,
+and by functorality of the exterior algebra,
+this allows us to \emph{pull back} $k$-forms.
+Definitions of the concepts below
+can be found in chapter~1 of \parencite[p.~16]{warner1971}
+and section~15.4 of \parencite[p.~426]{szekeres2004}.
+
+\notation
+Let $M, N$ be manifolds and $f : M \to N$ a differentiable function.
+For every $p \in M$, $f$ induces a \emph{tangent map} in $p$,
+a linear map
+\[ f_*(p) : \Tp M \longto T_{\!f(p)} N \]
+The tangent map of $f$ is sometimes called the \emph{differential} of $f\!$,
+and in fact the differential $d\hspace{-1pt}g$ of a differentiable function $g : M \to \R$
+as introduced in notation~\ref{not:differential} is the tangent map $g_*$
+when $\Tp\R$ is identified with $\R$ for every $p \in \R$.
+
+\definition
+Let $M, N$ be manifolds and $f : M \to N$ a differentiable function.
+By theorem~\ref{thm:exterior-algebra-functor},
+the dual maps of the tangent maps induce a map
+\[ f^* : \Omega N \longto \Omega M \]
+As shown in proposition~2.23\textsc{a} of \parencite[p.~68]{warner1971},
+$f^*$ is an algebra homomorphism.
+For $\omega \in \Omega^k N$,
+the element $f^*(\omega) \in \Omega^k M$ is called
+the \emph{pullback} of $\omega$ by $f$.
+
+\theorem
+The pullback commutes with the exterior derivative.
+In other words,
+for manifolds $M, N$ and a differentiable function $f: M \to N$
+it holds that for all $\omega \in \Omega N$ we have $f^*(d\omega) = d(f^*(\omega))$.
+
+\proof
+See proposition~2.23\textsc{b} of \parencite[p.~68]{warner1971}
+or theorem~16.2 of \parencite[p.~451]{szekeres2004}.
+
+Commutativity of the pullback and exterior derivative is what allows
+us to construct divergenceless vector fields.
+Suppose that we have $\xi \in \Omega^n M$
+on an $n$-dimensional manifold $M$.
+Then $\Omega^{n + 1} M = 0$,
+so $d\xi = 0$.
+If we now take a different manifold $N$ of larger dimension,
+then $\Omega^{n + 1} N \neq 0$.
+If we have a differentiable function $f : N \to M$,
+then $d(f^*(\xi)) = f^*(d\xi) = 0$;
+the $n$-form $f^*(\xi)$ is closed.
+We will apply this procedure to the Hopf map and the stereographic projection,
+but first we have to verify some technicalities.
+First of all, we need a nowhere-vanishing two-form on $S^2\!$.
+We have not equipped $S^2$ with a pseudo-Riemannian structure,
+so we cannot apply theorem~\ref{thm:unique-volume-form} here.
+While we could embed the tangent spaces of $S^2$ in $\R^3$
+and restrict the Euclidean inner product of $\R^3$ to the tangent spaces,
+we will take a different route that has the same result.
+There is one preferred choice of two-form:
+because $S^2$ is invariant under rotation,
+we require the two-form to be $\SOR$-invariant.
+
+\lemma[lem:invariant-two-form]
+There exists a nowhere-vanishing two-form $\omega_0 \in \Omega^2 S^2$
+which is invariant under $\SOR$.
+
+\proof
+Define in $\R^3$ the two-form
+\[ \omega = x_1 \cdot dx_2 \wedge dx_3
+          \ + \ x_2 \cdot dx_3 \wedge dx_1
+          \ + \ x_3 \cdot dx_1 \wedge dx_2 \]
+Then define $\omega_0 = i^*(\omega)$,
+where $i : S^2 \inj \R^3$ is the inclusion.
+Under the isomorphism $\Omega^2 \R^3 \to \Upsilon \R^3\!$
+from theorem~\ref{thm:vector-field-isom-codim-form},
+$\omega$ corresponds to a vector field pointing radially outward,
+the identity function on $\R^3$ in fact.
+This field is $\SOR$-invariant.
+Because elements of $\SOR$ are orientation-preserving
+and orthogonal, it follows that $\omega$ and thereby $\omega_0$
+are invariant under $\SOR$.
+Furthermore, because $\omega_0$ does not vanish on e.g.
+$(0, 1, 0)$,
+it follows from invariance that it vanishes nowhere.
+\qed
+
+\lemma
+The inverse stereographic projection $\pi^{-1} : \R^3 \to S^3$
+and the Hopf map $h : S^3 \surj S^2$ are differentiable maps.
+
+\proof
+As we can see in equation~\ref{eqn:inverse-stereographic-projection} and \ref{eqn:hopf-coordinates},
+$\pi^{-1}$ is given by a rational function of polynomials on every coordinate
+(with a denominator that is positive everywhere),
+and $h$ is given by a polynomial expression on every coordinate.
+It follows that both maps are differentiable.
+\qed
+
+\example
+Consider $\R^3\!$, $S^3\!$, and $S^2\!$.
+We have the maps $h : S^3 \to S^2$ and $\phi = h \circ \pi^{-1} : \R^3 \to S^2\!$.
+To a differentiable function $f : S^2 \to \R$
+we can assign the two-form $\xi = f \cdot \omega_0$
+with $\omega_0$ as in lemma~\ref{lem:invariant-two-form}.
+Because $S^2$ has dimension two, we have $d\xi = 0$.
+By pulling back $\xi$ we obtain the closed two-forms
+\[ \beta = \phi^*(\xi) \in \Omega^2 \R^3, \quad d\beta = 0
+   \qquad\textup{and}\qquad
+   \gamma = h^*(\xi) \in \Omega^2 S^3, \quad d\gamma = 0 \]
+As we saw before,
+we can identify two-forms on $\R^3$ with vector fields,
+and the exterior derivative then corresponds to taking the divergence.
+We can identify $\beta \in \Omega^2 \R^3$ with $B : \R^3 \to \R^3\!$.
+Closedness, $d\beta = 0$, then translates to $\nabla \cdot B = 0$.
+Hence, we have constructed a divergenceless vector field on $\R^3$
+from a differentiable function $f : S^2 \to \R$.
+The function $\phi$ is constant on field lines of $B$.
+
+We can even say more about $\beta$ and $\gamma$.
+By \poincares lemma (theorem~\ref{thm:poincare}),
+there exists an $\alpha \in \Omega^1 \R^3$ such that $d\alpha = \beta$.
+Translated to vector fields,
+this means that there exists a vector field $A : \R^3 \to \R^3$
+such that $\nabla \times A = B$.
+In physics, this field is called a \emph{vector potential},
+and it will play an important role in chapter~\ref{chap:magnetohydrodynamics}.
+Moreover, by proposition~\ref{prop:poincare-s3} \linebreak $\alpha$ is the pullback
+of a one-form on $S^3\!$,
+an analogue of a vector potential on the three-sphere.
+
+For an explicit computation of the field induced on $\R^3$
+by $\omega_0 \in \Omega^2 S^2\!$,
+recall that we have a sequence of differentiable maps:
+\begin{center}
+\begin{tikzcd}
+\R^3 \ar[r, hook, "\pi^{-1}"] &
+S^3  \ar[r, two heads, "h"] &
+S^2  \ar[r, hook, "i"] &
+\R^3
+\end{tikzcd}
+\end{center}
+We define the function $\phi: \R^3 \to \R^3$ to be the composition of these maps.
+As the composition of differentiable functions
+$\phi$ is differentiable,
+so we can compute the pullback by $\phi$ of $\omega$
+as defined in lemma~\ref{lem:invariant-two-form}.
+This will be the pullback of $\omega_0$ by $h \circ \pi^{-1}$.
+Using equation~\ref{eqn:inverse-stereographic-projection}
+and \ref{eqn:hopf-coordinates}
+we can express $\phi$ as
+\begin{equationref}
+    \phi(x_1, x_2, x_3)
+% = h\left( \frac{1}{\nsq{x} + 1} \left(\nsq{x} - 1, \, 2x_1, 2x_2, 2x_3 \right) \right)
+% = \frac{1}{(\nsq{x} + 1)^2}
+%   \begin{pmatrix}
+%   (\nsq{x} - 1)^2 + 4x_1^2 - 4x_2^2 - 4x_3^2 \\
+%   2(4x_1 x_2 - 2(\nsq{x} - 1)x_3) \\
+%   2(2(\nsq{x} - 1)x_2 + 4x_1 x_3)
+%   \end{pmatrix}
+  = \frac{4}{(\nsq{x} + 1)^2}
+    \begin{pmatrix}
+      \smallfrac{1}{4}(\nsq{x} - 1)^2 - \nsq{x} + 2x_1^2 \\
+      2x_1 x_2 - (\nsq{x} - 1)x_3 \\
+      2x_1 x_3 + (\nsq{x} - 1)x_2
+    \end{pmatrix}
+\end{equationref}
+Here $\nsq{x} = x_1^2 + x_2^2 + x_3^2$.
+Before we compute the pullback of $\omega$ by $\phi$,
+we will compute the pullback by a general differentiable function $f : \R^3 \to \R^3$
+with component functions $f_1, f_2, f_3$.
+Observe that for $i = 1, 2, 3$,
+\[    f^*(dx_i)
+\ = \ d(f^*(x_i))
+\ = \ d(x_i \circ f)
+\ = \ \df_i \]
+The pullback of $\omega$ by $f$ is given by
+\begin{equationref}
+ f^*(\omega)
+ = \sum_{(i,j,k)} \left(
+   \sum_{(p,q,r)} f_p \cdot \left(
+       \frac{\partial f_q}{\partial x_j} \frac{\partial f_r}{\partial x_k}
+     - \frac{\partial f_q}{\partial x_k} \frac{\partial f_r}{\partial x_j}
+   \right) \right) dx_j \wedge dx_k
+\end{equationref}
+where $(i, j, k)$ and $(p, q, r)$ run over $\set{(1, 2, 3), (2, 3, 1), (3, 1, 2)}$.
+Via the isomorphisms in the previous section we
+obtain a vector field, its $i$-th coordinate given by the term $dx_j \wedge dx_k$.
+For $f = \phi$,
+we find the field
+\begin{equationref}
+\label{eqn:hopf-field}
+ H(x_1, x_2, x_3)
+ = \frac{16}{(\nsq{x} + 1)^3}
+   \begin{pmatrix}
+   1 + x_1^2 - x_2^2 - x_3^2 \\
+   2(x_1 x_2 + x_3) \\
+   2(x_1 x_3 - x_2)
+   \end{pmatrix}
+\end{equationref}
+This field coincides with the field in \parencite[p.~31]{dalhuisen2014}
+exept for a factor $-1$ and a point reflection $x \mapsto -x$.
+(Such a point reflection is called a \emph{parity transformation} in physics.)
+This is because the projection point of the stereographic projection differs.
+
+Now that we have an expression for the field,
+consider a general two-form $\xi \in \Omega^2 S^2\!$.
+It can be written as $f \cdot \omega_0$
+for some differentiable function $f : S^2 \to \R$,
+so for the pullback it holds that
+\[ \phi^*(\xi)
+ \ = \ \phi^*(f \cdot \omega_0)
+ \ = \ (f \circ \phi) \cdot \phi^*(\omega_0) \]
+Consequently,
+the pullback of $\xi$ will correspond to the product
+of the vector field $H$ with the real-valued function $f \circ \phi$.
+
+We can summarise the main result of this section with the following statement:
+
+\begin{quote}
+Given a differentiable function $\phi : \R^3 \to M$,
+where $M$ is an oriented pseudo-Riemannian manifold of dimension two,
+and a differentiable function $f : M \to \R$,
+we can construct a divergenceless vector field on $\R^3\!$.
+The function $\phi$ determines the structure of the field;
+$\phi$ is constant along field lines.
+The function $f$ determines the magnitude of the field;
+multiplying $f$ by a differentiable function $g : M \to \R$
+will change the field magnitude by a factor $g \circ \phi$.
+\end{quote}
+
+The mathematics in this chapter do admit a physical interpretation,
+but rather than giving a brief physical summary here,
+we will defer the physics to the next chapter,
+section~\ref{sec:constructing-a-magnetic-field}.
+
+\section{The Hopf invariant}
+\label{sec:the-hopf-invariant}
+We have seen before that the fibres of the Hopf map are linked,
+and that we can construct a vector field with linked field lines.
+In order to quantify the amount of linking in a vector field,
+we will define the \emph{Hopf invariant},
+a quantity that is invariant under orientation-preserving diffeomorphisms.
+Although its definition is purely algebraic,
+it has an important physical interpretation as the \emph{helicity} of a field.
+This connection and the relation to fluid flow will be explored briefly.
+In section~\ref{sec:linked-and-knotted-fields} we will make the connection to magnetohydrodynamics.
+
+The definition of the Hopf invariant given below follows \parencite{arnold1974},
+because it most closely aligns with its applications in chapter~\ref{chap:magnetohydrodynamics}.
+It differs from the more common definition of the Hopf invariant
+(given in \parencite[p.~228]{bott1982}, for example),
+in the sense that we define the Hopf invariant as a property of a two-form,
+not as a property of a map between spheres.
+Nevertheless, both definitions involve the same integral.
+
+\definition[def:hopf-invariant]
+Let $M$ be an oriented three-dimensional manifold.
+Let $\xi \in \Omega^2 M$ be a compactly supported two-form that is exact,
+i.e. there exists an $\alpha \in \Omega^1 M$ such that $d\alpha = \xi$.
+Then the \emph{Hopf invariant} of $\xi$ is defined to be
+\[ H(\xi) = \int_M \alpha \wedge d\alpha \]
+To show that this definition is independent of the choice of $\alpha$,
+suppose that $\beta \in \Omega^1 M$ also satisfies $d\beta = \xi$.
+Then we have
+\begin{align*}
+      \int_M \alpha \wedge d\alpha \ - \int_M \beta \wedge d\beta
+%  &= \int_M (\alpha \wedge d\alpha) - (\beta \wedge d\alpha)
+   &= \int_M (\alpha - \beta) \wedge d\alpha
+\intertext{Because $d((\alpha - \beta) \wedge \alpha)
+           = d(\alpha - \beta) \wedge \alpha - (\alpha - \beta) \wedge d\alpha$, we find}
+   &= \int_M d(\alpha - \beta) \wedge \alpha - d((\alpha - \beta) \wedge \alpha)
+\intertext{The first term vanishes because $d(\alpha - \beta) = \xi - \xi = 0$,
+so we are left with}
+   &= \int_M d((\beta - \alpha) \wedge \alpha)
+\end{align*}
+Using Stokes’ theorem,
+we can write this as an integral over $\partial M$
+which vanishes because $\partial M = \emptyset$.
+(See also \parencite[p.~148]{warner1971}.)
+Therefore, the Hopf invariant is well-defined.
+
+The requirement that $\xi$ has compact support
+prevents us from defining the Hopf invariant for a nowhere-vanishing two-form on $\R^3\!$.
+If the two-form happens to be the pullback of a two-form on $S^3\!$
+as discussed in the previous section,
+we can compute the Hopf invariant on $S^3$ instead.
+For subsets of a manifold $M$ we can also define a Hopf invariant,
+but the argument that $\partial M = \emptyset$ cannot be used anymore
+to ensure that such an invariant is well-defined.
+To resolve this issue,
+we must require that the subset is well-behaved with respect to $\xi$.
+
+\definition
+Let $M$ be a manifold of dimension $n$ and $D \subseteq M$.
+$D$ is called a \emph{regular domain} if for every $p \in M$
+one of the following conditions holds:
+\begin{itemize}
+\item There exists an open neigbourhood of $p$ contained in $M \setminus D$.
+\item There exists an open neighbourhood of $p$ contained in $D$.
+\item There exists a centered chart $(U, \phi)$ about $p$
+      such that $\phi(U \cap D) = \phi(U) \cap H^n$
+      with $H^n = \set{x \in \R^n \mid x_0 \geq 0 }$.
+\end{itemize}
+The domain $D$ is said to have a \emph{smooth boundary} $\partial D$.
+Regular domains are subsets of manifolds that we can integrate $n$-forms over
+and where we can apply Stokes’ theorem.
+(See also \parencite[p.~145]{warner1971}.)
+
+\definition[def:compatible-subset]
+Let $M$ be a three-dimensional manifold.
+Let $U \subseteq M$ be open in $M$ with smooth boundary $\partial U$,
+such that its closure $\overline{U}$ in $M$ is compact.
+Denote by $i : \partial U \inj M$ the inclusion.
+Let $\xi \in \Omega^2 M$ be an exact two-form.
+$U$ is said to be \emph{compatible with $\xi$} if $i^*(\xi) = 0$.
+
+In $\R^3\!$, where $\xi$ can be identified with a vector field,
+this definition has a geometric interpretation:
+$U$ is compatible with $\xi$ if $\xi$ is tangent to $\partial U$.
+
+\definition[def:hopf-invariant-of-subset]
+Let $M$ be an oriented three-dimensional contractible manifold.
+Let $\xi \in \Omega^2 M$ be an exact two-form,
+i.e. there exists an $\alpha \in \Omega^1 M$ such that $d\alpha = \xi$.
+Let $U \subseteq M$ be open in $M$ with smooth boundary $\partial U$,
+such that its closure $\overline{U}$ in $M$ is compact,
+and such that $U$ is compatible with $\xi$.
+Then the \emph{Hopf invariant of $\xi$ restricted to $U$} is defined to be
+\vspace{-0.3em}
+\[ H(\xi\,|_U) = \int_U \alpha \wedge d\alpha \vspace{0.3em} \]
+Again, we have to show that this definition does not depend on the choice of $\alpha$.
+Suppose that $\beta \in \Omega^1 M$ satisfies $d\beta = \xi$,
+then $\alpha - \beta$ is closed.
+Because $M$ is contractible, it follows from \poincares lemma (theorem~\ref{thm:poincare})
+that $\beta$ can be written as $\alpha + \df$ for some $f \in \Omega^0 M$.
+Exploiting this, we find
+\begin{align*}
+   \int_U \alpha \wedge d\alpha \ - \int_U \beta \wedge d\beta
+   &= \int_U \df \wedge \xi
+\intertext{Because $d(f \cdot \xi) = \df \wedge \xi + f \cdot d\xi$ we can write this as}
+   &= \int_U d(f \cdot \xi) - f \cdot d \xi
+\intertext{The factor $d\xi$ vanishes because $d\xi = d^2 \alpha = 0$,
+so we may apply Stokes’ theorem}
+  &= \int_{\partial U} (f \circ i) \cdot i^*(\xi)
+\end{align*}
+Here $i : \partial U \inj M$ denotes the inclusion.
+Because $\xi$ is compatible with $U$,
+$i^*(\xi) = 0$,
+so the integral evaluates to zero.
+Therefore, the Hopf invariant restricted to $U$ is well-defined.
+
+\definition[def:orientation-preserving]
+Let $M$ be an oriented $n$-dimensional manifold
+with orientation $[\omega_0]$ for some nowhere-vanishing $\omega_0 \in \Omega^n M$.
+Then a diffeomorphism $f : M \to M$ is said to be \emph{orientation-preserving}
+if $[f^*(\omega_0)] = [\omega_0]$.
+This does not depend on the choice of $\omega_0$,
+for if $\omega_0 = g \cdot \omega_0'$
+for a differentiable function $g : M \to \R$ and $\omega_0' \in \Omega^n M$ nowhere-vanishing,
+then $f^*(\omega_0) = (g \circ f) \cdot f^*(\omega_0')$.
+Because $f$ is a diffeomorphism,
+$f^*(\omega_0)$ will be nowhere-vanishing,
+so $[f^*(\omega_0)]$ is well-defined.
+
+\proposition[prop:integral-is-invariant]
+Let $M$ be an oriented $n$-dimensional manifold
+and let $f : M \to M$ be an orientation-preserving diffeomorphism.
+Suppose $U \subseteq M$ has a smooth boundary.
+Let $\xi \in \Omega^n M$ be such that $\Supp(\xi) \cap \overline{f(U)}$ is compact.
+Then it holds that
+\[ \int_U \, f^*(\xi) = \int_{f(U)} \xi \]
+
+\vspace{-\parskip}
+\proof
+See \parencite[p.~148]{warner1971}.
+
+From this proposition it follows that the Hopf invariant is actually an invariant:
+it is invariant under orientation-preserving diffeomorphisms of $M$.
+
+\corollary[cor:hopf-invariant-is-invariant]
+Let $M$ and $\xi$ be as in definition~\ref{def:hopf-invariant},
+and let $f : M \to M$ be an orientation-preserving diffeomorphism.
+Then it holds that
+\[ H(\xi) = H(f^*(\xi)) \]
+
+\corollary[cor:hopf-invariant-of-subset-is-invariant]
+Let $M$, $\xi$ and $U$ be as in definition~\ref{def:hopf-invariant-of-subset}.
+Let $f : M \to M$ be a orientation-preserving diffeomorphism.
+Then it holds that
+\[ H(f^*(\xi)|_U) = H(\xi\,|_{f(U)}) \]
+
+\vspace{-\parskip}
+So far, we have shown that the Hopf invariant is indeed an invariant,
+but we have yet to show how it relates to linking.
+When $\xi$ corresponds to a vector field,
+we can give a heuristic argument involving involving flux tubes,
+which we will do in section~\ref{sec:linked-and-knotted-fields}.
+A more formal relation between the Hopf invariant and linking number
+is established in \parencite{arnold1974},
+and the correspondence with several alternative definitions of linking number
+is given in \parencite[pp.~229–234]{bott1982}.
+
+\subsection*{Physical interpretation}
+The formalism in this section admits an almost 1\,:\,1 translation
+to a physical situation.
+The exact two-form will be replaced by the divergenceless vector field $\Bf$,
+and \emph{helicity} will play the role of the Hopf invariant.
+
+In definition~\ref{def:hopf-invariant} and \ref{def:hopf-invariant-of-subset}
+we defined the Hopf invariant of an exact two-form $\xi$.
+Exactness means that there exists a one-form $\alpha$ such that $d\alpha = \xi$,
+and because $d^2 = 0$ this implies that $d\xi = 0$.
+As we saw in example~\ref{ex:r3-manifold} and \ref{ex:grad-curl-div},
+in $\R^3$ we can identify both one-forms and two-forms with vector fields,
+and the $d$ operator corresponds to the curl and divergence.
+The two-form $\xi$ would correspond to a vector field $\Bf$ with $\nabla \cdot \Bf = 0$,
+and $\alpha$ would correspond to a vector potential $\Af$ with $\nabla \times \Af = \Bf$.
+In this case the wedge product corresponds to the dot product,
+and the Hopf invariant of $\Bf$ restricted to a volume $U \subseteq \R^3$
+can be expressed as the \emph{helicity} $H$ of $\Bf$ in $U$:
+\[ H \, = \iiint_{\!U} \Af \cdot \Bf \ dx^3 \]
+The choice of vector potential is not unique.
+We may apply a gauge transformation $\Af \to \Af + \nabla \cdot f$
+for some differentiable function $f : \R^3 \to \R$,
+and this will satisfy $\nabla \times {(\Af + \nabla \cdot f)} = \Bf$ as well.
+It is not obvious that helicity is gauge invariant,
+and in fact it only is if $U$ satisfies some requirements.
+The statement that $U$ is compatible with $\xi$
+as defined in definition~\ref{def:compatible-subset},
+corresponds in $\R^3$ with the statment that $\Bf$ is tangent to the boundary of $U$ everywhere.
+We may take $U$ to be a bounded \emph{flux tube},
+a volume enclosed by a surface of field lines of $\Bf$,
+such that no field line penetrates the boundary of $U$.
+The check of well-definedness of the Hopf invariant in definition~\ref{def:hopf-invariant-of-subset}
+can be translated directly into a proof of the gauge invariance of the helicity.
+In the context of electrodynamics,
+the application of Stokes’ theorem in the proof
+is often called \emph{Gauss’ law}.
+
+In corollary~\ref{cor:hopf-invariant-of-subset-is-invariant}
+we have shown that the Hopf invariant
+is invariant under an orientation-preserving diffeomorphism.
+An orientation-preserving diffeomorphism of $\R^3$
+is a differentiable function $f : \R^3 \to \R^3$ that does not invert parity.
+An example of such a function
+can be constructed from a fluid flow.
+If the position of a test particle as a function of time is given by $\rf(t)$,
+then the map $\rf(0) \mapsto \rf(t)$ is an orientation-preserving function.
+If the field lines of $\Bf$ move along with this flow,
+then corollary~\ref{cor:hopf-invariant-of-subset-is-invariant}
+tells us that the helicity of $\Bf$ in a volume $U$
+does not change as $U$ moves along with the flow.

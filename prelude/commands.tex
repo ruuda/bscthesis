@@ -1,0 +1,115 @@
+% !TEX root = ../thesis.tex
+
+% Create a 'python' environment that executes verbatim what is
+% inside the environment as python code.
+\usepackage{fancyvrb}
+\newenvironment{python}
+  {\VerbatimOut{runpython.tmp}}
+  {\endVerbatimOut\immediate\write18{python runpython.tmp}}
+
+% A macro that expands to the Git hash of the current branch.
+% Upon compilation we write it to `version.tmp` (if shell escape is enabled),
+% then we create the macro \gitversion that expands to the contents of this file.
+% Put this info in the pdf metadata, along with title and author.
+\makeatletter
+\immediate\write18{git rev-parse HEAD > version.tmp}
+\newread\@gitversionread
+\openin\@gitversionread = version.tmp
+\read\@gitversionread to \gitversion
+\newcommand*{\makepdfmetadata}{
+  \hypersetup{pdfinfo = { Title = \@title, Author = \@author, Version = \gitversion}}
+}
+\makeatother
+
+% Add counters for theorems and definitions (for anything referenced, basically).
+% Make it reset per chapter.
+\newcounter{theorem}[chapter]
+\renewcommand*{\thetheorem}{\thechapter.\arabic{theorem}}
+
+% Have a generic command for theorem, lemma, etc.
+% Optionally with a label, and after that an optional name.
+\DeclareDocumentCommand{\theoremlike}{m g o}{\refstepcounter{theorem}\IfNoValueF{#3}{\label{#3}}\textbbf{#1 \thetheorem\IfNoValueF{#2}{ ∙ #2}} ∙\xspace}
+
+\newcommand*{\lemma}{\theoremlike{Lemma}}
+\newcommand*{\proposition}{\theoremlike{Proposition}}
+\newcommand*{\theorem}{\theoremlike{Theorem}}
+\newcommand*{\corollary}{\theoremlike{Corollary}}
+\newcommand*{\definition}{\theoremlike{Definition}}
+\newcommand*{\example}{\theoremlike{Example}}
+\newcommand*{\notation}{\theoremlike{Notation}}
+\newcommand*{\proof}{\emph{Proof}:\xspace}
+
+% Define an equation environment `equationref` that numbers equations with the same counter as theorems.
+\newenvironment*{equationref}{\refstepcounter{theorem}\renewcommand*{\theequation}{\thetheorem}\equation}{\endequation}
+
+% Named sets and operators
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Homeo}{Homeo}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\Span}{Span}
+\DeclareMathOperator{\SU}{SU}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Tr}{Tr}
+
+% Sets
+\providecommand*{\C}{}
+\providecommand*{\H}{}
+\providecommand*{\P}{}
+\renewcommand*{\C}{\mathbb{C}}
+\renewcommand*{\H}{\mathbb{H}}
+\renewcommand*{\L}[1]{{\textstyle\bigwedge\nolimits^{\!{#1}}}}
+\renewcommand*{\M}{\mathcal{M}}
+\renewcommand*{\P}{\mathbb{P}}
+\newcommand*{\CZ}{\C^2_\circ}
+\newcommand*{\Cinf}{\mathcal{C}^{\hspace{1pt}\infty}}
+\newcommand*{\GLC}{\GL_2(\C)}
+\newcommand*{\GLR}{\GL_4(\R)}
+\newcommand*{\Lk}{\L{k}}
+\newcommand*{\Ll}{\L{l}}
+\newcommand*{\Ln}{\L{n}}
+\newcommand*{\N}{\mathbb{N}}
+\newcommand*{\opp}{\textup{opp}}
+\newcommand*{\PC}{\P^{\hspace{0.8pt}1}\hspace{-0.3pt}(\hspace{-0.7pt}\C\hspace{-0.3pt})}
+\newcommand*{\R}{\mathbb{R}}
+\newcommand*{\Rpos}{\R_{>0}}
+\newcommand*{\SC}{S^3_\C}
+\newcommand*{\SOR}{\SO_3(\R)}
+\newcommand*{\SUC}{\SU_2} % The C is implicit in unitary.
+\newcommand*{\Tp}{T_{\!p}}
+\newcommand*{\Tps}{T^*_{\hspace{-0.1em}p}\!}
+\newcommand*{\Tpss}{T^{**}_{\hspace{-0.1em}p}\!}
+\newcommand*{\Ts}{T^*\!}
+\newcommand*{\Z}{\mathbb{Z}}
+
+% Arrows
+\newcommand*{\inj}{\hookrightarrow}
+\newcommand*{\longmapsfrom}{\leftarrow\!\rightfootline}
+\newcommand*{\longto}{\longrightarrow}
+\newcommand*{\surj}{\twoheadrightarrow}
+
+% Boldface symbols, with ‘f’ suffix (for ‘field’)
+\newcommand*{\Af}{\mathbf{A}}
+\newcommand*{\Bf}{\mathbf{B}}
+\newcommand*{\Ef}{\mathbf{E}}
+\newcommand*{\jf}{\mathbf{j}}
+\newcommand*{\nf}{\mathbf{\hat{n}}}
+\newcommand*{\rf}{\mathbf{r}}
+\newcommand*{\vf}{\mathbf{v}}
+
+% Miscellaneous shorthands
+\newcommand*{\set}[1]{\{ #1 \}}
+\newcommand*{\inp}[2]{\langle #1, #2 \rangle}
+\newcommand*{\nsq}[1]{\|#1\|^2}
+\newcommand*{\eqdef}{\overset{\textup{def}}{=}}
+\newcommand*{\qed}{\hfill\ensuremath{\square}}
+\newcommand*{\mhd}{\textsc{\addfontfeature{LetterSpace = 5}mhd}\xspace}
+\newcommand*{\modsim}{{/\!\sim}}
+\newcommand*{\ppart}{\partial/\partial}
+\newcommand*{\df}{d\!f} % Kern manually
+
+% Lengths used in various pictures
+\newlength{\kr}

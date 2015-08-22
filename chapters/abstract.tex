@@ -1,0 +1,51 @@
+% !TEX root = ../thesis.tex
+
+\null\vspace{5em}
+
+\begin{center}
+\textsc{\addfontfeature{LetterSpace = 10}abstract}
+\end{center}
+
+\begin{quote}
+In this thesis we will investigate the Hopf map,
+a differentiable map from the three-sphere to the two-sphere.
+Its fibres, the inverse images of points on the sphere,
+are circles that are all linked with every other fibre.
+Based on the Hopf map we will construct divergenceless
+vector fields that have a physical interpretation as
+the magnetic field in the theory of magnetohydrodynamics.
+The concept of linking relates to helicity in this theory,
+a quantity that will be used to exhibit self-stable configurations of plasma.
+\end{quote}
+
+\clearpage
+
+\null\vspace{5em}
+\begin{center}
+\begin{python}
+from hopf import *
+from math import pi
+inner_points = [[-pi * 0.1, t * 2.0 * pi] for t in interval_open(8)]
+outer_points = [[ pi * 0.1, t * 2.0 * pi] for t in interval_open(16)]
+inner_fibres = [[projected_fibre_from_spherical(x), 'inner', 'back'] for x in inner_points]
+outer_fibres = [[projected_fibre_from_spherical(x), 'outer', 'back'] for x in outer_points]
+write_raw_draw_2d('generated/hatcher.tikz', 0.07, inner_fibres + outer_fibres)
+\end{python}
+\tikzexternalenable
+\tikzsetnextfilename{hatcher}
+\begin{tikzpicture}[scale = 2]
+\definecolor{outerblue}{hsb}{0.6, 0.6, 0.5}
+\definecolor{innerpurple}{hsb}{0.92, 0.8, 0.6}
+\tikzstyle{back} = [line width = 4pt, white]
+\tikzstyle{outer} = [outerblue, line width = 1pt]
+\tikzstyle{inner} = [innerpurple, line width = 1pt]
+\input{generated/hatcher.tikz}
+\end{tikzpicture}
+\end{center}
+
+\vfill
+\hfill\parbox{0.7\textwidth}{\raggedleft
+\emph{Fibres of the Hopf map,
+visualised through stereographic projection.
+Inspired by the cover of \parencite{hatcher2002}.}}
+\vspace{4.5em}

@@ -1,0 +1,514 @@
+% !TEX root = ../thesis.tex
+
+\chapter{Magnetohydrodynamics}
+\label{chap:magnetohydrodynamics}
+Magnetohydrodynamics (henceforth abbreviated \mhd\!\!)
+is a combination of the theories of fluid dynamics,
+governed by the Navier-Stokes equations,
+and the theory of electrodynamics,
+governed by Maxwell’s equations.
+The field of \mhd studies electrically conducting fluids,
+the prime example of which are plasmas.
+
+Plasma physics has promising applications such as nuclear fusion,
+a source of energy that unlike nuclear fission does not produce radioactive byproducts.
+A big problem here is the issue of \emph{plasma confinement}:
+for controlled fusion, the plasma must be contained in a reactor vessel.
+However, the temperature required for nuclear fusion is so high (above 150 million \textsc{°c}),
+that no known material is able to withstand this amount of heat.
+The plasma will melt the walls of the reactor if it makes contact with them.
+To avoid this, present-day reactors employ intense magnetic fields to confine the plasma.
+
+Alternatives have been proposed,
+where the plasma has an inherent stability due to the structure of its magnetic field.
+In order to understand this,
+we will first give a bit of background about \mhd.
+As we will see, the magnetic field is a key ingredient of this theory,
+but the electric field plays a secondary role at best.
+Next, we will show how knots and links can be used to provide stability.
+We formalise this concept with the idea of \emph{helicity}.
+Finally, we construct several magnetic fields with high helicity.
+
+\section{Ideal magnetohydrodynamics}
+\label{sec:ideal-mhd}
+Ideal \mhd describes the dynamics of a conducting fluid with no net charge.
+The quantities that play a role here are:
+\begin{itemize}
+\setlength{\itemsep}{-0.5em}
+\item The mass density $\rho$
+\item The fluid velocity $\vf$ \pagebreak
+\item The pressure $p$
+\item The magnetic field $\Bf$
+\end{itemize}
+Vector quantities have been set in boldface.
+Note that there is no electric field here;
+in \mhd the electric field is fully determined by \kern0.1pt $\vf$ and $\Bf$.
+In ideal \mhd, the electric resistivity of the fluid is assumed to be zero.
+That is, the fluid is a perfect conductor.
+This gives us a first hint about why the electric field may be neglected:
+in electrostatics, the electric field inside a perfect conductor is zero.
+However, \mhd is not a static theory.
+The reason that the electric field is secondary nonetheless,
+is that the magnitude of the electric field is of the order $|\vf||\Bf|$,
+as will be shown below.
+Whereas the time derivative of the electric field does play a role in electromagnetic waves,
+where it has a magnitude of the order $c\,|\Bf|$,
+its contribution is negligible in \mhd when the velocity $\vf$ is nonrelativistic.
+
+The evolution of a system in ideal \mhd,
+ignoring the effects of gravity,
+is given by the following equations (see also \parencite[p.~133]{goedbloed2004}):
+\begingroup
+\addtolength{\jot}{1em}
+\begin{align}
+\label{eqn:continuity-equation} \frac{\partial \rho}{\partial t} &= -\nabla \cdot (\rho \vf) \\
+\label{eqn:cauchy-momentum}     \rho \left( \frac{\partial}{\partial t} + \vf \cdot \nabla \right) \vf &= \frac{1}{\mu_0}(\nabla \times \Bf) \times \Bf -\nabla p \\
+\label{eqn:internal-energy}     \frac{\partial p}{\partial t} &= - \vf \cdot \nabla p - \gamma p \nabla \cdot \vf \\
+\label{eqn:faraday}             \frac{\partial \Bf}{\partial t} &= \nabla \times {(\vf \times \Bf)} \\
+\label{eqn:no-monopoles}        \nabla \cdot \Bf &= 0
+\end{align}
+\endgroup
+Equation~\ref{eqn:continuity-equation}, the \emph{continuity equation} embodies conservation of mass:
+if the mass density changes, the fluid must have flowed somewhere else.
+Equation~\ref{eqn:cauchy-momentum}, the \emph{momentum equation}, describes the forces acting on the fluid.
+The left-hand side represents the change in momentum,
+the right hand side has a Lorentz force term (\hspace{1pt}$\jf \times \Bf$,
+where $\jf = \mu_0^{-1} \nabla \times \Bf$ with $\mu_0$ the magnetic permeability of the vacuum)
+and a pressure term.
+Equation~\ref{eqn:internal-energy} concerns the \emph{internal energy} of the fluid.
+A flow in the direction of the pressure gradient will reinforce the gradient (the first term),
+and if there is a net influx of fluid into a volume,
+pressure will build up in this volume (the second term).
+Here the constant $\gamma$ is the \emph{adiabatic index},
+the ratio of the heat capacity at constant pressure and the heat capacity at constant volume.
+Equation~\ref{eqn:faraday} represents Faraday’s law, $\partial \Bf / \partial t = - \nabla \times \Ef$.
+The expression $\Ef = - \vf \times \Bf$ is Ohm’s law for a perfect conductor.
+Because of the infinite conductance of the fluid,
+any electric field will vanish in the reference frame of a test particle moving with the fluid.
+In the lab frame, we then find an electric field $-\vf \times \Bf$.
+Finally, the magnetic field has no charges (equation~\ref{eqn:no-monopoles}).
+
+\section{Linked and knotted fields}
+\label{sec:linked-and-knotted-fields}
+Linking and knotting provide a promising way of creating stable plasmas,
+because in ideal \mhd they are preserved.
+This imposes constraints on the evolution of the system.
+Consequently, plasmas with linked or knotted field lines
+might not be able to relax to a state of global minimum energy.
+In this manner, topological properties of the field can provide stability.
+
+In ideal \mhd, field lines of the magnetic field are said to be \emph{frozen in} in the fluid.
+This idea, which is encoded in equation~\ref{eqn:faraday},
+was hinted at in \parencite{alfven1942} and is sometimes called \emph{Alfvén’s theorem}.
+It states that the magnetic flux through a surface does not change
+as the surface moves along with the fluid flow.
+From this principle it can be derived that points connected by a magnetic field line
+will remain connected by the same field line as they move with the fluid.
+In particular, field lines cannot pass through one another.
+Linked field lines will stay linked throughout the evolution of the system.
+A thorough derivation of these effects can be found in \parencite{stern1966}.
+
+To study the dynamics of a conducting fluid,
+consider a circular flux tube (a surface of magnetic field lines)
+with high flux inside the tube, and zero flux outside.
+We assume that $V \approx 2\pi r \itTheta$
+is a good approximation of the volume $V$ of this tube,
+where $2\pi r$ is the length of the tube,
+and $\itTheta$ the surface area of its cross section.
+Recall that the magnetic energy is given by
+\[ E_B = \tfrac{1}{2} \iiint \!\!|\Bf|^2 \, dx^3 \]
+If we assume a magnetic field of constant magnitude $B$ inside the tube,
+then the flux $\itPhi$ through a cross section perpendicular to the field
+is simply $B\itTheta$,
+and conversely $B = \itPhi / \itTheta$.
+We find that
+\vspace{-0.5\parskip}
+\[ E_B \approx \pi r \itTheta B^2 = \pi r \itTheta^{-1} \itPhi^2 \vspace{0.2\parskip} \]
+By the frozen-in principle,
+the flux $\itPhi$ through a cross section of the tube is constant in time.
+Scaling the area $\itTheta$ by a factor $a$
+while keeping $\itPhi$ constant,
+will change the energy by a factor $a^{-1}$.
+Thickening the tube will therefore decrease its magnetic energy.
+On the other hand, scaling the length of the tube by a factor $b$
+while keeping $\itPhi$ constant
+will change the energy by a factor $b$.
+Contracting the tube will decrease its magnetic energy.
+From this we can conclude that an unconstrained flux tube
+will contract and thicken as it relaxes.
+
+The single flux tube helps us understand why linking is important for stability.
+\marginfigure{
+\tikzexternalenable
+\tikzsetnextfilename{collapsing-flux-tubes}
+\begin{center}
+\hspace{-1em}
+\begin{tikzpicture}
+\newcommand*{\trefoil}[4]{
+\begin{scope}
+\tikzstyle{back} = [line width = #4, black]
+\tikzstyle{knot} = [line width = #3, white]
+\setlength{\kr}{#2}
+\coordinate (A) at ($ #1 + ( 90 : 0.7\kr)$);
+\coordinate (B) at ($ #1 + (210 : 0.7\kr)$);
+\coordinate (C) at ($ #1 + (330 : 0.7\kr)$);
+\coordinate (Z) at ($(B) !.5! (C) + (90 : \kr)$);
+\draw[back] ($(C) + (330 : \kr)$) arc (-30 :  90 : \kr) -- (Z);
+\draw[knot] ($(C) + (330 : \kr)$) arc (-30 :  90 : \kr) -- (Z);
+\draw[back] ($(B) + (210 : \kr)$) arc (210 : 330 : \kr) --
+            ($(A) + (330 : \kr)$) arc (-30 :  90 : \kr);
+\draw[knot] ($(B) + (210 : \kr)$) arc (210 : 330 : \kr) --
+            ($(A) + (330 : \kr)$) arc (-30 :  90 : \kr);
+\draw[back] ($(A) + ( 88 : \kr)$) arc ( 88 : 210 : \kr) --
+            ($(C) + (210 : \kr)$) arc (210 : 332 : \kr);
+\draw[knot] ($(A) + ( 86 : \kr)$) arc ( 86 : 210 : \kr) --
+            ($(C) + (210 : \kr)$) arc (210 : 334 : \kr);
+\draw[back] (Z) + (0.1pt, 0) -- ($(B) + ( 90 : \kr)$) arc ( 90 : 212 : \kr);
+\draw[knot] (Z) + (0.5pt, 0) -- ($(B) + ( 90 : \kr)$) arc ( 90 : 214 : \kr);
+\end{scope}}
+\trefoil{(0, 7.4em)}{2.0em}{3.0pt}{3.94pt}
+\trefoil{(0,   0em)}{1.5em}{4.5pt}{5.44pt}
+\trefoil{(0,-6.0em)}{1.0em}{10pt}{10.94pt}
+\end{tikzpicture}
+\end{center}
+\vspace{1em}
+\caption{Like linked flux tubes, a knotted flux tube cannot collapse onto itself.}}
+Suppose that instead of a single flux tube,
+we have two linked tubes.
+Because the field lines cannot pass through eachother,
+linking prevents the tubes from collapsing onto theirselves.
+In order for one tube to contract,
+the other tube must become thinner —
+increasing its flux density and thereby its magnetic energy.
+This is the way in which linking provides stability.
+A more rigorous discussion can be found in \parencite{moffatt1969} and \parencite{arnold1974}.
+The degree of stability that different types of links and knots provide
+is an area of active research,
+but this is beyond the scope of this thesis.
+
+To formalise the concept of linked field lines,
+we introduce a new quantity.
+
+\definition
+The \emph{magnetic helicity} of the magnetic field $\Bf = \nabla \times \Af$
+in a bounded volume $V\!$,\, such that $\Bf \cdot \nf = 0$ on the boundary of $V$
+where $\nf$ is a unit length normal vector of the boundary,
+is defined by
+\[ H_V \, = \!\iiint_{\!V} \Af \cdot \Bf \ dx^3 \]
+An example of such a volume $V$ is a \emph{flux tube},
+a volume formed by all of the field lines that intersect a certain surface.
+See also \parencite[p.~156]{goedbloed2004}.
+
+The definition above is a special case of the Hopf invariant
+as defined in definition~\ref{def:hopf-invariant-of-subset}.
+In section~\ref{sec:the-hopf-invariant} we proved the gauge invariance of $H_V$,
+a property that is not obvious from its definition.
+Furthermore, we showed that $H_V$ is invariant when
+both $V$ and the field lines of $\Bf$ are transformed
+by an orientation-preserving function.
+The flow of a fluid is an example of such a function,
+and because of the frozen-in principle,
+the magnetic field does move along with the fluid flow.
+It follows that in ideal \mhd
+\[ \frac{dH_V}{dt} = 0 \]
+The conservation of this quantity was discovered by \parencite{woltjer1958}.
+An alternative derivation can be found in \parencite[p.~157]{goedbloed2004}.
+Besides the helicity in $V$
+it is possible to define a global helicity by integrating over all space,
+but this requires restrictions on the field
+if the helicity is to be gauge invariant.
+
+To show the relation between linking and helicity,
+consider again the circular flux tube for which
+$V \approx 2 \pi r \itTheta$ is a good approximation of its volume.
+Here $\itTheta$ is the surface area of its cross section.
+Suppose that $\Bf$ inside the tube has constant magnitude $B$,
+and zero magnitude outside of the tube.
+Assume that this flux tube is linked once with an identical flux tube,
+rotated by 90 degrees with respect to the first one.
+We will denote the first tube by $T_1$ and the second tube by $T_2$.
+To compute the magnetic helicity inside $T_1$,
+we can factor the integral into a part along the field,
+and a part perpendicular to the field.
+Denote by $\sigma$ a field line inside $T_1$,
+and let $D$ be the disk of which $\sigma$ is the boundary.
+Let $dl$ be a line element along $\sigma$,
+and $dS$ a surface element of $D$.
+Note that $dl$ is parallel to $\Bf$.
+We find
+\[ H_{T_1}
+ = \iiint_{\!T_1} \! \Af \cdot \Bf \ dx^3
+\ \approx \ \itTheta B \oint_\sigma \! \Af \cdot dl
+ = \itTheta B \iint_{\!D} (\nabla \times \Af) \cdot dS
+ = \itTheta B \iint_{\!D} \! \Bf \cdot dS
+\ \approx \ (\itTheta B)^2 \]
+Here we used Stokes’ theorem to write the integral
+as an integral of $\Bf$ over $D$,
+which picks up a factor $\itTheta B$ from $T_2$ passing through it once.
+The field inside $T_1$ does not contribute,
+because $\Bf$ is perpendicular to the surface normal of $D$ there.
+Beware that although we are computing the helicity \emph{inside} $T_1$,
+it depends on $\Af$ and $\Bf$ \emph{outside} of $T_1$.
+If $T_2$ would be wound around $T_1$ twice instead of once,
+we would get an extra factor $2$.
+In general,
+when $T_2$ and $T_1$ are linked $n$ times,
+the helicity in $T_1$ (and by symmetry, in $T_2$)
+will be given by $n (\!\itTheta B)^2$.
+The factor $n$ is how topology enters into \mhd.
+
+When resistivity of the fluid is incorporated (non-ideal, resistive, or dissipative \mhd),
+the frozen-in principle no longer holds.
+Among others, an extra term must be added to equation~\ref{eqn:faraday}.
+\parencite[p.~162]{goedbloed2004}
+It follows that magnetic flux is no longer conserved,
+and field lines may break and recombine.
+The tools of topology break down here:
+continuity is at the heart of topology,
+so if field lines can break,
+we cannot meaningfully speak about linking.
+Fortunately, for suitable boundary conditions the helicity remains a well-defined quantity,
+and as argued in \parencite{taylor1974},
+helicity is \emph{approximately conserved},
+meaning that it changes at timescales much larger
+than typical timescales of fluid dynamics.
+The extent to which helicity still provides stability in resistive \mhd
+is beyond the scope of this thesis,
+but work is being done in this area.
+
+\section{Constructing a magnetic field}
+\label{sec:constructing-a-magnetic-field}
+In the previous sections we showed that we can construct
+self-stable plasma configurations in \mhd
+by giving a vector field with high helicity.
+The field derived in section~\ref{sec:constructing-a-vector-field} comes to mind:
+its field lines are the fibres of the Hopf map
+projected stereographically onto $\R^3\!$,
+so all of the field lines are linked with every other field line.
+
+The approach taken in section~\ref{sec:constructing-a-magnetic-field}
+was also used in \parencite{kamchatnov1982} to construct a magnetic field.
+Kamchatnov only considered the pullback of $\omega_0$,
+not of a general two-form.
+In his case the vector potential was found in a deus ex machina manner,
+but obviously this approach does not generalise to different two-forms on $S^2\!$.
+By \poincares lemma the vector potential always exists,
+but an explicit computation can get quite involved.
+It was shown by Kamchatnov that the configuration obtained from the Hopf map
+is a magnetohydrodynamic \emph{soliton}
+— a wave that preserves its shape while propagating.
+
+\begin{python}
+from hopf import *
+from sympy import exp
+
+def identity(x):
+    return x
+
+def volume_form(x):
+    return x
+
+def south_form(x):
+    d_sqr = sum(xi ** 2 for xi in sub(x, [-1, 0, 0]))
+    f = exp(-d_sqr * 3)
+    return [xi * f for xi in x]
+
+def north_form(x):
+    d_sqr = sum(xi ** 2 for xi in sub(x, [ 1, 0, 0]))
+    f = exp(-d_sqr * 3)
+    return [xi * f for xi in x]
+
+window = [(x * 2.0 - 1.0) * 1.6 for x in interval_closed(79)]
+write_field_energy('generated/energy-volume', volume_form, identity, window)
+write_field_energy('generated/energy-south', south_form, identity, window)
+write_field_energy('generated/energy-north', north_form, identity, window)
+\end{python}
+\begin{figure}[b!]
+\margincaption[2.7em]{\label{fig:energy-density}
+Magnetic energy density $\nsq{\Bf}$ in the planes $x_1 = 0$,
+$x_2 = 0$ and $x_3 = 0$
+for the pullback by $h \circ \pi^{-1}$ of the following functions on $S^2$:
+$f(x) = 1$ for the top row,
+$f(x) = \exp(-3\nsq{x + i})$ for the middle row, and
+$f(x) = \exp(-3\nsq{x - i})$ for the bottom row.
+Intensity has been normalised per row.}
+\begin{center}
+\tikzexternalenable
+\tikzsetnextfilename{energy}
+\begin{tikzpicture}
+% Set custom heat-like colourmap that does not go all the way to black.
+\pgfplotsset{
+  colormap = {energy}{[1cm]
+    rgb255(0cm) = (128, 0, 0);
+    rgb255(3cm) = (255, 32, 0);
+    rgb255(6cm) = (255, 192, 0);
+    rgb255(8cm) = (255, 255, 255)
+  },
+}
+\newcommand*{\energyplot}[1]{
+  \nextgroupplot[xlabel = $x_2$, ylabel = $x_3$]
+  \addplot3[surf, shader = interp] table {#1-x2x3.dat};
+
+  \nextgroupplot[xlabel = $x_3$, ylabel = $x_1$]
+  \addplot3[surf, shader = interp] table {#1-x3x1.dat};
+
+  \nextgroupplot[xlabel = $x_1$, ylabel = $x_2$, colorbar]
+  \addplot3[surf, shader = interp] table {#1-x1x2.dat};
+}
+\begin{groupplot}[group style = {
+                    group size = 3 by 3,
+                    horizontal sep = 3.5em,
+                    vertical sep = 3.5em
+                  },
+                  width = 0.35\textwidth, height = 0.35\textwidth,
+                  view = {0}{90},
+                  point meta min = 0,
+                  point meta max = 1,
+                  ylabel style = {rotate = -90},
+                  ylabel shift = -0.5em,
+                  colorbar style = {
+                    ytick = {0.0, 0.5, 1.0},
+                    width = 1em
+                  },
+                  tick style = {
+                    white,
+                    major tick length = 0.3em
+                  }]
+  \energyplot{generated/energy-volume}
+  \energyplot{generated/energy-south}
+  \energyplot{generated/energy-north}
+\end{groupplot}
+\end{tikzpicture}
+\end{center}
+\end{figure}
+
+By the principle given at the end of section~\ref{sec:constructing-a-vector-field},
+there are two ways to generalise the field given in equation~\ref{eqn:hopf-field}
+which we now take to be the magnetic field.
+Firstly, we can pull back a different two-form on the sphere.
+As this affects the magnitude of the field but not its field lines,
+this allows us to control the \emph{energy density} of the magnetic energy of the field.
+(See figure~\ref{fig:energy-density}.)
+Secondly,
+we may pull back by a different function, or even from a different manifold altogether.
+The convenient property of linked field lines is a consequence of the Hopf map,
+so this we do not change.
+Instead, we will intersperse a differentiable function $g : S^3 \to S^3\!$,
+and pull back by the composition
+\begin{center}
+\begin{tikzcd}
+\R^3 \ar[r, hook, "\pi^{-1}"] &
+S^3  \ar[r, "g"] &
+S^3  \ar[r, two heads, "h"] &
+S^2  \ar[r, hook, "i"] &
+\R^3
+\end{tikzcd}
+\end{center}
+Many functions $g$ could potentially be interesting here
+and perhaps future research can be done in this area.
+For instance, by considering $S^3$ as a subgroup of $\H$ as in section~\ref{sec:quaternions},
+the map
+\[ S^3 \longto S^3, \quad q \longmapsto q^n \]
+is a differentiable function for all $n \in \Z$.
+If we take $S^3 \subseteq \CZ$ instead,
+the following map is interesting:
+\begin{equationref}
+\label{eqn:knot-map}
+S^3 \longto S^3, \quad (z_1, \, z_2) \longmapsto \tau(z_1^n, \, z_2^m)
+\end{equationref}
+Here $m, n \in \Z$ and $\tau: \CZ \surj S^3$ denotes projection onto the sphere.
+The above map is differentiable because it is the composition of $\tau$ with a polynomial.
+For $m, n \notin \Z$ the map is not differentiable;
+it is not even continuous,
+so it does not make sense to compute the pullback by such a map.
+It turns out that for coprime $m, n$ the field lines of the field induced by this map form torus knots.
+In this way we can produce not only linked field lines,
+but also knotted field lines.
+See also figure~\ref{fig:knotted-field-lines}.
+A slightly different map,
+\[ S^3 \longto S^3, \quad (z_1, z_2) \longmapsto (z_1^{(n)},\, z_2^{(m)}) \]
+can occasionally be found in literature.
+Here the map $z \mapsto z^{(n)}$ denotes multiplying the argument of $z$ with $n$.
+Unfortunately the map $z \mapsto z^{(n)}$ is not differentiable in $0$,
+so the above function is not differentiable.
+It has been used nevertheless in \parencite{arrayas2012},
+albeit in a different construction.
+
+More generally we could consider the map
+\[ S^3 \longto S^3, \quad (z_1, \, z_2) \longmapsto \tau(p(z_1, z_2),\, q(z_1, z_2))  \]
+where $p, q \in \C[Z_1, Z_2]$ are polynomials that have no common roots except for $(0, 0)$.
+For polynomials with a common root other than $(0, 0)$ the function
+would map some $(z_1, z_2) \in S^3$ to $(0, 0)$,
+but this is not an element of $\CZ$;
+there is no way to project the origin onto the three-sphere.
+
+\begin{python}
+from hopf import *
+from math import pi
+box       = [1.636, 1.636, 1.636]
+pr        = orthographic_projection(pi * 0.12, pi * -0.1)
+points    = [[[0.0, cos(pi * 0.0 / 15.0) * 1.30, sin(pi * 0.0 / 15.0) * 1.30], 'f1c'],
+             [[0.0, cos(pi * 1.0 / 15.0) * 1.30, sin(pi * 1.0 / 15.0) * 1.30], 'f2c'],
+             [[0.0, cos(pi * 5.0 / 15.0) * 1.62, sin(pi * 9.0 / 15.0) * 1.62], 'f3c']]
+fibres    = [[compose(pr, projected_knot_fibre_through(x, 2, 3)),
+              'front, ' + st, 'back'] for [x, st] in points]
+cmds      = generate_raw_draw_2d(0.08, fibres)
+box       = generate_raw_box_2d(box, pr, 'box')
+write_items('generated/field-lines-trefoil.tikz', cons(box, cmds))
+
+fibres    = [[compose(pr, projected_knot_fibre_through(x, 2, 5)),
+              'front, ' + st, 'back'] for [x, st] in points]
+cmds      = generate_raw_draw_2d(0.08, fibres)
+write_items('generated/field-lines-cinquefoil.tikz', cons(box, cmds))
+\end{python}
+\begin{figure}
+\margincaption[2em]{\label{fig:knotted-field-lines}
+A few field lines of fields where $g \neq \id$;
+the function from equation~\ref{eqn:knot-map} has been interspersed.
+On the left, $m = 3$ and on the right $m = 5$.
+In both cases $n = 2$.
+The field lines form torus knots,
+knotted themselves and linked with eachother.}
+\tikzexternalenable
+\tikzsetnextfilename{knotted-field-lines}
+\hspace{0.5em} % No center here, manual alignment gets us better results.
+\begin{tikzpicture}
+\definecolor{f1c}{hsb}{0.6, 0.6, 0.5}
+\definecolor{f2c}{hsb}{0.0, 0.8, 0.6}
+\definecolor{f3c}{hsb}{0.5, 0.9, 0.6}
+\tikzstyle{back}  = [line width = 3pt, white];
+\tikzstyle{front} = [line width = 1pt];
+\tikzstyle{box}   = [line width = 0.47pt];
+\begin{scope}[scale = 1.1]
+\input{generated/field-lines-trefoil.tikz}
+\end{scope}
+\begin{scope}[scale = 1.1, shift = {(5.5, 0)}]
+\input{generated/field-lines-cinquefoil.tikz}
+\end{scope}
+\end{tikzpicture}
+\vspace{1em}
+\end{figure}
+
+The construction used in this thesis to produce magnetic fields
+is not limited to $\R^3$ or $S^2\!$,
+and a generalisation of this procedure to electrodynamics could
+potentially be interesting for future research.
+Minkowski space $\M$ is a four-dimensional pseudo-Riemannian manifold,
+where the bilinear form is given by the Lorentzian metric.
+By mapping $\M$ to a two-dimensional manifold via a differentiable function,
+we can construct a two-form $\omega \in \Omega^2 \M$ that satisfies $d\omega = 0$.
+Maxwell’s source-free equations can be expressed neatly in the language of differential geometry
+as
+\[ d\xi = 0 \qquad\textup{and}\qquad d\hodge\xi = 0 \]
+Here $\xi \in \Omega^2 \M$ can be identified with the electromagnetic field tensor
+(sometimes called the Faraday tensor)
+and $\hodge\xi$ denotes the \emph{Hodge dual} of $\xi$.
+See \parencite[p.~502]{szekeres2004} for further information on
+expressing Maxwell’s equations in this form.
+With the construction in this thesis we can trivially satisfy
+$d\xi = 0$, which corresponds to solving the two homogeneous equations
+\[ \nabla \cdot \Bf = 0 \qquad\textup{and}\qquad \nabla \times \Ef + \frac{\partial \Bf}{\partial t} = 0 \]
+The two-form $\xi$ will not automatically satisfy $d\hodge\xi = 0$ in general though.
+It would be interesting to investigate whether functions $\M \to N$
+exists for a two-dimensional manifold $N$
+such that the pullback does satisfy $d\hodge\xi = 0$ trivially.

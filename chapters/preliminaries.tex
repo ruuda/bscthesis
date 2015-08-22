@@ -1,0 +1,703 @@
+% !TEX root = ../thesis.tex
+
+\chapter{Preliminaries}
+\label{chap:preliminaries}
+There are several topological spaces that play a key role
+when describing properties of the Hopf map $h : S^3 \to S^2\!$.
+These include of course the domain $S^3$ and codomain $S^2\!$,
+which are traditionally defined as subspaces of $\R^4$ and $\R^3$ respectively.
+As we will see later,
+it is useful to consider $S^3$ and $S^2$ as quotient spaces of $\C^2 \setminus \set{0}$
+or subspaces of the quaternion algebra $\H$ instead.
+Both $\C^2$ and $\H$ are isomorphic to $\R^4$ as a real vector space,
+but their additional structure sheds light on various properties of the Hopf map.
+We will therefore briefly examine these spaces before defining the Hopf map.
+In later chapters we will explore the differentiable structure of these spaces,
+but for now we focus on their topological properties.
+Furthermore, group actions are used extensively throughout this chapter,
+so we quickly recall some of the terms involved.
+
+\section{Definitions}
+
+\definition
+Let $X$ be a set with additional structure,
+such as a vector space or a topological space.
+The \emph{automorphism group} of $X$,
+denoted $\Aut(X)$ is the group of bijections $X \to X$
+that preserve its structure.
+More formally we can say that $X$ is an object in a concrete category $\mathcal{A}$,
+a category equipped with a faithful functor $\mathcal{A} \to \mathbf{Sets}$,
+the forgetful functor.
+The automorphism group is the group of invertible morphisms $X \to X$
+in this category.
+
+\example
+For a group $G$, $\Aut(G)$ is the group of group isomorphisms $G \to G$.
+For a module $M$ over a ring $R$,
+or for a vector space $V$ over a field $F$,
+the automorphism group consists of $R$-linear bijections $M \to M$
+and $F$-linear bijections $V \to V$ respectively.
+For a topological space $X$,
+$\Aut(X)$ is the group of homeomorphisms $X \to X$.
+For sets, the automorphism group is simply the group of bijections
+from the set to itself.
+
+\definition
+Let $G$ be a group and $X$ a set with additional structure.
+A \emph{group action} of $G$ on $X$ is a group homomorphism $\phi : G \to \Aut(X)$.
+If $X$ is an object in the category $\mathcal{A}$ \,(e.g. the category of vector spaces,
+topological spaces, etc.),
+we say $G$ acts on $X$ in this category.
+Given an element $x \in X$ and $g \in G$,
+we will often write $g \cdot x$ for the element $\phi(g)(x)$.
+
+In the definition above,
+the group $G$ acts \emph{from the left} on $X$.
+For $g, h \in G$ and $x \in X$,
+we have $(gh) \cdot x = g \cdot (h \cdot x)$.
+Sometimes we encounter a natural \emph{antihomomorphism} $G \to \Aut(X)$.
+In this case,
+we say that $G$ acts \emph{from the right} on $X$ in the category $\mathcal{A}$,
+and to make the notation more natural we write $x \cdot g$ instead of $g \cdot x$,
+so that $x \cdot (gh) = (x \cdot g) \cdot h$.
+
+\definition
+Let $G$ and $X$ be as before, and $x \in X$.
+The \emph{orbit} of $x$ is the set
+\[ Gx = \set{ g \cdot x \mid g \in G } \]
+Having the same orbit defines an equivalence relation on $X$,
+and the quotient with respect to this relation is called the \emph{orbit space},
+written $X/G$.
+
+\definition
+Let $G$ and $X$ be as before, and $x \in X$.
+The \emph{stabiliser} of $x$ is the subgroup
+\[ G_x = \set{ g \in G \mid g \cdot x = x } \]
+
+\proposition[prop:open-quotient-map]
+Let $X$ be a topological space, $G$ a group that acts on $X$.
+When $X/G$ is endowed with the quotient topology,
+the quotient map $q : X \surj X/G$ is an open map.
+
+\proof
+Let $U \subseteq X$ be open,
+define $V = q(U)$.
+$V$ is open if and only if $q^{-1}(V)$ is open
+by definition of the quotient topology.
+We have
+\[ q^{-1}(V)
+ = \bigcup_{g \in G} g \cdot U \]
+Because the automorphisms of the group action are homeomorphisms,
+they are open maps,
+so $g \cdot U$ is open for all $g \in G$.
+Hence, $q^{-1}(V)$ is the union of open sets,
+so it is open.
+\qed
+
+\definition
+A \emph{topological group} is a group $G$ that is also a Hausdorff space,
+such that the map $G \times G \to G$, $(g, h) \mapsto gh^{-1}$ is continuous
+when $G \times G$ is endowed with the product topology.
+This is equivalent to the statement that multiplication and inversion are continuous;
+see for example \parencite[ch.~\textsc{iii}, \S~1.1]{bourbaki1971} or \parencite[p.~276]{szekeres2004}.
+
+\definition
+Let $G$ be a topological group and $X$ a topological space,
+such that $G$ acts on $X$ in the category of sets.
+The action is said to be \emph{continuous} if
+\[ G \times X \longto X,
+\quad (g, x) \longmapsto g \cdot x \]
+is a continuous map.
+It follows immediately from this definition that
+$x \mapsto g \cdot x$ is a homeomorphism for all $g \in G$ when $G$ acts continuously on $X$,
+therefore $G$ acts on $X$ in the category of topological spaces;
+the group homomorphism $G \to \Aut(X)$ is actually a group homomorphism $G \to \Homeo(X)$.
+
+\theorem{Universal property of the quotient topology}[thm:universal-property-quotient-topology]
+Let $X$ and $Y$ be topological spaces and $\sim$ an equivalence relation on $X$.
+Denote by $q : X \surj X\modsim$ the quotient map.
+Let $f : X \to Y$ be a continuous map such that
+for all $x, y \in X$ it holds that $x \sim y$ implies $f(x) = f(y)$.
+(Such $f$ is said to be \emph{compatible} with the equivalence relation.)
+Then there exists a unique continuous map $g : X\modsim \to Y$ that makes the following diagram commute:
+\vspace{-\parskip}
+\begin{center}
+\begin{tikzcd}[column sep = small] &
+X        \ar[dl, two heads, swap, "q"]
+         \ar[dr, "f"] & \\
+X\modsim \ar[rr, dashed, swap, "\exists_! g"] & & Y
+\end{tikzcd}
+\end{center}
+
+\proof
+See for example \parencite[ch.~\textsc{i}, \S~3.4]{bourbaki1971}.
+
+\proposition
+Let $G_1$ and $G_2$ be groups, and $X$ a set.
+Suppose that $G_1 \times G_2$ acts on $X$ in the category of sets.
+This implies that the subgroups $G_1$ and $G_2$ act on $X$ individually as well.
+Then the following holds:
+\begin{enumerate}
+\item There is a natural action of $G_1$ on $X / G_2$ in the category of sets.
+\item If $X$ is a topological space and $G_1 \times G_2$ acts in the category of topological spaces,
+      $G_1$ acts on $X / G_2$ in this category.
+\item If $G_1$ and $G_2$ are topological groups such that $G_1 \times G_2$ acts continuously on $X$,
+      then $G_1$ acts continuously on $X / G_2$.
+\end{enumerate}
+
+\proof
+Let $x \in X$ such that $[x] \in X / G_2$, and $g \in G_1$.
+Define $g \cdot [x] = [g \cdot x]$.
+We have to show that this action is well-defined.
+Suppose that $[x] = [y]$ for some $y \in X$.
+Then there exists an $h \in G_2$ such that $x = h \cdot y$.
+Because $h$ and $g$ commute in $G_1 \times G_2$,
+we have
+\[ g \cdot x = g \cdot (h \cdot y) = (g, h) \cdot y = h \cdot (g \cdot y) \]
+Thus, we find $[g \cdot x] = [g \cdot y]$.
+That this defines a homomorphism $G_1 \to \Aut(X / G_2)$ follows
+from the fact that $G_1 \to \Aut(X)$ is a homomorphism.
+This proves statement \textbbf{i}.
+
+Suppose that $X$ is a topological space
+and $G_1 \times G_2$ acts on $X$ in the category of topological spaces.
+Let $g \in G_1$, then $g$ induces a homeomorphism $\phi : X \to X$,
+and a bijection $\psi : X / G_2 \to X / G_2$.
+Denote by $q : X \surj X / G_2$ the quotient map,
+then $q \circ \phi$ is a continuous map $X \to X / G_2$
+that satisfies $\psi \circ q = q \circ \phi$ due to statement \textbbf{i}.
+This means that $q \circ \phi$ is compatible with the quotient map,
+so by the universal property of the quotient topology (theorem \ref{thm:universal-property-quotient-topology}),
+there exists a unique continuous map $\psi'$ such that $q \circ \phi = \psi' \circ q$.
+Uniqueness implies that $\psi' = \psi$,
+therefore $\psi$ is continuous.
+The same argument applies to $\psi^{-1}$,
+hence $\psi$ is a homeomorphism.
+This shows that $G_1$ acts on $X / G_2$ in the category of topological spaces,
+which proves statement \textbbf{ii}.
+
+To prove statement \textbbf{iii},
+we will use the following diagram:
+\begin{center}
+\begin{tikzcd}[row sep = large]
+&
+X \ar[dr, two heads, "q"] & \\
+G_1 \times X           \ar[ur, "a"]
+                       \ar[r, "f"]
+                       \ar[dr, two heads, swap, "r"] &
+G_1 \times {(X / G_2)} \ar[r, "T"] &
+X / G_2 \\ &
+{(G_1 \times X)} / G_2 \ar[u, dashed, "\exists_! \phi"]
+                       \ar[ur, dashed, swap, "\exists_! \psi"] &
+\end{tikzcd}
+\end{center}
+The map $a : G_1 \times X \to X$,
+$(g, x) \mapsto g \cdot x$
+is continuous because it is the restriction of $G_1 \times G_2 \times X \to X$
+that is continuous by assumption.
+Let $q: X \surj X / G_2$ denote the quotient map.
+Define $f : G_1 \times X \to G_1 \times {(X / G_2)}$ as $f = (\id, q)$.
+This map is continuous because both of its coordinates are.
+(See proposition 1 of \parencite[ch.~\textsc{i}, \S~4.1]{bourbaki1971}.)
+Furthermore $f$ is open,
+for $\id$ and $q$ are open. (See proposition~\ref{prop:open-quotient-map}.)
+Let $G_2$ act on $G_1 \times X$ by $h \cdot (g, x) = (g, h \cdot x)$
+where $g \in G_1, h \in G_2, x \in X$,
+and let $r$ denote the quotient map.
+$f$ is compatible with $r$,
+so by the universal property of the quotient topology (theorem \ref{thm:universal-property-quotient-topology}),
+there exists a unique continuous map
+$\phi$ that makes the bottom left triangle of the diagram commute.
+The map is given by $[g, x] \mapsto (g, [x])$
+and its inverse is given by $(g, [x]) \mapsto [g, x]$.
+An open set in $(G_1 \times X) / G_2$
+is the image under $r$ of an open set in $G_1 \times X$,
+so from commutativity it follows that $\phi$ is an open map.
+Hence, $\phi$ is a homeomorphism.
+
+On the top of the diagram, we have the map $q \circ a : G_1 \times X \to X / G_2$,
+given by $(g, x) \mapsto [g \cdot x]$.
+As the composition of continuous maps it is continuous,
+and it is compatible with $r$.
+Thus, by the universal property of the quotient topology,
+there exists a unique continuous map $\psi$
+such that $\psi \circ r = q \circ a$.
+Composing with $\phi^{-1}$, we find that the map
+\[ T : G_1 \times {(X / G_2)} \longto X / G_2,
+\quad (g, [x]) \longmapsto [g \cdot x] \]
+is continuous,
+which proves claim \textbbf{iii}.
+Furthermore, the above diagram commutes.
+\qed
+
+\theorem[thm:quotient-map-factors]
+Let $G_1$ and $G_2$ be groups and $X$ a topological space
+such that $G_1 \times G_2$ acts on $X$.
+Then $X / (G_1 \times G_2)$ is canonically homeomorphic to $(X / G_1) / G_2$.
+In particular, the quotient map $X \surj X / (G_1 \times G_2)$ factors over $X / G_1$.
+
+\proof
+Let
+$q_1 : X \surj X / G_1$,
+$q_2 : (X / G_1) \surj (X / G_1) / G_2$,
+and $q_{12} : X \surj X / (G_1 \times G_2)$ denote the quotient maps.
+Then we have the following commutative diagram:
+\begin{center}
+\begin{tikzcd}[row sep = huge, column sep = large]
+ X                    \ar[r,  two heads, "q_1"]
+                      \ar[d,  two heads, "q_{12}"] &
+ X / G_1              \ar[d,  two heads, "q_2"]
+                      \ar[dl, dashed, bend right = 7, swap, "\phi_1"] \\
+ X / (G_1 \times G_2) \ar[r,  dashed, bend left = 13, "\phi_{12}"] &
+(X / G_1) / G_2       \ar[l,  dashed, bend left = 13, "\phi_2"]
+\end{tikzcd}
+\end{center}
+The map $q_2 \circ q_1$ is continuous and compatible with $q_{12}$,
+so by the universal property of the quotient topology (theorem \ref{thm:universal-property-quotient-topology})
+there exists a unique continuous map $\phi_{12}$ that makes the diagram commute.
+Because $q_{12}$ is compatible with $q_1$,
+there exists a unique continuous map $\phi_1$ such that $q_{12} = \phi_1 \circ q_1$.
+It follows that $\phi_1$ is compatible with $q_2$,
+so there exists a unique continuous map $\phi_2$ that makes the diagram commute.
+Now we see that $\phi_{12}$ and $\phi_2$ are continuous inverses of one another,
+hence $X / (G_1 \times G_2)$ and $(X / G_1) / G_2$ are homeomorphic.
+\qed
+
+\subsection*{Physical interpretation}
+Groups are prevalent in mathematics.
+In physics, groups are often encountered in the context of symmetries.
+In that case one may think of a group as a set of transformations of a system,
+transformations under which a certain property is invariant.
+For instance, angular momentum is invariant under rotation of space,
+and four-momentum is invariant under Lorentz transformations.
+A \emph{group action} generalises this idea.
+Elements of the group induce a transformation of a system.
+By applying all possible transformations to a point,
+we obtain the \emph{orbit} of a point.
+For instance, when we let the Lorentz group act on Minkowski space,
+the orbit of a timelike vector is all of the light cone (past and future).
+Often, a group encodes transformations that we are \emph{not} interested in.
+The \emph{orbit space} is what remains if we consider points that differ
+by such a transformation to be equal.
+For example, the orbit space of the Lorentz group action on Minkowski space
+consists of four elements:
+the origin, the class of null (or light-like) vectors,
+the class of timelike vectors,
+and the class of spacelike vectors.
+The \emph{stabiliser} of a point is the subgroup of transformations under which the point is invariant.
+
+Topology is the branch of mathematics that studies abstract properties of space.
+It gives us the tools to study properties that do not depend
+on exact distances, but rather on overall shape.
+For instance, one would like to think of a garden hose
+as a one dimensional system where water can move back and forth,
+regardless of how the hose is bent or twisted.
+Topology allows us to ignore the bending and twisting.
+Virtually all spaces that occur in physics are topological spaces:
+$\R^3\!$, Minkowski space, Hilbert spaces, etc.
+Often these spaces have additional structure
+such as a metric or inner product,
+but many properties can be derived from the topology alone.
+An important example of such a property
+is \emph{continuity} of a map between topological spaces,
+a notion that is prevalent throughout physics.
+Many of the groups encountered in this thesis happen to have a natural topology as well.
+In this case, an action on another topological space can be \emph{continuous}.
+The definition given in this section codifies our intuition:
+if two group elements that are near act on a point,
+the resulting points should be near as well.
+
+\section{Projective space}
+\label{sec:projective-space}
+It is possible to identify $\R^4$ and $\C^2$ as four-dimensional real vector spaces,
+by identifying the standard basis $(e_1, e_2, e_3, e_4)$ with the basis $((1, 0), (i, 0), (0, 1), (0, i))$.
+The space $\C^2 \setminus \set{0}$ will be prevalent in the rest of this section,
+so we introduce a shorthand notation. Furthermore, we embed $S^1$ in $\C$.
+
+\definition
+$\CZ = \C^2 \setminus \set{0}$.
+
+\definition
+The \emph{unit circle} is defined by
+\[ S^1 = \set{ \, z \in \C \mid 1 = |\,z\,| \, } \]
+This is a group under multiplication.
+
+\definition[def:s3-real]
+The \emph{three-sphere} is defined by
+\[ S^3 = \set{ \, x \in \R^4 \mid 1 = \nsq{x} } \]
+Here $\|{}\cdot{}\|$ denotes the regular Euclidean norm.
+By identifying $\R^4$ with $\C^2$ as above,
+we can consider $S^3$ to be a subset of $\CZ$.
+
+Consider the multiplicative group $\Rpos$ of positive real numbers.
+It acts continuously on $\C^2$ (in the category of real vector spaces) by scalar multiplication,
+and this action can be restricted to $\CZ$ (in the category of sets).
+This allows us to give an alternative definition of $S^3$ as a quotient:
+
+\definition[def:s3-complex]
+$\SC$ is the orbit space of $\CZ$ with respect to the $\Rpos$ action.
+Denote by $r : \CZ \surj \SC$ the quotient map.
+$\C^2$ is endowed with its regular topology induced by the Euclidean metric,
+and $\SC$ is endowed with the quotient topology.
+
+Intuitively, this definition is not that different from definition~\ref{def:s3-real}.
+Every point $p$ at the three-sphere defines a ray from the origin through $p$.
+This ray, except for the origin, is the orbit of $p$ under the $\Rpos$ action.
+In other words, every orbit can be represented by a point at unit distance from the origin.
+The quotient map $r$ corresponds to projection onto the sphere.
+
+\proposition[prop:s3-equivalence]
+$S^3$ and $\SC$ as defined in definition~\ref{def:s3-real} and \ref{def:s3-complex} are homeomorphic.
+
+\proof
+\newcommand*{\RZ}{{\R^4_{\,\circ}}}
+Write $\R^4 \setminus \set{0} = \RZ$.
+Let $i : S^3 \to \RZ$ be the inclusion,
+and let $\phi : \R^4 \to \C^2$ be the vector space isomorphism
+induced by the identification of the bases given earlier in this section.
+The inclusion $i$ is continuous, and the restriction $\phi|_\RZ = \phi_\circ$ is a homeomorphism.
+Therefore, the composition $\psi = r \circ \phi_\circ \circ i : S^3 \to \SC$ is continuous.
+Consider the map
+\vspace{-0.3\parskip}
+\[ \CZ \longto S^3,
+\quad x \longmapsto \phi_\circ^{-1} \left( \frac{x}{\|x\|} \right) \vspace{0.3\parskip} \]
+which is continuous and compatible with $r$.
+By the universal property of the quotient topology (theorem~\ref{thm:universal-property-quotient-topology}),
+this map induces a unique continuous map $\psi^{-1} : \SC \to S^3$ that is the inverse of $\psi$.
+Thus, $\psi$ is a homeomorphism.
+\qed
+
+Consider the multiplicative group $\C^*$ (the complex plane minus the origin).
+It acts continuously on $\C^2$ (in the category of complex vector spaces) by scalar multiplication,
+and this action can be restricted to $\CZ$.
+This allows us to define the projective space:
+
+\definition[def:complex-projective-line]
+The \emph{complex projective line} $\PC$ is the orbit space of $\CZ$ with respect to the $\C^*$ action.
+Denote by $q : \CZ \surj \PC$ the quotient map.
+$\PC$ is endowed with the quotient topology.
+
+Elements of $\PC$ are indicated by \emph{homogeneous coordinates}:
+if $(z_1, z_2)  \in \C^2$ is nonzero,
+then we write $(z_1 : z_2)$ for $q(z_1, z_2)$.
+We can embed $\C$ in $\PC$ via $z \mapsto (z : 1)$.
+The only point that is not reached in this manner is $(1 : 0)$.
+
+\theorem[thm:s2-homeom-p1c]
+There exists a homeomorphism between $S^2$ and $\PC$.
+
+\proof
+We will postpone the proof until section \ref{sec:hopf-quaternionic},
+and prove this with the aid of quaternions in theorem~\ref{thm:hopf-map-equivalence}.
+For an alternative proof, see \parencite[ch.~\textsc{viii}, \S~4.3]{bourbaki1974}.
+
+The general linear group $\GLC$
+of invertible complex $2 \times 2$ matrices
+acts on $\C^2$ by matrix multiplication.
+This induces a group action of $\GLC$ on $\CZ$.
+Furthermore, the groups $\Rpos$, $S^1$, and $\C^*$ are isomorphic to subgroups of $\GLC$:
+given an element $z \in \C^*\!$,
+we can identify it with the matrix
+\[ \begin{pmatrix} z & 0 \\ 0 & z \end{pmatrix} \]
+in the centre of $\GLC$.
+$\C^*$ is isomorphic to the direct product $\Rpos \times S^1$:
+this is the decomposition of a complex number into its modulus and argument.
+It follows that $S^1$ and $\Rpos$ are central in $\GLC$, because their elements correspond to scalar matrices.
+Consequently, $S^1$ and $\Rpos$ are normal in $\GLC$.
+
+\subsection*{Informal summary}
+The \emph{projective space} $\PC$ is a construction with several interpretations.
+For starters, $\PC$ can be thought of as $\C$ with one extra point,
+a point “at infinity”.
+This allows us to talk about $z_1/z_2$ even when $z_2$ is zero.
+Instead of $z_1/z_2$, we write $(z_1 : z_2)$, called \emph{homogeneous coordinates}.
+Secondly, theorem \ref{thm:s2-homeom-p1c} tells us that $\PC$ can be thought of as the unit sphere $S^2\!$.
+(In fact, $\PC$ is sometimes called the \emph{Riemann sphere}.)
+A \emph{homeomorphism} between two spaces
+is a function, both one-to-one and onto,
+that preserves all topological properties.
+From a topological point of view, $\PC$ and $S^2$ are the same space.
+This means that when we formulate the Hopf map later on
+— a function from $S^3$ to $S^2$ —
+we can express it as a function to $\PC$.
+This expression is significantly simpler than the one involving Cartesian coordinates on $S^2\!$.
+
+\section{Quaternions}
+\label{sec:quaternions}
+
+\definition
+The \emph{quaternion algebra} $\H$ is
+the real noncommutative algebra with basis $(1, i, j, k)$.
+Multiplication is given by the identities
+\[ i^2 = j^2 = k^2 = -1,
+\quad i\!j =  k, \ jk =  i, \ ki =  j,
+\quad j  i = -k, \ kj = -i, \ ik = -j \]
+and $1$ commutes with all elements.
+In particular, $\H$ is a ring and a four-dimensional real vector space.
+Analogously to complex numbers,
+this algebra has an involution $\overline{\raisebox{0pt}[0.5em]{${}\cdot{}$}}$
+called \emph{conjugation}
+that flips the sign of the $i$, $j$, and $k$ components.
+
+\definition
+The \emph{trace} is the map $\Tr : \H \to \R,\ q \mapsto q + \overline{q}$.
+Because the imaginary parts cancel, the trace of a quaternion is real.
+Furthermore, the trace is $\R$-linear.
+
+The reals commute with all quaternions,
+so $\Tr(q)$ commutes with $q$ for all $q \in \H$.
+Because $\overline{q} = \Tr(q) - q$,
+it follows that $q$ and $\overline{q}$ commute.
+
+\definition
+The standard inner product on $\H$ is given by
+\[ \inp{{}\cdot{}}{{}\cdot{}} : \H \times \H \longto \R,
+\quad (p, q) \longmapsto \tfrac{1}{2} \Tr(p\overline{q}) = \tfrac{1}{2}(p\overline{q} + q \overline{p}) \]
+Symmetry is clear from the definition,
+and bilinearity follows from the linearity of the trace.
+For positive definiteness,
+remark that for $q = a + bi + cj + dk$,
+we have $q \overline{q} = a^2 + b^2 + c^2 + d^2\!$.
+Therefore $\inp{q}{q} \geq 0$,
+and $\inp{q}{q} = 0 \implies a = b = c = d = 0 \implies q = 0$.
+
+\definition
+The \emph{norm} of $q \in \H$ is given by $\nsq{q} = q \overline{q}$.
+Because $q$ and $\overline{q}$ commute,
+$q\overline{q} = \smallfrac{1}{2}(q \overline{q} + \overline{q} q)$,
+so the norm is induced by the inner product.
+This norm coincides with the Euclidean norm on $\H$
+as real vector space with orthonormal basis $(1, i, j, k)$.
+Therefore,
+$\H$ with the topology induced by the norm is homeomorphic to $\R^4\!$.
+
+Because conjugation reverses the order of multiplication,
+the norm is multiplicative:
+for $p, q \in \H$, we have
+\[ \nsq{pq}
+ = (pq)\overline{(pq)}
+ = p \, q \overline{q} \, \overline{p}
+ = p \nsq{q} \, \overline{p}
+ = \nsq{q} p \overline{p}
+ = \nsq{q} \nsq{p} \]
+
+Because $q \overline{q} = \nsq{q}\!$,
+we have $q^{-1} = \overline{q} \, \|q\|^{-2}$ for $\|q\| \neq 0$.
+Therefore, $\H$ is a division algebra:
+every nonzero element has an inverse.
+
+\proposition
+$\H^* = \H \setminus \set{0}$ is a topological group.
+
+\proof
+Multiplication is continuous,
+because for $p, q \in \H^*\,$,
+the components of the product $pq$
+can be written as a polynomial in the components of $p$ and $q$.
+Inversion is continuous,
+because the components of $q^{-1}$ are rational functions of the components of $q$,
+which do not vanish because $\nsq{q} \neq 0$.
+See also \parencite[ch.~\textsc{viii}, \S~1.4]{bourbaki1974}.
+\qed
+
+With this machinery,
+we can give a quaternionic definition of $S^3$ and $S^2\!$.
+Whereas the definitions in section \ref{sec:projective-space} emphasise
+how $S^3$ and $S^2$ are quotients with respect to a group action,
+the quaternionic definitions emphasise the group structure on the three-sphere itself,
+and the action of $S^3$ on $S^2\!$.
+
+Let us revisit the three-sphere as defined in definition~\ref{def:s3-real}.
+By identifying $\H$ with $\R^4$ as a normed real vector space
+via the basis given earlier in this section,
+we can consider $S^3$ to be a subset of $\H$,
+the set of quaternions with unit norm:
+\[ S^3 = \set{ q \in \H \mid 1 = \nsq{q} } \]
+This set is closed under multiplication due to the multiplicativity of the norm,
+and it contains $1$.
+Therefore, this is a subgroup of $\H^*\!$.
+We can embed $S^2$ in $S^3\!$,
+but in $\R^4$ there is no preferred way of doing so.
+For quaternions, there is one natural choice:
+
+\definition[def:s2-quaternion]
+The \emph{two-sphere} $S^2 = \set{ q \in S^3 \mid \Tr(q) = 0 }$,
+the set of pure imaginary quaternions with unit norm.
+This definition coincides with the conventional definition of $S^2$
+when $\R^3$ is identified with the subspace of $\H$ spanned by $i$, $j$, and $k$.
+$S^2$ may alternatively be written as $\set{q \in S^3 \mid \inp{1}{q} = 0} = 1^\perp \cap S^3$.
+
+The group $\H^*$ acts
+on $\H$ in the category of $\R$-algebras via the following homomorphism:
+\[ \phi : \H^* \longto \Aut(\H),
+   \quad
+   p \longmapsto (q \mapsto p q p^{-1}) \]
+Because quaternion multiplication is continuous,
+this is a continuous action.
+By restriction to the subgroup $S^3\!$,
+we get a continuous action of $S^3$ on $\H$.
+
+\proposition[prop:invariant-inner-product]
+The inner product on $\H$ is invariant under the action of $\H^*\!$.
+
+\proof
+Let $p \in \H^*\!$, $q_1, q_2 \in \H$,
+then we have
+\begin{align*}
+   2 \, \inp{p \cdot q_1}{p \cdot q_2}
+&= p q_1 p^{-1} \overline{p q_2 p^{-1}} + p q_2 p^{-1} \overline{p q_1 p^{-1}} \\
+&= p q_1 \nsq{p^{-1}} \overline{q_2} \, \overline{p} + p q_2 \nsq{p^{-1}} \overline{q_1} \, \overline{p} \\
+&= \nsq{p^{-1}} p (q_1  \overline{q_2} + q_2 \overline{q_1}) \overline{p} \\
+&= \nsq{p^{-1}} \, \nsq{p} \, 2 \, \inp{q_1}{q_2} \\
+&= 2 \, \inp{q_1}{q_2}
+   \tag*{\qed}
+\end{align*}
+
+\corollary[cor:s3-action]
+Identify $\R^3$ with the subspace of $\H$ spanned by $i$, $j$, and $k$.
+Then $\R^3 = 1^\perp$ and $S^2 = 1^\perp \cap S^3$ are invariant under the action of $\H^*\!$,
+which means $\H^*$ and its subgroup $S^3$ act continuously on $\R^3$ and $S^2\!$.
+
+$\C$ is a commutative subring of~$\H$.
+As real vector spaces with bases $(1, i)$ and $(1, i, j, k)$,
+$\C$ can be identified with the subspace of $\H$ spanned by $1$ and $i$.
+The stabiliser of $i \in \H$ consists of the nonzero elements that commute with $i$.
+These elements are linear combinations of $1$ and $i$,
+so we have $\H^*_i = \C^*$ and $S^3_i = S^1\!$.
+
+\proposition[prop:s3-isom-su2c]
+$S^3$ is isomorphic to $\SUC$, the group of unitary $2 \times 2$ matrices with determinant $1$.
+
+\proof
+Define the unitary matrices
+\[            I = \begin{pmatrix}1 &  0 \\ 0 &  1\end{pmatrix}
+\qquad \sigma_1 = \begin{pmatrix}0 &  1 \\ 1 &  0\end{pmatrix}
+\qquad \sigma_2 = \begin{pmatrix}0 & -i \\ i &  0\end{pmatrix}
+\qquad \sigma_3 = \begin{pmatrix}1 &  0 \\ 0 & -1\end{pmatrix} \]
+These matrices are sometimes called the \emph{Pauli spin matrices}.
+Let $\phi: \H \to \Mat(2 \times 2, \C)$ be the $\R$-linear extension of
+\[    1 \longmapsto I,
+\quad i \longmapsto i \sigma_1,
+\quad j \longmapsto i \sigma_2,
+\quad k \longmapsto i \sigma_3 \]
+Let $\psi$ be the restriction of $\phi$ to $S^3\!$.
+All matrices in the image of $\psi$ are unitary,
+and a little computation shows that for $q \in S^3\!$,
+$\det \psi(q) = 1$.
+The matrices $I, i\sigma_1, i\sigma_2, i\sigma_3$
+satisfy the same multiplication rules as $1, i, j, k$.
+That is, $i\sigma_1 i\sigma_2 = i\sigma_3$, etc.
+Therefore, $\psi$ is a group homomorphism $S^3 \to \SUC$.
+This homomorphism is surjective (see \parencite[p.~173]{szekeres2004}),
+and $1$ is the only element in its kernel.
+Therefore, $\psi$ is an isomorphism.
+\qed
+
+\theorem[thm:s3-surj-so3r]
+The map
+\[ \phi: S^3 \longto \SOR,
+\quad q \longmapsto (x \mapsto q \cdot x) \]
+is a surjective group homomorphism with kernel $\set{\pm 1}$.
+Here $x \in \R^3 \cong \Span(i, j, k)$.
+
+\proof
+The map $x \mapsto q \cdot x$ is linear,
+and orthogonality follows from
+the fact that the inner product is invariant under the action,
+as shown in proposition~\ref{prop:invariant-inner-product}.
+To show that $x \mapsto q \cdot x$ is not a reflection,
+note that $\det : \textup{O}_3(\R) \to \R$ is a continuous map
+(see for example \parencite[p.~281]{hatcher2002}).
+We can express $\phi$ as a polynomial on all coordinates
+when elements of $\SOR$ are written as matrices,
+so $\phi$ is continuous.
+By composition we get a continuous map $S^3 \to \set{\pm 1}$.
+Because $S^3$ is connected, this map must be constant.
+% (See for instance proposition~3.4.11 of \parencite[p.~92]{runde2005}.)
+The determinant of $\id$ is $1$,
+so all $q \in S^3$ induce an orthogonal map with positive determinant.
+
+To show that the kernel of $\phi$ is $\set{\pm 1}$,
+suppose that $q \in S^3$ is such that $q \cdot x = q x q^{-1} = x$ for all $x \in \R^3\!$.
+Then $q$ commutes with all $x \in \R^3\!$,
+so $q$ must be real.
+Because $\nsq{q} = 1$, it follows that $q = 1$ or $q = -1$.
+
+To prove surjectivity,
+suppose that $\rho \in \SOR$ is an anticlockwise rotation
+of $\alpha$ radians about an axis spanned by $u \in \R^3\!$,
+where $\nsq{u} = 1$.
+Then the quaternion $q = \cos(\smallfrac{1}{2}\alpha) + u \sin(\smallfrac{1}{2}\alpha)$
+will map to $\rho$.
+To see this,
+note that all points on the axis of rotation are fixed points,
+for $u$ commutes with $q$.
+Furthermore, suppose that $v \in \R^3$ is such that $\inp{u}{v} = 0$.
+Set $q_0 = \cos(\smallfrac{1}{2}\alpha)$ and $\vec{q} = u \sin(\smallfrac{1}{2}\alpha)$.
+By using identities from \parencite[p.~157]{szekeres2004},
+we find
+\newcommand*{\vv}{v} % Could switch to v with an arrow, but to me it is just noise.
+\newcommand*{\vq}{\vec{q}}
+\begin{align*}
+q \cdot v &= (q_0 + \vq) \vv (q_0 - \vq)
+%      \\ &= (q_0 + \vq) (\inp{v}{\vq} + q_0 \vec{v} - \vec{v} \times \vq)
+       \\ &= (q_0 + \vq) (q_0 \vv - \vv \times \vq)
+       \\ &= -\inp{\vq}{q_0 \vv - \vv \times \vq} + q_0 (q_0 \vv - \vv \times \vq) + \vq \times {(q_0 \vv - \vv \times \vq)}
+       \\ &= q_0^2 \vv - q_0 \vv \times \vq + q_0 \vq \times \vv - \vq \times {(\vv \times \vq)}
+       \\ &= q_0^2 \vv - 2 q_0 \vv \times \vq - \vv \inp{\vq}{\vq} + \vq \inp{\vq}{\vv}
+       \\ &= (\cos^2(\smallfrac{1}{2}\alpha) - \sin^2(\smallfrac{1}{2}\alpha)) v
+           - 2 \cos(\smallfrac{1}{2}\alpha)\sin(\smallfrac{1}{2}\alpha) \, {v \times u}
+       \\ &= \cos(\alpha) v + \sin(\alpha) \, {u \times v}
+\end{align*}
+This demonstrates that $q$ rotates $v$ anticlockwise by $\alpha$ radians about $u$.
+We saw already that $x \mapsto q \cdot x$ is an orthogonal map with determinant $1$.
+Therefore, $q$ maps to $\rho$.
+\qed
+
+\corollary[cor:transitive-s3-action]
+$S^3$ acts transitively on $S^2\!$,
+for every point on $S^2$ can be mapped
+into any other point on $S^2$ by a rotation of the sphere.
+
+The proof of theorem~\ref{thm:s3-surj-so3r} gives us a way to explicitly get
+a $q \in S^3$ such that $q \cdot i = p$ for any $p \in S^2$:
+we rotate $i$ onto $p$ with a rotation of $\R^3\!$.
+If $p = -i$, $q = j$ will suffice,
+so suppose $p \neq -i$.
+Then an axis that we can rotate about is the one spanned by $i + p$,
+which bisects the angle between $i$ and $p$,
+so we need to rotate by $\pi$ radians.
+We find
+\begin{equationref}
+\label{eqn:transitive-s3-action}
+q = \frac{i + p}{\|i + p\|}
+\end{equationref}
+To verify that this works,
+note that for $p \in S^2$ we have
+$p \overline{p} = 1$ and $\overline{p} = -p$,
+so $p^2 = -1$.
+It then follows that
+\[ p^2 = -1
+% \implies pi + p^2 = -1 + pi
+\enskip \implies \enskip p(i + p) = (i + p)i
+\enskip \implies \enskip p(i + p)\overline{(i + p)} = (i + p)i\overline{(i + p)} \]
+Multiplying by $\|i + p\|^{-2}$ on both sides then yields $p = q i q^{-1}$.
+
+\subsection*{Physical interpretation}
+Just like complex numbers are an extension of the real numbers,
+quaternions are an extension of the complex numbers.
+These extensions come at a cost:
+when going from $\R$ to $\C$, you have to give up the ordering.
+When going from $\C$ to $\H$, you have to give up commutativity.
+Apart from their rich structure that is interesting in its own right,
+quaternions have many useful applications.
+By considering $S^3$ as a subset of $\H$,
+it inherits a group structure.
+Theorem~\ref{thm:s3-surj-so3r} tells us that this group is in a sense
+twice $\SOR$: every rotation of $\R^3$ is represented by two antipodal quaternions.
+When traversing a great circle through $1$ in $S^3\!$,
+the points $1$ and $-1$ both correspond to the identity in $\SOR$.
+This path in $S^3$ corresponds to a $4\pi$ rotation of $\R^3\!$,
+and after a $2\pi$ rotation we will have moved from $1 \in S^3$ to $-1 \in S^3\!$.
+This property is reminiscent of \emph{spinors},
+and indeed proposition~\ref{prop:s3-isom-su2c} links the unit quaternions to the Pauli spin matrices.

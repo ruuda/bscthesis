@@ -1,0 +1,164 @@
+% !TEX root = ../thesis.tex
+
+% Packages that aid defining macros, and enable colour.
+\usepackage{xspace, xparse, xcolor}
+
+% Set font to Minion Pro.
+\usepackage[fullfamily, opticals, mathlf, swash, openg, minionint, onlymath]{MinionPro}
+\usepackage[protrusion = true, expansion = false]{microtype}
+\usepackage{fontspec, ifluatex}
+\setmainfont[Numbers = {OldStyle, Proportional}]{Minion Pro}
+\setmonofont[Numbers = {Uppercase, Monospaced}]{Minion Pro} % Cheating, Minion is not monospaced!
+\newfontface{\mediumface}[Numbers = {OldStyle, Proportional}]{Minion Pro Medium}
+\newfontface{\semiboldface}[Numbers = {OldStyle, Proportional}]{Minion Pro Semibold}
+\newfontface{\boldface}[Numbers = {OldStyle, Proportional}]{Minion Pro Bold}
+\newcommand*{\textbbf}[1]{{\boldface#1}}
+\linespread{1.2}
+
+% Please try very hard to avoid ending a paragraph on a new page (\widowpenalty).
+% The first line of a paragraph at the end of the page is not as bad (\clubpenalty).
+\widowpenalties 3 201 101 5 % Defaults to 150.
+\clubpenalties 3 151 51 5  % Defaults to 150.
+\predisplaypenalty200  % Defaults to 0.
+\postdisplaypenalty200 % Defaults to 10000.
+
+% Use boldface to make enum items stand out instead of punctuation.
+% Also, use roman numerals by default and a diamond for itemize.
+\renewcommand*{\labelenumi}{\textbbf{\roman{enumi}}}
+\renewcommand*{\labelitemi}{◆}
+
+% Tweaks for some MinonPro characters
+\renewcommand*{\pm}{\textup{±}}
+\renewcommand*{\approx}{\operatorname{\textup{≈}}}
+\renewcommand*{\times}{\operatorname{\textup{×}}}
+\renewcommand*{\ldots}{\textup{…}}
+\renewcommand*{\prod}{\mathop{\mbox{\LARGE\raisebox{-0.15em}{∏}}}\displaylimits}
+\renewcommand*{\coprod}{\mathop{\mbox{\LARGE\raisebox{-0.15em}{\rotatebox[origin=c]{180}{∏}}}}\displaylimits}
+
+% Define new symbols. LuaLaTeX has no easy way to select a glyph except for
+% manually embedding Lua, so LuaLaTex can only access one particular ornament.
+\newcommand*{\hodge}{{\textup{\small ✳}}} % Alternatively, the ✴ star could be used
+\newcommand*{\leafornamentclosed}{❧}
+\ifluatex
+\newcommand*{\leafornamentline}{\leafornamentclosed}
+\newcommand*{\leafornamentopen}{\leafornamentclosed}
+\newcommand*{\lineornament}{—}
+\else
+\newcommand*{\leafornamentline}{\XeTeXglyph1253}
+\newcommand*{\leafornamentopen}{\XeTeXglyph1260}
+\newcommand*{\lineornament}{\XeTeXglyph1270}
+\fi
+\newcommand*{\closewithleafornament}{\begin{center}\vspace{2\parskip}\leafornamentclosed\end{center}}
+\newcommand*{\closewithlineornament}{\begin{center}\vspace{2\parskip}\lineornament\end{center}}
+
+% LaTeX defines the epsilon the wrong way around,
+% and the MinionPro package accepts this by using some kind of Cyrrilic
+% character instead of a real epsilon for the epsilon. Fix that.
+\renewcommand*{\epsilon}{\varepsilon}
+
+% I find the MnSymbol \implies too long for my taste.
+\newcommand*{\longimplies}{\implies}
+\renewcommand*{\implies}{\Rightarrow}
+
+% Make the appearance of the chapter heads a bit more fancy.
+% These definitions were adapted from `report.cls`.
+\makeatletter
+\renewcommand*{\@makechapterhead}[1]{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \raggedright \normalfont
+   \ifnum \c@secnumdepth >\m@ne
+   {\large{\addfontfeature{Numbers = {Lining, Proportional}, LetterSpace = 40}CHAPTER\hspace{1.2em}\thechapter}}\\
+   \fi
+   \interlinepenalty\@M
+   \Huge \bfseries #1\par\nobreak
+   \vskip 40\p@
+}}
+\renewcommand*{\@makeschapterhead}[1]{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \raggedright \normalfont
+   {\large\phantom{Chapter}}
+   \interlinepenalty\@M
+   \Huge \bfseries #1\par\nobreak
+   \vskip 40\p@
+}}
+\makeatother
+
+% Parskip for a vertical blank between paragraphs, polyglossia for hyphenation.
+% Setting pdf border to avoid the ugly coloured rectangles,
+% pdfpagemode sets the initial view.
+\usepackage{parskip, polyglossia, hyperref}
+\setdefaultlanguage[variant = british, ordinalmonthday = false]{english}
+\hypersetup{pdfborder = 0 0 0}
+\hypersetup{pdfpagemode = UseNone}
+\hypersetup{pdfstartview = Fit}
+\hypersetup{pdfpagelayout = TwoPageRight}
+\parskip=\baselineskip \advance\parskip by 0pt plus 2pt
+
+% BibLaTeX for managing references.
+\usepackage[bibstyle = authoryear,
+            citestyle = authoryear-brackets,
+            sorting = nyt,
+            abbreviate = false,
+            dashed = false,
+            backend = biber]{biblatex}
+\bibliography{references.bib}
+
+% Give bibliography items some room to breathe.
+\setlength\bibitemsep{\parskip}
+
+% Create a marginfigure command that aligns figure captions away from the spine.
+% Also style caption with boldface labels. This hacks captions to always be figure captions.
+% I used the `caption` package before to change the styling, but it is truly a package from
+% hell: it messes up numbering and references, it typesets things twice, and it interacts
+% badly with marginpars and marginnotes. I found it impossible to get the figure counter
+% working properly from a marginnote and \captionof, so I banned the `caption` package and
+% made my own hack.
+\usepackage{marginnote}
+\makeatletter
+\newcounter{@savedfigurenumber}
+\renewcommand*{\caption}[1]{\@figcaptalign\small\textbbf{Figure~\thechapter.\the@savedfigurenumber} ∙ #1}
+\newcommand{\marginfigure}[1]{%
+  \refstepcounter{figure}%
+  \setcounter{@savedfigurenumber}{\value{figure}}%
+  \marginpar[%
+  \let\@figcaptalign\raggedleft\@figcaptalign{#1}]{%
+  \let\@figcaptalign\raggedright\@figcaptalign{#1}}%
+  \setcounter{figure}{\value{@savedfigurenumber}}%
+  \ignorespaces%
+}
+\newcommand{\margincaption}[2][0pt]{%
+  \refstepcounter{figure}%
+  \setcounter{@savedfigurenumber}{\value{figure}}%
+  \marginnote[%
+  \let\@figcaptalign\raggedleft\caption{#2}]{%
+  \let\@figcaptalign\raggedright\caption{#2}}[#1]%
+  \setcounter{figure}{\value{@savedfigurenumber}}%
+}
+\makeatother
+
+% Load TikZ, pgfplots and tikz-cd.
+% Generate pictures after \tikzexternalenable with lualatex to a separate pdf in the `generated` directory.
+\usepackage{tikz, pgfplots, tikz-cd}
+\pgfplotsset{compat = 1.12}
+\usetikzlibrary{calc, external, fadings, shadings}
+\usepgfplotslibrary{groupplots}
+\tikzexternalize[system call={%
+  lualatex \tikzexternalcheckshellescape
+    -halt-on-error -interaction=batchmode --shell-escape --enable-write18
+    -jobname "\image" "\texsource"}]
+\tikzsetexternalprefix{generated/}
+\tikzexternaldisable
+
+% Re-define arrow heads to match MnSymbol.
+\AtBeginDocument{%
+  \tikzcdset{arrow style = tikz,%
+             arrows = { /tikz/line width = 0.047em, line cap = butt },%
+             diagrams =%
+             {%
+               tikzcd bar/.tip = { Bar[width = 0.30em, line cap = round, line width = 0.047em] },%
+               tikzcd to/.tip = { Computer Modern Rightarrow[width = 0.35em, length = 0.27em, line width = 0.0475em] },%
+               tikzcd double to/.tip = { tikzcd to[sep = -0.05em] tikzcd to },%
+               tikzcd left hook/.tip = { Hooks[left, length = 0.11em, line cap = round, line width = 0.047em] }%
+             }}%
+  \tikzcdset{every label/.append style = {font = \small}}
+}{}

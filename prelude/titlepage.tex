@@ -1,0 +1,62 @@
+% !TEX root = ../thesis.tex
+
+% The title page is based largely on the \maketitle command of the article class,
+% and on the templates provided by the university.
+
+\makeatletter
+
+% Add commands like \author and \title so you can customise the titlepage from the preamble.
+\let\@supervisors\@empty
+\let\@institute\@empty
+\newcommand{\supervisors}[1]{\gdef\@supervisors{#1}}
+\newcommand{\institute}[1]{\gdef\@institute{#1}}
+
+\newcommand*{\largesc}[1]{{\large \textsc{\addfontfeature{LetterSpace = 10, WordSpace = 2}#1}}}
+\renewcommand*{\maketitle}{%
+\begin{titlepage}
+
+% Center the title page on the page, even when using the twoside option of the report class.
+\makeatletter
+\setlength\@tempdima{\paperwidth}
+\addtolength\@tempdima{-\textwidth}
+\setlength\oddsidemargin{.5\@tempdima}
+\addtolength\oddsidemargin{-1in}
+\makeatother
+
+\null\vfill
+
+\begin{center}
+% Minion has nice alternates for R, K, and k. The R and k happen to be in my name,
+% so this is a nice detail.
+{\large\addfontfeature{StylisticSet=1} \@author \par}%
+\vskip 1em
+{\LARGE \@title \par}%
+
+\vskip 4em
+
+\largesc{bachelor’s thesis}
+
+\vskip 4em
+
+\largesc{supervised by} \vskip 0em
+{\large \@supervisors \par}%
+
+\vskip 4em
+
+\largesc{\MakeLowercase{\@date}}
+
+\vfill
+
+\includegraphics{ulzegel} \par
+\vskip 0.3em
+{\large \@institute \par
+\vskip 0.3em
+Leiden University}
+\end{center}
+
+\thispagestyle{empty}
+\clearpage
+
+\end{titlepage}
+}
+\makeatother
