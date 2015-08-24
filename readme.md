@@ -17,6 +17,7 @@ You will need the following prerequisites:
  - The Minion Pro font
  - The [`FontPro`][fontpro] package for Minion
  - Python 3 in your path as `python`
+ - The `sympy` and `numpy` Python libraries
 
 To compile, run
 
