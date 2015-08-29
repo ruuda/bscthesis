@@ -16,15 +16,17 @@ from math import atan2, cos, exp, pi, sin, sqrt
 from sympy import diff, lambdify, symbols
 import numpy as np
 
-### Auxillary functions, vector math ###
-########################################
+# Auxillary functions, vector math
+# ================================
+
 
 # Composes two functions of one variable.
 def compose(f1, f2):
     return lambda t: f1(f2(t))
 
 
-# Appends the list y to every element of xs. Tuple elements are converted to lists.
+# Appends the list y to every element of xs.
+# Tuple elements are converted to lists.
 def augment(xs, y):
     return [[a for a in x] + y for x in xs]
 
@@ -53,6 +55,7 @@ def mid(v, w):
 def add(v, w):
     return [(vi + wi) for (vi, wi) in zip(v, w)]
 
+
 # Subtracts two vectors.
 def sub(v, w):
     return [(vi - wi) for (vi, wi) in zip(v, w)]
@@ -74,8 +77,8 @@ def normalise(v):
     return [vi / norm for vi in v]
 
 
-### Hopf-related functions ###
-##############################
+# Hopf-related functions
+# ======================
 
 # Converts a point on S2 to a point on P1(C).
 def cartesian_to_homogeneous(x):
@@ -155,25 +158,25 @@ def orthographic_projection(phi, theta):
     sp = sin(phi)
 
     rot_elevation = np.matrix([[cp, 0, -sp],
-                               [ 0, 1,   0],
-                               [sp, 0,  cp]]);
+                               [0,  1,   0],
+                               [sp, 0,  cp]])
 
     ct = cos(theta)
     st = sin(theta)
     rot_azimuth = np.matrix([[1,  0,   0],
                              [0, ct, -st],
-                             [0, st,  ct]]);
+                             [0, st,  ct]])
 
     rot = rot_elevation * rot_azimuth
 
-    pr = lambda v: np.dot(rot, v).tolist()[0]
+    def pr(v): return np.dot(rot, v).tolist()[0]
     pr.phi = phi
     pr.theta = theta
     return pr
 
 
-# Parametrises the projection of the fibre above x (given in Cartesian coordinates on S2).
-# Returns a function of t.
+# Parametrises the projection of the fibre above x (given in Cartesian
+# coordinates on S2). Returns a function of t.
 def projected_fibre_from_cartesian(x):
     hom_coord = cartesian_to_homogeneous(x)
     fibre = fibre_above(hom_coord, 1, 1)
@@ -187,9 +190,9 @@ def spherical_to_cartesian(s):
     return [sin(phi), cos(phi) * cos(theta), cos(phi) * sin(theta)]
 
 
-# Paramatrises the projection of the fibre above x (given in spherical coordinates on S2).
-# Expected format is phi (angle with x2x3 plane), theta (angle around x1 axis).
-# Returns a function of t.
+# Paramatrises the projection of the fibre above x (given in spherical
+# coordinates on S2). Expected format is phi (angle with x2x3 plane), theta
+# (angle around x1 axis). Returns a function of t.
 def projected_fibre_from_spherical(s):
     x = spherical_to_cartesian(s)
     return projected_fibre_from_cartesian(x)
@@ -214,8 +217,8 @@ def projected_knot_fibre_through(x, m, n):
     return compose(project_stereo, fibre)
 
 
-### Plotting-related functions ###
-##################################
+# Plotting-related functions
+# ==========================
 
 # Utility for finding plot bounds.
 def binsearch_bounds(f, tz):
@@ -239,7 +242,8 @@ def binsearch_bounds(f, tz):
 
 
 # Produces a set of points to sample at, given a function [0, 1] -> R3.
-# And a projection function R3 -> R3, where the first coordinate comes out of the screen.
+# And a projection function R3 -> R3, where the first coordinate comes out of
+# the screen.
 def find_samples(f, resolution):
     # Initially we try this subdivision. We can abuse the fact that the
     # fibres we plot are circular: it means that no weird cusps will appear,
@@ -314,7 +318,8 @@ def get_tangent_vector(f, t, tstep):
             tau1 = sub(f(t + tstep), f(t - tstep))
 
 
-# Returns four points of a cubic Bezier that are a good approximation to the curve f.
+# Returns four points of a cubic Bezier that are a good approximation to the
+# curve f.
 def make_bezier(f, t0, t1):
     tm = (t0 + t1) * 0.5
     p0 = f(t0)
@@ -333,9 +338,9 @@ def make_bezier(f, t0, t1):
 
     # Fit a Bezier curve through (p0, pm, p1) that has the correct tangent
     # vector at every point.
-    r0 = (1.0 / 3.0) * (taum[0] * (5 * p0[1] - p1[1] - 4 * pm[1]) - \
+    r0 = (1.0 / 3.0) * (taum[0] * (5 * p0[1] - p1[1] - 4 * pm[1]) -
                         taum[1] * (5 * p0[0] - p1[0] - 4 * pm[0])) / denom0
-    r1 = (1.0 / 3.0) * (taum[0] * (5 * p1[1] - p0[1] - 4 * pm[1]) - \
+    r1 = (1.0 / 3.0) * (taum[0] * (5 * p1[1] - p0[1] - 4 * pm[1]) -
                         taum[1] * (5 * p1[0] - p0[0] - 4 * pm[0])) / denom1
     q0 = sub(p0, [tau * r0 for tau in tau0])
     q1 = sub(p1, [tau * r1 for tau in tau1])
@@ -357,11 +362,14 @@ def draw_2d(segment, front, back):
         sh1 = [(pi - qi) * t for (pi, qi) in zip(segment[3], segment[2])]
         return [add(segment[0], sh0)] + segment[1:3] + [add(segment[3], sh1)]
 
-    sstr_back  = [format_2d(pt) for pt in overshoot(0.02)]
+    sstr_back = [format_2d(pt) for pt in overshoot(0.02)]
     sstr_front = [format_2d(pt) for pt in overshoot(0.04)]
-    return ('\\draw[{0}] {1} .. controls {2} and {3} .. {4};'.format(back,  *sstr_back) + '\n'
-            '\\draw[{0}] {1} .. controls {2} and {3} .. {4};'.format(front, *sstr_front))
-    #       '\\draw {0} circle (1pt);'.format(sstr_front[0])) # For debug printing control points.
+    return ('\\draw[{0}] {1} .. controls {2} and {3} .. {4};'
+            .format(back,  *sstr_back) + '\n'
+            '\\draw[{0}] {1} .. controls {2} and {3} .. {4};'
+            .format(front, *sstr_front))
+    #       '\\draw {0} circle (1pt);'
+    #       .format(sstr_front[0])) # For debug printing control points.
 
 
 # Writes all items to the file, one per line.
@@ -375,8 +383,8 @@ def write_items(fname, items):
 def generate_raw_2d_segments(resolution, curves):
     def make_full_segments(curve):
         f, *tail = curve
-        f_pr = lambda t: f(t)[1:3] # Project onto the x2x3-plane.
-        f_tr = lambda t: f(t)[0]   # Distance along the x1-plane.
+        def f_pr(t): return f(t)[1:3]  # Project onto the x2x3-plane.
+        def f_tr(t): return f(t)[0]    # Distance along the x1-plane.
         samples = find_samples(f, resolution)
         segment_times = list(zip(samples, samples[1:]))
         segments = [make_bezier(f_pr, t0, t1) for (t0, t1) in segment_times]
@@ -389,13 +397,16 @@ def generate_raw_2d_segments(resolution, curves):
     return sorted(segments, key = lambda s: s[0])
 
 
-# Generates TikZ draw instructions given a list of [f(t), front, back] elements.
+# Generates TikZ draw instructions given a list of
+# [f(t), front, back] elements.
 def generate_raw_draw_2d(resolution, curves):
     x1_sorted = generate_raw_2d_segments(resolution, curves)
-    return (draw_2d(segment, front, back) for [_, segment, _, front, back] in x1_sorted)
+    return (draw_2d(segment, front, back) for [_, segment, _, front, back]
+            in x1_sorted)
 
 
-# Writes TikZ draw instructions to the file given a list of [f(t), front, back] elements.
+# Writes TikZ draw instructions to the file given a list of
+# [f(t), front, back] elements.
 def write_raw_draw_2d(fname, resolution, curves):
     write_items(fname, generate_raw_draw_2d(resolution, curves))
 
@@ -420,7 +431,8 @@ def generate_raw_box_2d(dimensions, projection, style):
               '\\coordinate (ULB) at {4};\n'
               '\\coordinate (ULF) at {5};\n'
               '\\coordinate (URB) at {6};\n'
-              '\\coordinate (URF) at {7};\n').format(*[format_2d(c) for c in projected])
+              '\\coordinate (URF) at {7};\n').format(*[format_2d(c) for c
+                                                     in projected])
     draw = ('\\draw[{0}] (DLF) -- (DLB) -- (DRB);\n'
             '\\draw[{0}] (DLB) -- (ULB);\n'
             '\\draw[{0}] (DRB) '
@@ -431,7 +443,8 @@ def generate_raw_box_2d(dimensions, projection, style):
     return coords + draw
 
 
-# Generates the draw instruction for drawing a circle parallel to the equator on a sphere.
+# Generates the draw instruction for drawing a circle parallel to the equator
+# on a sphere.
 def generate_raw_latitude_2d(phi, projection, style):
     radius = cos(phi)
     offset = sin(phi)
@@ -443,7 +456,8 @@ def generate_raw_latitude_2d(phi, projection, style):
         radius * cos(projection.phi))
 
 
-# Generates TikZ draw instructions given a list of [[phi, theta], style] elements.
+# Generates TikZ draw instructions given a list of
+# [[phi, theta], style] elements.
 def generate_raw_points_2d(projection, points, r):
     return ('\\fill[{0}] {1} circle ({2});'.format(
                 point[1],
@@ -454,7 +468,8 @@ def generate_raw_points_2d(projection, points, r):
 # Generates a list of numbered colour definitions.
 def generate_colours(prefix, hsbs):
     return ('\\definecolor{{{0}{1}}}{{hsb}}'
-            '{{{2:0.5f}, {3:0.5f}, {4:0.5f}}}'.format(prefix, i, *hsb) for (i, hsb) in enumerate(hsbs))
+            '{{{2:0.5f}, {3:0.5f}, {4:0.5f}}}'.format(prefix, i, *hsb)
+            for (i, hsb) in enumerate(hsbs))
 
 
 # Writes table data to the file that is understood by pgfplots.
@@ -462,7 +477,9 @@ def write_table(fname, uves, max_energy):
     with open(fname, 'w') as outfile:
         for row in uves:
             for (u, v, e) in row:
-                print('{0:0.5f} {1:0.5f} {2:0.5f}'.format(u, v, e / max_energy), file = outfile)
+                print('{0:0.5f} {1:0.5f} {2:0.5f}'.format(u, v,
+                                                          e / max_energy),
+                      file = outfile)
             print(file = outfile)
 
 
@@ -478,8 +495,10 @@ def write_field_energy(fname, omega, g_inter, window):
     eval_fns = [lambdify([x[(i + 1) % 3], x[(i + 2) % 3]],
                          pb_sqr.subs(x[i], 0)) for i in range(0, 3)]
 
-    fields = [[[(u, v, fn(u, v)) for v in window] for u in window] for fn in eval_fns]
-    max_energy = max(e for field in fields for row in field for (u, v, e) in row)
+    fields = [[[(u, v, fn(u, v)) for v in window] for u in window]
+              for fn in eval_fns]
+    max_energy = max(e for field in fields for row in field
+                     for (u, v, e) in row)
 
     write_table(fname + '-x2x3.dat', fields[0], max_energy)
     write_table(fname + '-x3x1.dat', fields[1], max_energy)
