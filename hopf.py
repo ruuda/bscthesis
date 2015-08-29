@@ -12,10 +12,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from math import atan2, copysign, cos, exp, floor, log, pi, sin, sqrt
+from math import atan2, cos, exp, pi, sin, sqrt
 from sympy import diff, lambdify, symbols
 import numpy as np
-import random
 
 ### Auxillary functions, vector math ###
 ########################################
@@ -215,47 +214,6 @@ def projected_knot_fibre_through(x, m, n):
     return compose(project_stereo, fibre)
 
 
-# Ensures that the curve f(0) through f(1) lies inside the box.
-def truncate_fibre(fibre, box):
-    def is_inside(x):
-        pos = all(xi <  bi for (xi, bi) in zip(x, box))
-        neg = all(xi > -bi for (xi, bi) in zip(x, box))
-        return pos and neg
-
-    # Make an initial guess at where the fibre leaves the box.
-    t0, t1 = 0.0, 0.0
-    for i in range(0, 100):
-        t0 = -i / 100.0
-        if not is_inside(fibre(t0)):
-            break
-    for i in range(0, 100):
-        t1 = i / 100.0
-        if not is_inside(fibre(t1)):
-            break
-
-    # If the fibre fits inside the box we need not change anything.
-    if t0 == -0.99 and t1 == 0.99:
-        return fibre
-
-    # Refine the boundary by binary search.
-    t0a, t0b = t0 + 0.01, t0
-    t1a, t1b = t1 - 0.01, t1
-    for _ in range(0, 100):
-        t0, t1 = (t0a + t0b) / 2.0, (t1a + t1b) / 2.0
-        if is_inside(fibre(t0)):
-            t0a = t0
-        else:
-            t0b = t0
-        if is_inside(fibre(t1)):
-            t1a = t1
-        else:
-            t1b = t1
-
-    t0, t1 = t0a, t1a
-    delta = t1 - t0
-    return lambda t: fibre(t0 + delta * t)
-
-
 ### Plotting-related functions ###
 ##################################
 
@@ -411,11 +369,6 @@ def write_items(fname, items):
     with open(fname, 'w') as outfile:
         for item in items:
             print(item, file = outfile)
-
-
-# Writes the coordinates to the file as a table.
-def write_coordinates(fname, xs):
-    write_items(fname, (' '.join(format(xi, '.4f') for xi in x) for x in xs))
 
 
 # Generates segments to draw from the given curves.
