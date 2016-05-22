@@ -1,7 +1,7 @@
 The Hopf Map in Magnetohydrodynamics
 ====================================
 
-![Fibres of the Hopf map visualised through stereographic projection](https://rawgit.com/ruud-v-a/bscthesis/master/fibres.svg)
+![Fibres of the Hopf map visualised through stereographic projection](https://rawgit.com/ruuda/bscthesis/master/fibres.svg)
 
 This repository contains the source of my bachelor’s thesis. I have made the
 source available here in the hope that it will be useful to somebody. The output
